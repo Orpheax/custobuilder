@@ -300,7 +300,7 @@ const CU = 'ADEPTUS CUSTODES', AP = 'ANATHEMA PSYKANA';
 
 // Detachments (PDF pages 92-105)
 const DETS = [
- {id:'gott',name:'Guardians of the Throne',unique:false,gist:'All-rounder: Sustained Hits 1 or Lethal Hits in melee for every unit.',
+ {id:'gott',fd:'Priority Assets and Purge the Foe',name:'Guardians of the Throne',unique:false,gist:'All-rounder: Sustained Hits 1 or Lethal Hits in melee for every unit.',
   rule:{n:'Martial Mastery',t:'In the Fight phase, when a friendly ADEPTUS CUSTODES unit is selected to fight, its melee attacks have [SUSTAINED HITS 1] or [LETHAL HITS] (choose one).'},
   strats:[
    ['Superhuman Focus',1,'Any phase','A friendly ADEPTUS CUSTODES unit that is not readied becomes readied. Same unit only once per battle round.'],
@@ -309,78 +309,78 @@ const DETS = [
    ['Prime Target',1,'Your Shooting phase','Ranged attacks: re-roll one hit roll, one wound roll, one damage roll.'],
    ['In Auramite Clad',1,'Opponent Shooting / Fight','Attacks that target your unit (not Custodian Wardens) have -1 AP until that enemy unit has attacked.'],
    ['Swift as the Eagle',1,'Opponent Movement','Enemy ends a move within 8" of an unengaged TRUSTED SENTINEL: that unit makes a normal move up to D3+3".']]},
- {id:'shadow',name:'Shadowkeepers',unique:true,gist:'Melee objective defence and pressure on enemy morale.',
+ {id:'shadow',fd:'Purge the Foe',name:'Shadowkeepers',unique:true,gist:'Melee objective defence and pressure on enemy morale.',
   rule:{n:'Wardens of the Dark Cells',t:'ADEPTUS CUSTODES unit (not MONSTER/VEHICLE) within range of an objective: melee attacks targeting it with S greater than its T have -1 to wound.'},
   ka:{n:'Kaptaris',t:'Select one enemy unit engaged with your unit: it makes a battle-shock roll with -1. Same enemy unit only once per phase.'},
   strats:[
    ['Grim Responsibility',1,'Fight phase','INFANTRY selected to fight: melee attacks have [LETHAL HITS: CHARACTER/MONSTER].'],
    ['No Escape',2,'Opponent Movement','Enemy ends a fall-back move: your unengaged INFANTRY within 6" declares a charge (only against units that fell back and are within max distance).'],
    ['Indomitable Guardians',1,'Opponent Fight phase','After an enemy unit has fought: your unit within an objective and eligible to fight has Fights First and must be your next unit selected to fight.']]},
- {id:'solar',name:'Solar Watch',unique:true,gist:'Mobility: fall back without losing the charge, +2" Move.',
+ {id:'solar',fd:'Reconnaissance',name:'Solar Watch',unique:true,gist:'Mobility: fall back without losing the charge, +2" Move.',
   rule:{n:'Talon Sortie',t:'When a friendly ADEPTUS CUSTODES unit makes a fall-back move, it can still be eligible to charge.'},
   ka:{n:'Calistus',t:'Your unit has +2" M.'},
   strats:[
    ['Inexorable',1,'Your Movement phase','Until end of turn, ignore modifiers to M, advance rolls and charge rolls.'],
    ['At Spear’s Length',1,'Your Movement phase','Fall-back move does not prevent your unit from being eligible to shoot.'],
    ['Gravimetric Grenade',1,'Start of opponent Charge','Unengaged unit: one visible enemy within 12" has -1 to its charge rolls when it declares a charge.']]},
- {id:'aquilan',name:'Aquilan Shield',unique:true,gist:'Shooting: +6" range and objective protection against high-Strength shots.',
+ {id:'aquilan',fd:'Take and Hold',name:'Aquilan Shield',unique:true,gist:'Shooting: +6" range and objective protection against high-Strength shots.',
   rule:{n:'Gilded Guardians',t:'ADEPTUS CUSTODES unit (not MONSTER/VEHICLE) within range of an objective: ranged attacks targeting it with S greater than its T have -1 to wound.'},
   ka:{n:'Salvus',t:'Your unit’s ranged attacks have +6" R.'},
   strats:[
    ['Manoeuvre and Fire',1,'Your Movement phase','Fall-back move does not prevent shooting or declaring a charge.'],
    ['Tip of the Talon',1,'Your Shooting phase','Ranged attacks that target an enemy unit within 9" have +1 S.'],
    ['Rapid Reactions',1,'Opponent Movement','Enemy ends a fall-back move: your INFANTRY that was engaged with it shoots (normal shooting), only that enemy unit.']]},
- {id:'dread',name:'Dread Host',unique:true,gist:'Charging: re-roll charge rolls, shorter pile-ins for the opponent.',
+ {id:'dread',fd:'Purge the Foe',name:'Dread Host',unique:true,gist:'Charging: re-roll charge rolls, shorter pile-ins for the opponent.',
   rule:{n:'Instruments of the Emperor’s Wrath',t:'Friendly ADEPTUS CUSTODES units can re-roll charge rolls.'},
   ka:{n:'Dacatarai',t:'When an enemy unit engaged with your unit makes a pile-in/consolidation move, -2" from that move.'},
   strats:[
    ['Lightning Wrath',1,'Fight phase','Your unit’s pile-in move can be up to D3+3".'],
    ['Golden Light of the Moiraides',2,'Your Movement phase','After an ingress move: until your next turn, attacks targeting your unit have -1 to hit and it cannot be targeted by snap shooting.'],
    ['Preternatural Rapidity',1,'Your Movement phase','After an advance move: it does not prevent your unit from being eligible to declare a charge.']]},
- {id:'emissaries',name:'Emissaries Imperatus',unique:true,gist:'Fights First for everyone, objectives and actions.',
+ {id:'emissaries',fd:'Priority Assets',name:'Emissaries Imperatus',unique:true,gist:'Fights First for everyone, objectives and actions.',
   rule:{n:'Heralds of the Throne',t:'Friendly ADEPTUS CUSTODES units have Fights First.'},
   ka:{n:'Conservai',t:'Until end of turn, advance/fall-back moves do not prevent your unit from being eligible to start an action.'},
   strats:[
    ['Bearers of His Light',1,'Fight phase','Your unit’s melee attacks can ignore modifiers to hit rolls and wound rolls.'],
    ['Slayers of Nightmares',1,'Fight phase','Melee attacks that target a unit with a T greater than your unit’s T have +1 to wound.'],
    ['Selfless Service',1,'End of opponent Charge','Unengaged unit within 6" of an enemy unit declares a charge (charge roll above 6 becomes 6; targets only within 6").']]},
- {id:'chosen',name:'Emperor’s Chosen',unique:true,gist:'Re-roll one hit and one wound for any unit that attacks.',
+ {id:'chosen',fd:'Priority Assets',name:'Emperor’s Chosen',unique:true,gist:'Re-roll one hit and one wound for any unit that attacks.',
   rule:{n:'Magna Imperator',t:'When a friendly ADEPTUS CUSTODES unit is selected to attack, its attacks can re-roll one hit roll and one wound roll.'},
   ka:{n:'Rendax',t:'Select one enemy MONSTER/VEHICLE engaged with your unit, roll D6: 1-2 = 1 mortal wound, 3-5 = D3, 6 = 3 mortal wounds.'},
   strats:[
    ['Superhuman Focus',1,'End of any phase','A friendly ADEPTUS CUSTODES unit that is not readied becomes readied. Once per unit per battle round.'],
    ['In Auramite Clad',1,'Opponent Shooting / Fight','Attacks that target your unit (not Custodian Wardens) have -1 AP until that enemy unit has attacked.'],
    ['Impenetrable Bastion',1,'End of your Movement','Unit (not MONSTER/VEHICLE) controlling an objective: that objective is secured.']]},
- {id:'auric',name:'Auric Champions',unique:false,gist:'Big-game hunting: Characters get +1 to wound against the chosen target.',
+ {id:'auric',fd:'Purge the Foe',name:'Auric Champions',unique:false,gist:'Big-game hunting: Characters get +1 to wound against the chosen target.',
   rule:{n:'Assemblage of Might',t:'In your Command phase, select one enemy unit to be a dreadful foe until your next Command phase. ADEPTUS CUSTODES CHARACTER attacks against it have +1 to wound.'},
   strats:[
    ['Gilded Champion',1,'Any phase','After a CHARACTER used a (once per battle, per unit) datasheet ability: use it one additional time, not in the same phase. Once per battle per model.'],
    ['Duty Unto Death',1,'Fight phase','When a model is destroyed (unit not yet selected to fight): roll D6 (+1 if CHARACTER); on 3+ it stays on the battlefield until the unit has fought.']]},
- {id:'honoured',name:'Honoured Companions',unique:false,gist:'Trusted Sentinel: re-roll wound rolls of 1 on objectives.',
+ {id:'honoured',fd:'Take and Hold',name:'Honoured Companions',unique:false,gist:'Trusted Sentinel: re-roll wound rolls of 1 on objectives.',
   rule:{n:'Companion’s Watch',t:'TRUSTED SENTINEL unit within range of an objective: its attacks can re-roll wound rolls of 1.'},
   strats:[
    ['Emperor’s Domain',1,'Fight phase','TRUSTED SENTINEL consolidation: may use the objective consolidation mode regardless of its Before Moving restrictions.'],
    ['Avenge the Fallen',1,'Fight phase','TRUSTED SENTINEL below starting strength: melee attacks (not CHARACTER models) have +2 A.'],
    ['Swift as the Eagle',1,'Opponent Movement','Enemy ends a move within 8" of an unengaged TRUSTED SENTINEL: normal move up to D3+3".']]},
- {id:'lions',name:'Lions of the Emperor',unique:false,gist:'Terminators: back to strategic reserves, aggressive ingress.',
+ {id:'lions',fd:'Disruption',name:'Lions of the Emperor',unique:false,gist:'Terminators: back to strategic reserves, aggressive ingress.',
   rule:{n:'On Gilded Wings',t:'At the end of your opponent’s Fight phase, an unengaged ADEPTUS CUSTODES TERMINATOR unit can be placed in strategic reserves.'},
   strats:[
    ['Vigil Unending',2,'Opponent Shooting / Fight','TERMINATOR unit targeted: attacks that target it have -1 D until that enemy unit has attacked.'],
    ['Unleash the Lions',1,'Your Command phase','TERMINATOR unit with 2+ models splits into separate one-model units.'],
    ['Fury of the Emperor',1,'Your Charge phase','TERMINATOR unit that made an ingress move this turn: +2 to charge rolls.']]},
- {id:'moritoi',name:'Might of the Moritoi',unique:false,gist:'Dreadnoughts that get more dangerous when wounded.',
+ {id:'moritoi',fd:'Take and Hold',name:'Might of the Moritoi',unique:false,gist:'Dreadnoughts that get more dangerous when wounded.',
   rule:{n:'Moritoi Ancients',t:'DREADNOUGHT at starting strength: +2 OC. Below starting strength: re-roll hit rolls of 1. Below half-strength: re-roll hit and wound rolls of 1.'},
   strats:[
    ['Honoured Interred',1,'Shooting / Fight','Unit gains an aura: friendly DREADNOUGHT within 6" can re-roll hit rolls of 1.'],
    ['Unceasing Onslaught',1,'Your Movement phase','After an advance move: ranged attacks have [ASSAULT]; the advance does not prevent a charge.'],
    ['Unstoppable Momentum',1,'Movement / Charge','DREADNOUGHT unit has MOBILE.']]},
- {id:'grav',name:'Grav-Assault Force',unique:false,gist:'Grav-Assault vehicles: 4+ invulnerable save against shooting.',
+ {id:'grav',fd:'Reconnaissance',name:'Grav-Assault Force',unique:false,gist:'Grav-Assault vehicles: 4+ invulnerable save against shooting.',
   rule:{n:'Flare Shields',t:'Friendly GRAV-ASSAULT units have 4+ InSv against ranged attacks.'},
   strats:[
    ['Victory Before Death',1,'Any phase','GRAV-ASSAULT unit within range of an objective is destroyed: that objective can become secured (conditions apply).'],
    ['Advanced Stabilisers',1,'Your Shooting phase','Your unit’s ranged attacks have [ASSAULT].'],
    ['Inevitable Annihilation',1,'Your Shooting phase','Your unit can ignore modifiers to BS and hit rolls.']]},
- {id:'nmv',name:'Null Maiden Vigil',unique:false,gist:'Anathema Psykana: can be Warlord, Prosecutors become Battleline.',
+ {id:'nmv',fd:'Disruption',name:'Null Maiden Vigil',unique:false,gist:'Anathema Psykana: can be Warlord, Prosecutors become Battleline.',
   rule:{n:'Silent Sisterhood',t:'You can select a friendly ANATHEMA PSYKANA CHARACTER as your WARLORD. Friendly PROSECUTOR SQUAD units have BATTLELINE. Friendly ANATHEMA PSYKANA units have Creeping Dread (aura): enemy PSYKER/below-starting-strength units within 12" take battle-shock with -1.'},
   strats:[
    ['Anathema Blademastery',1,'Fight phase','VIGILATOR SQUAD: attacks have [SUSTAINED HITS 1] or [LETHAL HITS].'],
@@ -766,7 +766,7 @@ function entryRow(it){
 function exportText(){
   const L=[], t=total();
   L.push(S.name+' — ADEPTUS CUSTODES — '+t+' / '+S.limit+' pts');
-  L.push('Detachments ('+dpUsed()+'/'+S.dpMax+' DP): '+(S.dets.length?S.dets.map(id=>DM[id].name+(DM[id].unique?' (Unique Shield Host)':'')).join(', '):'none'));
+  L.push('Detachments ('+dpUsed()+'/'+S.dpMax+' DP): '+(S.dets.length?S.dets.map(id=>DM[id].name+' ['+DM[id].fd+']'+(DM[id].unique?' (Unique Shield Host)':'')).join(', '):'none'));
   const w=S.list.find(i=>i.uid===S.warlord); L.push('Warlord: '+(w?UM[w.id].name:'not selected')); L.push('');
   CATS.forEach(([cid,label])=>{
     const its=S.list.filter(i=>UM[i.id].cat===cid); if(!its.length) return;
@@ -802,7 +802,7 @@ function renderRight(){
     h+='<div class="er"><span class="ico">'+IC.gear+'</span><div class="er-main"><div class="er-t"><b>Battle size</b></div><div class="er-s">'+esc(sizeName)+'</div></div></div>';
     h+='<div class="er"><span class="ico">'+IC.gear+'</span><div class="er-main"><div class="er-t"><b>Detachment points</b><i>'+dpUsed()+' / '+S.dpMax+' DP</i></div><div class="er-s">'+(S.dets.length?'':'No detachment selected. Add one from the catalogue.')+'</div></div></div>';
     S.dets.forEach(id=>{ const d=DM[id], open=!!UI.eye['d:'+id];
-      h+='<div class="er"><span class="ico">'+IC.gear+'</span><div class="er-main"><div class="er-t"><b>'+esc(d.name)+'</b><i>'+d.dp+' DP</i>'+(d.unique?'<em>Unique Shield Host</em>':'')+'</div><div class="er-s">'+esc(d.rule.n)+(d.ka?' · '+esc(d.ka.n):'')+'</div></div>'
+      h+='<div class="er"><span class="ico">'+IC.gear+'</span><div class="er-main"><div class="er-t"><b>'+esc(d.name)+'</b><i>'+d.dp+' DP</i>'+(d.unique?'<em>Unique Shield Host</em>':'')+'</div><div class="er-s">'+esc(d.fd)+' · '+esc(d.rule.n)+(d.ka?' · '+esc(d.ka.n):'')+'</div></div>'
        +'<div class="er-act">'+ibtn('eyeD','data-id="'+id+'"',IC.eye,'Rules')+ibtn('det','data-id="'+id+'"',IC.trash,'Remove')+'</div></div>'
        +(open?'<div class="cr-x"><p>'+esc(d.gist)+'</p>'+rulesHtml(d)+'</div>':'');
     });
@@ -844,7 +844,7 @@ function renderCodex(){
   list.forEach(d=>{
     const sel=S.dets.includes(d.id), lock=detLock(d.id), enhs=ENH.filter(e=>e.det===d.id);
     h+='<article class="cx-d" id="cx-'+d.id+'"><header class="cx-h"><h2>'+esc(d.name)+'</h2>'
-     +(d.unique?'<span class="cx-tag u">Unique Shield Host</span>':'<span class="cx-tag">Detachment</span>')+'<span class="cx-tag">'+d.dp+' DP</span>'+'</header>'
+     +(d.unique?'<span class="cx-tag u">Unique Shield Host</span>':'<span class="cx-tag">Detachment</span>')+'<span class="cx-tag">'+d.dp+' DP</span>'+'<span class="cx-tag fd">Force disposition: '+esc(d.fd)+'</span>'+'</header>'
      +'<p class="cx-gist">'+esc(d.gist)+'</p><div class="cx-body"><div>'
      +'<h3>Detachment rule</h3><div class="cx-box"><b>'+esc(d.rule.n)+'</b><p>'+esc(d.rule.t)+'</p></div>'
      +(d.ka?'<h3>Favoured Ka’tah</h3><div class="cx-box"><b>'+esc(d.ka.n)+'</b><p>'+esc(d.ka.t)+'</p></div>':'')
