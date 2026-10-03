@@ -48,8 +48,10 @@ svg{width:1.25em;height:1.25em;fill:none;stroke:currentColor;stroke-width:2;stro
 
 /* shell */
 .shell{display:grid;grid-template-columns:minmax(0,1fr);gap:8px;align-items:start}
-#lp,#rp,#np,#op,#cx{display:none;min-width:0}
+#lp,#rp,#np,#op,#cx,#aw,#mt{display:none;min-width:0}
 body[data-tab="codex"] #cx{display:block}
+body[data-tab="aow"] #aw{display:block}
+body[data-tab="meta"] #mt{display:block}
 body[data-tab="cat"] #lp{display:flex}
 body[data-tab="roster"] #rp{display:block}
 body[data-tab="notes"] #np{display:block}
@@ -68,9 +70,24 @@ body[data-tab="notes"] #np{display:block}
   body #np{display:none}
   body[data-tab="codex"] #lp,body[data-tab="codex"] #rp,body[data-tab="codex"] #op{display:none}
   body[data-tab="codex"] #cx{display:block;grid-column:1/-1}
+  body[data-tab="aow"] #lp,body[data-tab="aow"] #rp,body[data-tab="aow"] #op,body[data-tab="meta"] #lp,body[data-tab="meta"] #rp,body[data-tab="meta"] #op{display:none}
+  body[data-tab="aow"] #aw,body[data-tab="meta"] #mt{display:block;grid-column:1/-1}
   body[data-tab="notes"] #np{display:block}
 }
 
+/* AOW + Meta */
+.cx-top a{color:#f3d36b}
+.aw-sec{font-family:'Cinzel',Georgia,serif;letter-spacing:.16em;text-transform:uppercase;color:var(--blue);border-bottom:2px solid var(--blue);margin:22px 0 12px;padding-bottom:4px;font-size:1.1rem}
+.aw-v{font-size:.72rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:2px 8px;border:1px solid}
+.aw-g{color:#9fe0a0;border-color:#4d8a50;background:#10230f}.aw-y{color:#f3d36b;border-color:#8a6d1e;background:#241b07}.aw-r{color:#ff9a9a;border-color:#8f2a2e;background:#2a0d0e}
+.aw-ts{font-size:.76rem;color:#f3d36b;text-decoration:none;border:1px solid #4a3d22;padding:1px 7px;border-radius:999px;white-space:nowrap}
+.aw-ts:hover{background:var(--blue-d);color:#fff}
+.aw-pro{border-left-color:#4d8a50}.aw-con{border-left-color:#c43b3f}
+.mt-body{display:grid;gap:8px;padding:12px 14px 14px}
+@media (min-width:900px){.mt-body{grid-template-columns:1fr 1fr}}
+.mt-body .cx-box{margin:0}.mt-k{font-size:.68rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;padding:1px 6px;margin-right:8px;border:1px solid}
+.mt-f .mt-k{color:#9fc4ff;border-color:#3d5f94}.mt-o .mt-k{color:#f3d36b;border-color:#8a6d1e}
+.mt-o{border-left-color:#8a6d1e}.mt-f{border-left-color:#3d5f94}
 /* codex page */
 .cx-top{padding:18px 16px 12px;text-align:center;border:1px solid var(--bar-line);background:linear-gradient(#2a0b0d,#120e07);margin-bottom:10px}
 .cx-top h1{margin:0;font-family:'Cinzel',Georgia,serif;font-size:clamp(1.3rem,3.2vw,2rem);letter-spacing:.18em;color:var(--blue);text-transform:uppercase}
@@ -210,12 +227,16 @@ body[data-tab="notes"] #np{display:block}
     <button class="tbtn" data-act="panel" data-p="lists">My lists <svg viewBox="0 0 24 24"><path d="M4 5h16M4 10h16M4 15h10M4 20h7"/></svg></button>
     <button class="tbtn" data-act="panel" data-p="export">Export <svg viewBox="0 0 24 24"><path d="M12 15V4M8 8l4-4 4 4M5 14v6h14v-6"/></svg></button>
     <button class="tbtn" data-act="tab" data-tab="codexToggle">Detachments <svg viewBox="0 0 24 24"><path d="M12 3l8 4v5c0 4.5-3.2 7.7-8 9-4.8-1.3-8-4.5-8-9V7z"/><path d="M12 8v6M9 11h6"/></svg></button>
+    <button class="tbtn" data-act="tab" data-tab="aowToggle">AOW <svg viewBox="0 0 24 24"><path d="M4 5h16v11H9l-5 4z"/></svg></button>
+    <button class="tbtn" data-act="tab" data-tab="metaToggle">Meta <svg viewBox="0 0 24 24"><path d="M4 20V10M10 20V4M16 20v-8M22 20H2"/></svg></button>
     <button class="tbtn" data-act="tab" data-tab="notesToggle">Data notes <svg viewBox="0 0 24 24"><path d="M5 4h11a3 3 0 0 1 3 3v13H8a3 3 0 0 1-3-3zM8 20a3 3 0 0 1-3-3"/></svg></button>
     <button class="tbtn" data-act="panel" data-p="opts">Options <svg viewBox="0 0 24 24"><path d="M4 6h16M4 12h16M4 18h16"/></svg></button>
     <div class="mtabs" id="mtabs" role="tablist">
       <button role="tab" data-act="tab" data-tab="cat">Catalogue</button>
       <button role="tab" data-act="tab" data-tab="roster" id="mt-roster">Roster</button>
       <button role="tab" data-act="tab" data-tab="codex">Codex</button>
+      <button role="tab" data-act="tab" data-tab="aow">AOW</button>
+      <button role="tab" data-act="tab" data-tab="meta">Meta</button>
       <button role="tab" data-act="tab" data-tab="notes">Notes</button>
     </div>
     <div class="meter" id="meter"><i></i></div>
@@ -233,6 +254,8 @@ body[data-tab="notes"] #np{display:block}
     <main id="rp"></main>
     <aside id="op"></aside>
     <section id="cx"></section>
+    <section id="aw"></section>
+    <section id="mt"></section>
     <section id="np"></section>
   </div>
 </div>
@@ -449,7 +472,7 @@ function load(){
     if(Array.isArray(o.dets)) S.dets=o.dets.filter(id=>DM[id]);
     if(Array.isArray(o.list)) S.list=o.list.filter(it=>UM[it.id]).map(it=>({uid:uidSeq++,id:it.id,opt:Math.min(it.opt|0,UM[it.id].opts.length-1),custom:+it.custom||0,enh:it.enh||null,upg:it.upg||null,wg:it.wg||{},_w:!!it.w}));
     const w=S.list.find(i=>i._w); S.warlord = w?w.uid:null; S.list.forEach(i=>delete i._w);
-    if(['cat','roster','notes','codex'].includes(o.tab)) S.tab=o.tab;
+    if(['cat','roster','notes','codex','aow','meta'].includes(o.tab)) S.tab=o.tab;
     if(typeof o.name==='string' && o.name) S.name=o.name.slice(0,40);
     if(typeof o.currentId==='string') S.currentId=o.currentId;
     if(typeof o.savedSig==='string') S.savedSig=o.savedSig;
@@ -786,7 +809,7 @@ function renderCodex(){
   list.forEach(d=>{
     const sel=S.dets.includes(d.id), lock=detLock(d.id), enhs=ENH.filter(e=>e.det===d.id);
     h+='<article class="cx-d" id="cx-'+d.id+'"><header class="cx-h"><h2>'+esc(d.name)+'</h2>'
-     +(d.unique?'<span class="cx-tag u">Unique Shield Host</span>':'<span class="cx-tag">Detachment</span>')+'<span class="cx-tag">'+d.dp+' DP</span></header>'
+     +(d.unique?'<span class="cx-tag u">Unique Shield Host</span>':'<span class="cx-tag">Detachment</span>')+'<span class="cx-tag">'+d.dp+' DP</span>'+(AOW_DET[d.id]?'<button class="aw-v aw-'+AOW_V[AOW_DET[d.id].v][1]+'" data-act="aowjump" data-id="d-'+d.id+'" title="AOW commentary">AOW: '+AOW_V[AOW_DET[d.id].v][0]+'</button>':'')+'</header>'
      +'<p class="cx-gist">'+esc(d.gist)+'</p><div class="cx-body"><div>'
      +'<h3>Detachment rule</h3><div class="cx-box"><b>'+esc(d.rule.n)+'</b><p>'+esc(d.rule.t)+'</p></div>'
      +(d.ka?'<h3>Favoured Ka’tah</h3><div class="cx-box"><b>'+esc(d.ka.n)+'</b><p>'+esc(d.ka.t)+'</p></div>':'')
@@ -797,6 +820,258 @@ function renderCodex(){
   });
   $('#cx').innerHTML=h;
 }
+/* ---- AOW commentary (paraphrased from the Art of War 40k video review; timestamps = position in the video) ---- */
+const AOW_SRC={title:'The New Adeptus Custodes Codex – Full Review and MFM Points',by:'Art of War 40k',url:'https://www.youtube.com/watch?v=eVh7D8gAtl4'};
+/* v: verdict key -> label/colour. Verdict is our one-word reading of the reviewers' tone, not a quote. */
+const AOW_V={top:['Top pick','g'],good:['Good','g'],sit:['Situational','y'],weak:['Weak','r'],skip:['Skip','r']};
+const AOW_DET={
+gott:{v:'good',t:'15:58',sum:'Presented as the plug-and-play 3 DP option and a good first detachment, with a well-balanced stratagem suite and no dead cards.',
+ pros:['Sustained + Lethal Hits detachment rule stacks well with the many reroll-ones sources; called the best damage buff in the book alongside standing next to Trajann.','Eagle’s Eye (extra wound + once-per-battle 3+ invulnerable at the moment of allocation) is singled out as the best enhancement; a Shield-Captain on foot with minus-1 damage, 9+ wounds and that invulnerable is very hard to kill.','Unlimited Endurance gives army-wide advance-and-shoot-and-charge, timed after the advance roll.','Swift is the Eagle (reactive D3+3 move, Trusted Sentinel units only) described as their favourite stratagem; superhuman focus re-readies units; Prime Target suits grav tanks.'],
+ cons:['Shield of Honor is dismissed: it only works if the enemy model splits its attacks, which a savvy opponent will never do.','Castellan’s Mark redeploy is nice but weaker than the old turn-order version.','Gives up a slot in a points-hungry army: at 3 DP it competes with building from several 1 DP detachments.'],
+ note:'Their advice: the best way to learn what the army does; the later 1 DP combinations are where theorycraft happens.'},
+solar:{v:'top',t:'1:01:43',sum:'The reviewer’s personal favourite and the one he plans to play first: speed turns a traditionally slow army into one of the fastest in the game.',
+ pros:['Fall back and still charge, army-wide (their comparison point: Emperor’s Children-style mobility).','Calistus favoured ka’tah (+2 Move and move through models) – the one ka’tah that really shines here.','Sally Forth (Shield-Captain only): point-and-click advance and charge for a unit within 6″, no CP and not limited to its own unit; worked example of an infantry unit reaching a 23″ charge.','Venatari with the speed upgrade can threaten a deployment zone on turn one.'],
+ cons:['The upgrade excludes Terminators and the stratagems are mostly minor (Inexorable and Gravimetric Grenade described as corner cases).','Wants a Shield-Captain slot, which competes with Trajann.'],
+ note:'Ranked first of the six Shield Hosts by one of the two reviewers; his motto is that speed wins games.'},
+shadow:{v:'top',t:'56:06',sum:'The classic anti-melee host: layers of small modifiers to blunt enemy damage, then turns aggressive when it wants to lock opponents down.',
+ pros:['Objective-linked minus 1 to wound against attacks with Strength above Toughness – effective because the dangerous attackers are the ones that would otherwise wound on 3s/4s.','Kaptaris favoured ka’tah (minus 1 to hit, plus a battle-shock test at minus 1 at start of the fight phase) called possibly the best ka’tah, and the timing denies the opponent offensive stratagems.','No Escape (2 CP) lets a unit charge after an enemy falls back; Indomitable Guardians gives a 1 CP counter-offensive.','Unstoppable Destroyer enhancement is described as a functional fall-back-and-act via objective consolidation.'],
+ cons:['The consolidate-to-leave trick is an enhancement, which is a heavy price for a niche play; lethal-hits stratagem only hits characters/monsters (they wish it said vehicles).'],
+ note:'Listed among the four Shield Hosts to start with; they joke that Shadowkeepers + Dread Host together would be the ultimate melee shutdown if only both were allowed.'},
+chosen:{v:'top',t:'51:15',sum:'Described as competing for best Shield Host: free reroll-one-hit/reroll-one-wound on everything, strong enhancements and two imported 3 DP stratagems.',
+ pros:['Built-in rerolls make grav tanks (low shot count, high quality shots) work – their key reason to field Caladius Annihilators here.','Rendax favoured ka’tah adds mortal wounds when you fight monsters/vehicles with lethal hits.','Radiant Mantle (minus 1 to hit, all attacks) lets you spend ka’tah offensively; Hall of Armouries adds Devastating Wounds on melee.','Superhuman Focus, Armour of Contempt and Impenetrable Bastion (sticky objective) all come with it.'],
+ cons:['Radiant Mantle makes the second enhancement a hard choice; the other enhancement has to compete with it.'],
+ note:'The reviewer’s second favourite Shield Host; Annihilator tanks only really work with these double rerolls.'},
+dread:{v:'good',t:'39:48',sum:'Top-three Shield Host in their eyes: reroll charges across the army plus the best-regarded favourite ka’tah effect.',
+ pros:['Reroll charge rolls for every unit – a big consistency and CP-economy gain for a hyper-elite army where a failed charge can lose a third of your damage.','Dacatarai favoured ka’tah: enemy pile-ins/consolidations are cut by 2″, which freezes opponents who touch you; rated better than the +2 Move option.','A 1 CP advance-and-charge stratagem is included; the two enhancements add Cleave 1 or Sustained Hits 1 to a single character, which they call modest, solid upgrades.'],
+ cons:['Golden Light of the Moirai (2 CP, minus 1 to hit after ingress) is considered over-priced and effectively unusable; Lightning Wrath’s D3+3 pile-in rarely matters on 3-model units.'],
+ note:'Synergy flagged with Lions of the Emperor: rerolled 7″ charges from deep strike out of the up-down.'},
+emissaries:{v:'sit',t:'44:31',sum:'Lower half of the Shield Hosts: strong-sounding Fight First rule, but too many of the pieces buff what you are already doing.',
+ pros:['Fight First for all Custodes models is flagged as strong in melee matchups (though other sources of interrupt/heroic exist).','Edge of the Blade (reroll 1s on charge) is better than the other enhancement.','Slayers of Nightmares (plus 1 to wound vs higher Toughness) fixes the wound roll where Custodes need it – vehicles.'],
+ cons:['Conservai (favourite ka’tah) described as among the least impactful; the shooting/blinding-light enhancement is more of a joke than a threat.','Selfless Service (heroic-style charge for 1 CP) is only a modest CP discount; overall not very sauced up against the competition.'],
+ note:'The Shield Host slot is the most contested place in the book, and this one does not win it.'},
+aquilan:{v:'weak',t:'32:06',sum:'Their pick for the weakest Shield Host: a gun-focused host in an army whose guns are not its strength.',
+ pros:['Gilded Guardians gives minus 1 to wound against higher-Strength ranged attacks when on objectives – nice against shooters who must come close.','Salvus gets +6″ range, effectively +3″ on rapid fire.','Rapid Reactions (shoot a unit that falls back) and Tip of the Talon (+1 Strength within 9″) are fun.'],
+ cons:['Caduceus Tricks only heals one model; the melta-spear Shield-Captain idea is rejected (two melta shots for 100+ points).','Not as synergistic and gives no real upside, so it is the one they would rank last.'],
+ note:'Likely the worst of the six, in their view.'},
+auric:{v:'sit',t:'1:09:18',sum:'A character-support detachment: one Dreadful Foe token gives your characters +1 to wound, which only matters if you field 2–3 characters.',
+ pros:['Duty Unto Death (fight-on-death on 3+, 2+ for characters) is described as the real reason to take it – a source of melee control found nowhere else in the book.','Gilded Champion lets Trajann use Moment Shackle twice and resets the bike captain’s fight-and-fade.','Shroud of the Hidden Blade is a natural home for a solo bike Shield-Captain.'],
+ cons:['The other enhancements (Inspirational Exemplar, Superior Creation) lose out to stronger options in the book; character count in the army is naturally low.'],
+ note:'Picked up value with Trajann and the bike captain, not as a generic pick.'},
+honoured:{v:'top',t:'1:13:42',sum:'Called the most generically useful of the non-Host detachments: they expect it to see the most play and even say it could stand beside the Shield Hosts.',
+ pros:['Reroll 1s to wound for Trusted Sentinel units on objectives, in melee and shooting – incredibly consistent with the stack of other reroll-one-hit sources.','Swift is the Eagle again (8″ reactive move, D3+3) – the stratagem the opponent has to play around; combos with surge-style moves.','Avenge the Fallen (below starting strength, plus 2 attacks on non-characters) and Emperor’s Domain (objective consolidate) are useful; Solaritus Centuries makes heroic interventions cheaper.'],
+ cons:['Mostly valuable if you run lots of Custodian Guard / Wardens / Sentinel Guard; the stratagems do not help Terminators or vehicles.'],
+ note:'Gives access to Take and Hold.'},
+lions:{v:'sit',t:'1:18:36',sum:'The Terminator detachment: take it if you play two or more Terminator units, otherwise you can skip it.',
+ pros:['End-of-fight up-down for unengaged Terminators (they lost it from the datasheet).','Vigil Unending (2 CP, minus 1 damage vs shooting or melee for Terminators) is the big one – the reason to play the detachment.','Fury of the Emperor stacks with Dread Host reroll charges on deep-striking Terminators.'],
+ cons:['Lightning Descent and Leonine Ferocity are low-impact; Terminators are expensive at 90+ per model, so deep-striking them to do small tasks costs a lot.','They remember the old version as overvalued and clunky; unleash the lions has been oversold historically.'],
+ note:'Breakpoint they give: 1 unit – optional; 2 units – probably; 3+ – yes.'},
+moritoi:{v:'top',t:'1:25:55',sum:'The Dreadnought detachment, and the reviewer’s personal favourite: as soon as one Dreadnought is in the list you should take it.',
+ pros:['Plus 2 OC while at starting strength (OC4 Telemon / OC5 with the upgrade), reroll hit 1s below starting strength and reroll hit/wound 1s below half.','Auguries Uplink gives a Dreadnought a 5+ feel-no-pain; the first Telemon should take it (they call it almost a full Katan). Memento Moratoy (+1 attack/Strength/damage) is better on a Galatus than a Telemon.','Honoured Interred aura (reroll 1s to hit for friends within 6″), a stratagem that gives Dreadnoughts Assault and charging after an advance, and Unstoppable Momentum (Mobile). With Solar Watch’s +2 Move a Telemon is described as ~16″ on average and able to charge a Knight.'],
+ cons:['Only one of each upgrade per army, so the benefit tops out around 2–3 Dreadnoughts.'],
+ note:'Quoted prices: Telemon about 280, about 320 with the 5+ FNP upgrade.'},
+grav:{v:'sit',t:'1:33:41',sum:'A specialist detachment for the grav vehicles; a fine fourth 1 DP slot if you have no better use.',
+ pros:['4+ invulnerable against ranged attacks for Grav vehicles (including Coronus and Pallas).','Advanced Stabilizers (assault), Inevitable Annihilation (ignore hit modifiers) and the fall-back-and-shoot upgrade are all good for grav tanks.'],
+ cons:['Only worth taking if you are already playing several grav units; the Victory Before Death sticky-on-death trick is cute but unlikely.'],
+ note:'Their recommendation: pick a Shield Host, pair with Honoured Companions, then use the last 1 DP for the package that the list is built around (grav tanks, a Telemon or Terminators).'},
+nmv:{v:'skip',t:'1:36:40',sum:'The Sisters of Silence detachment, which they do not expect to take; the other pages are so full of good rules that this is easy to leave out.',
+ pros:['Oblivion enhancement is strong on paper, giving +1 to hit and (vs Psykers) +1 to wound on a skirmishing unit.','Chaff Volley (prosecutors, +1 AP for the army against the hit unit) is called legitimate.'],
+ cons:['Anathema Psykana units are not keyworded Adeptus Custodes, so some of the intended synergies (rerolls from Trajann, ka’tah) do not apply.','The detachment rule is at best moderately useful (battle-shock pressure on Psykers).'],
+ note:'You probably aren’t taking this detachment.'}
+};
+const AOW_DS={
+trajann:{v:'top',t:'1:41:07',pts:'265',sum:'Back in the lists and competing for the best character; a pile of stats with an army-wide consistency aura.',
+ pros:['Move 8, T7, 10 wounds, 5+ FNP, Leadership 5, OC2; 6″ aura of rerolls of 1 to hit/wound in shooting and melee.','Moment Shackle once per battle: 9 attacks with the Watcher’s Axe (Cleave, S12 AP3 D4), or a 3+ invulnerable.','Hits vehicles, which the army otherwise struggles to kill; hard to dig out of a unit, so he denies two enemy secondaries (Assassinate and Bring It Down).'],
+ cons:['Lost all sources of Damage 3; the only real reason to skip him is that his cost equals a unit slot.'],
+ take:'Play him in every list until a reason not to appears.'},
+sc:{v:'top',t:'1:46:02',pts:'205 (first), ~230 (second)',sum:'The most improved datasheet; one of only two characters they expect to see regularly.',
+ pros:['Praesidium Shield gives minus 1 damage permanently – never play him without it.','Readies a unit once per battle round, plus a Surge move of D6+2 after being shot.','Strong enhancement carrier; first copy borderline auto-include.'],
+ cons:['A 3-model guard unit with him exceeds 450 points; second copy is a real question once Trajann is in.'],
+ take:'Take with shield. Paragon Blade (precision, 6 attacks) is the alternative when you drop the shield.'},
+scall:{v:'weak',t:'1:50:29',pts:'185',sum:'A very expensive stat stick whose main perk (up-down once per battle) is niche.',
+ pros:['Move 7, T8; Guardian Spear has Cleave on characters; readies a unit once per battle round.'],
+ cons:['Only worth it if you play one Terminator unit with no Lions detachment and still want the up-down; axes (5 attacks, D4 AP2) lose to spears on attack count.'],
+ take:'Probably leave at home.'},
+scjet:{v:'good',t:'1:52:28',pts:'—',sum:'Finally has the same attacks as the other captains.',
+ pros:['8 attacks with Lance, 10 wounds; once per battle (twice with the stratagem) a free move at end of the fight phase; readies a unit.','Brick option if Trajann is not taken; best home for Shroud of the Hidden Blade.'],
+ cons:['No Cleave.'],
+ take:'Solid solo-skirmisher.'},
+blade:{v:'weak',t:'1:53:07',pts:'175',sum:'The opposite of the Shield-Captain: a drop-off for the points.',
+ pros:['Three melee profiles, 5 attacks at S10 with Devastating Wounds; rerolls advance and charge for his unit; +1 to wound vs a chosen enemy.'],
+ cons:['Five attacks is poor; he takes a whole unit slot of points and is not close to worth it.'],
+ take:'Skip.'},
+sentinel:{v:'good',t:'1:54:38',pts:'80 / model',sum:'The sword-and-board guard: the durable option and potentially the backbone of lists.',
+ pros:['5 wounds, OC3 (OC4 with Vexilla), Leadership-modifier immunity with the Vexilla.','Blade pistol: 4 shots at S5 AP1 D2 (12″) with Close Quarters, which lets them shoot out of combat.','Praesidium Shield: minus 1 to wound from higher Strength attackers.'],
+ cons:['5 attacks at S6 AP2 D2 is the worst melee profile in the army; lethal hits only on non-monster/vehicle objective cases (they wanted it against vehicles). Priced at 80 per model, which they suspect may be too much.'],
+ take:'Likely part of the core with Guard and Wardens.'},
+guard:{v:'good',t:'1:58:19',pts:'80 / model',sum:'The spear guard: stronger offence than Sentinel Guard.',
+ pros:['Guardian Spear: 2 shots S5 AP1 D2 at 24″ rapid fire and Assault; 6 attacks at S8 AP2 D2 in melee.','Sustained Hits vs non-monster/vehicle when the objective rule applies; Vexilla for OC4.'],
+ cons:['Cannot take axes (they would not anyway).'],
+ take:'Part of the same core three.'},
+wardens:{v:'sit',t:'1:59:48',pts:'295 first / 325 second (98 per model)',sum:'A very good datasheet at a very big premium.',
+ pros:['6 wounds each; Living Fortress gives minus 1 AP on all attacks against them.','Same guns as the Guard.'],
+ cons:['Compared to the Guard, only +1 wound for +18 points a model; the second unit costs 30 more and they would never play it. AP help does not stop the big shots, so the unit is black and white vs D6 damage.','Cannot stack with Armour of Contempt (excluded by the stratagem).'],
+ take:'Test one unit; perhaps zero. Two-man plus a character is the only configuration they like.'},
+allarus:{v:'good',t:'2:03:02',pts:'90 / model',sum:'Mid-cost and solid; they expect to like it.',
+ pros:['Move 7, T8 – a major breakpoint vs plasma/melta wounding on 4s – with 6 wounds; plus 1 to wound against higher Toughness.','Grenade launcher is now a flat 3 shots with Blast (S5 AP1); they describe the spear and axe profiles as good.','Multiple flavours of Terminator and a minus-1-damage stratagem make them strong with Lions of the Emperor.'],
+ cons:['At 90 a model they are mid-cost; the unit competes with Guard for a slot.'],
+ take:'Very happy with these; a Vexilla is an auto-include on any unit now.'},
+aquilon:{v:'weak',t:'2:05:51',pts:'285 gauntlets / 270 talons',sum:'The new Terminators compete poorly with Allarus.',
+ pros:['Gauntlets: 5 attacks at S10 AP2 D3 and plus 1 AP vs non-monster/vehicle; Talons: heavy flamers and Sustained Hits 2.'],
+ cons:['Damage 1 melee on Talons and no banner (OC2) on Gauntlets; the Allarus are simply a better package; cannot be taken as a 2-man.'],
+ take:'Skip in favour of Allarus.'},
+venk:{v:'weak',t:'2:08:36',pts:'255',sum:'Cool pistol design but all Damage 1.',
+ pros:['Move 12, T7, 2+/4++, 5 wounds; free up-down at the end of the opponent’s fight; Neutroneum cascade mine.'],
+ cons:['Every attack is Damage 1 – they say it would be a good skirmisher at Damage 2.'],
+ take:'Skip in favour of the Lance version.'},
+venl:{v:'top',t:'2:11:12',pts:'270',sum:'The most improved datasheet in their view and the one unit they would nearly auto-include as a one-of.',
+ pros:['Free recursive up-down; free rapid ingress (can double up); Lance in melee with precision; one 18″ S10 AP2 D3 shot.','Move 12 base, can reach deployment-zone charges with Solar Watch.'],
+ cons:['5 attacks a model is a bit light for the price (one reviewer would not call it auto).'],
+ take:'Play one.'},
+telemon:{v:'top',t:'2:12:45',pts:'280 / ~320 with FNP upgrade',sum:'The reviewer’s favourite unit in the book.',
+ pros:['Move 10, T11, 14 wounds, OC4; minus 1 damage against ranged attacks.','Spiculus Launcher 36″, 6 shots, Blast 2; double Caestus fists give 7 attacks at S14 AP3 D4 with twin-link and full rerolls, plus Neutronium Cascade flamers.','With the Moratoy upgrades it becomes a fast, near-unkillable monster killer; can even take down a Knight.'],
+ cons:['Multiple copies are taxed; the other guns (storm cannon, accelerator culverin) are inferior to the fists build.'],
+ take:'Always play the first one with fists; pair with Might of the Moritoi.'},
+galatus:{v:'good',t:'2:16:57',pts:'220',sum:'A solid skirmish piece.',
+ pros:['Move 9, T10, 12 wounds; Warblade gun is 4 shots S6 AP1 D2 twin-linked; melee 8 attacks at S10 AP2 D3; minus 1 wound against stronger attackers.'],
+ cons:['At this price they compare badly to similar units from other armies.'],
+ take:'Take with the Moratoy damage upgrade on the first copy.'},
+achillus:{v:'weak',t:'2:17:37',pts:'220',sum:'Same price as the Galatus and worse.',
+ pros:['Dread Spear (5 attacks, Lance) and a second gun option.'],
+ cons:['Competes poorly with the Galatus and does not take the damage upgrade as well.'],
+ take:'Prefer the Galatus; see Might of the Moritoi for the 2–2–1 pattern they mention.'},
+vertus:{v:'sit',t:'2:20:30',pts:'220 (110 / model)',sum:'Fine rules, too expensive to skirmish.',
+ pros:['T8 and 7 wounds; Sustained Hits on charge; Lance built in; Hurricane Bolter 6 shots (S5 AP1 D2) twin-linked.'],
+ cons:['Priced into don’t skirmish territory; the Salvo Launcher has no twin-link; huge models.'],
+ take:'Playable as a one-off with bolters.'},
+gyrfalcon:{v:'weak',t:'2:21:43',pts:'260 (130 / model)',sum:'Great profile but priced like a Land Raider.',
+ pros:['+1 AP on the charge, 5 attacks at S8 AP2 D3 with Lance, Deep Strike keyword.'],
+ cons:['Only two models per unit; at 130 a model they compete with Predators and Land Raiders; the models are huge.'],
+ take:'Rarely.'},
+pallas:{v:'weak',t:'2:25:02',pts:'135',sum:'All the right rules and none of the damage.',
+ pros:['Move 12, T9, 10 wounds; Mobile Hunter move; fire and fade.'],
+ cons:['Only two shots of S10 – the unit needs an 8-shot S6 gun; they will not field it.'],
+ take:'Leave at home.'},
+coronus:{v:'weak',t:'2:27:34',pts:'220 / 225 third',sum:'Faster, still poor.',
+ pros:['T12 with 16 wounds; reactive D6 move; a Bolt Cannon that is the only good weapon.'],
+ cons:['Advance then disembark – but they cannot charge; blaze cannon is bad.'],
+ take:'Pants before and still pants.'},
+caladius:{v:'sit',t:'2:29:24',pts:'230',sum:'The anti-infantry tank; reasonable.',
+ pros:['T11, 14 wounds, +1 AP on ranged non-monster/vehicle attacks; accelerator cannon with 4 shots; twin Bolt Cannon.'],
+ cons:['They wish the accelerator cannon were AP2 and had another rule.'],
+ take:'Okay for the price; they dislike the Annihilator comparison.'},
+annihilator:{v:'sit',t:'2:30:38',pts:'250',sum:'Works only when paired with reroll sources.',
+ pros:['Carronade: 4 shots S12 AP3 D6+2 with Lethal Hits; reroll 1 hit/wound/damage vs monsters and vehicles.','One of three datasheets that kill big vehicles consistently (the others: Trajann and Telemon).'],
+ cons:['Not twin-linked; without Emperor’s Chosen/Prime Target it misses too much to justify 250.'],
+ take:'Only with Emperor’s Chosen; maybe a Prime Target 3 DP.'},
+kc:{v:'sit',t:'2:33:04',pts:'—',sum:'Mostly the same; only quality-of-life changes.',
+ pros:['+2 Move for a unit and reroll advance/charge.'],
+ cons:['Melee weapon has Devastating Wounds only against Psykers and anti-Psyker 5+, a downgrade.'],
+ take:'Optional.'},
+prosec:{v:'top',t:'2:33:55',pts:'45 for 4 (+5 for a 5th)',sum:'Cheapest sister and an auto-include – two copies in every list.',
+ pros:['Move 7, OC2; Detect ability (+3 detection range); anti-Psyker 4+ rapid-fire gun, now S5 AP1 D1.'],
+ cons:['None called out; the break points at 4 / 5 models matter.'],
+ take:'Auto-include; 4-man squads.'},
+vigil:{v:'weak',t:'2:35:05',pts:'50 for 4',sum:'No longer dev wounds: never getting played.',
+ pros:['Minus 1 to hit in melee, 3 attacks at S5 AP2 D2.'],
+ cons:['Devastating Wounds only into Psykers; not Adeptus Custodes keyword.'],
+ take:'Skip.'},
+witch:{v:'top',t:'2:36:18',pts:'55 for 4 / 60 for 5',sum:'Another of the most improved models: your skirmisher into small stuff.',
+ pros:['Scout 7, Move 7; flamer 3 shots S4 AP1 torrent blast with anti-Psyker 4+; shooting forces battle-shock.','5-man for 60 is worth the five points; 35 shots into a 20-man squad.'],
+ cons:['None significant; no tax on sisters.'],
+ take:'Ideal: one 4-man Prosecutor and three 5-man Witchseekers, around 225 points.'},
+rhino:{v:'sit',t:'2:39:14',pts:'—',sum:'Same stats; a few small tweaks.',
+ pros:['Hunter-killer is D3+3 now; disembark after advance; daughters-of-the-abyss aura.'],
+ cons:['Doesn’t heal any more.'],
+ take:'Optional.'}
+};
+/* ---- Meta Custodes (AOW overall commentary). k: 'f' = rules fact stated in the video, 'o' = reviewer opinion ---- */
+const META=[
+{id:'big',title:'The big picture',items:[
+ {k:'o',ts:'2:39:56',t:'The reviewers’ overall verdict is very positive: dynamic, rules-rich and fun to play, a sharp contrast with the previous codex, which they describe as bland stats with little interaction.'},
+ {k:'o',ts:'2:40:24',t:'They expect the points to stop the army from being broken at release, consider that good for the game, and think some units could use cuts to become playable.'},
+ {k:'o',ts:'2:40:43',t:'There is a clear archetype and the interesting work will be finding the 1 DP detachment combinations and the builds that become meta. A bundle of ideas is already visible (Solar Watch, Dread Host, Might of the Moritoi, Lions, Honoured Companions).'},
+ {k:'o',ts:'1:49:13',t:'Release price level is described as high but justified by the number of rules; slightly above average is the most optimistic expectation, not broken.'}]},
+{id:'rules',title:'Army-wide rules (stated facts)',items:[
+ {k:'f',ts:'1:19',t:'Ka’tah: at the start of your command phase, units with the ability become Readied; spend the token to use one of six ka’tah abilities, each with its own timing (some at start of phase, some on activation).'},
+ {k:'f',ts:'12:36',t:'All Custodes models have a 5+ feel-no-pain against mortal wounds, permanently, with no Sister nearby needed.'},
+ {k:'f',ts:'13:02',t:'Aquila Commander: if your Warlord has the ability, gain 1 CP at the start of each battle round. Anathema Psykana units cannot be the Warlord, so a Custodes character usually leads.'},
+ {k:'f',ts:'13:46',t:'Sisters of Silence give a 3+ feel-no-pain against psychic attacks to their own units and a 5+ to Custodes in a 6″ aura.'},
+ {k:'f',ts:'15:03',t:'One transport can advance and still let its passengers disembark; the Rhino was confirmed to do this later in the video.'},
+ {k:'f',ts:'15:21',t:'Detachment system: one 3 DP detachment, or a mix of 1 DP detachments; six are unique Shield Hosts (only one per army) and the rest can be paired freely.'},
+ {k:'f',ts:'1:41:34',t:'Infantry baseline is up: Move +2, Toughness +1, Leadership 5 across the army.'}]},
+{id:'katah',title:'Ka’tah ranking',items:[
+ {k:'o',ts:'6:37',t:'Kaptaris (minus 1 to hit against your unit) is the best ka’tah, the best damage buff you can have; keeping a model alive in melee and then hitting back is the core idea.'},
+ {k:'o',ts:'8:09',t:'Rendax (Lethal Hits against monsters/vehicles) is second best: Custodes melee is flat and weak into vehicles without it, roughly +15–20% damage there.'},
+ {k:'o',ts:'5:19',t:'Dacatarai (reroll hit 1s into non-monster/vehicle) is a decent infantry damage buff, slightly worse than Sustained Hits used to be. Salvus (ignore modifiers in shooting) is good for reliability.'},
+ {k:'o',ts:'2:06',t:'Conservai and Calistus are utility: Conservai for acting while engaged, Calistus mostly for moving through models, and Calistus is best in Solar Watch.'},
+ {k:'o',ts:'9:36',t:'Budgeting ka’tah each command phase becomes a skill; call timing carefully because the opponent sees your choice before they pick interrupts.'}]},
+{id:'pillars',title:'The pillars a list needs',items:[
+ {k:'o',ts:'37:26',t:'They expect lists to include as many of these as possible: advance-and-charge access, fall back and act, a reactive move, anti-vehicle damage, and layered defences. Fall back and act is called the most mandatory because it is the only one that can lose you the game when an elite army is tied up by cheap screens.'},
+ {k:'o',ts:'43:49',t:'Advance and charge is a pillar; several detachments provide it (Guardians of the Throne, Dread Host, Might of the Moritoi, the Sally Forth enhancement).'},
+ {k:'o',ts:'29:02',t:'Reactive move (Swift is the Eagle, D3+3) is the stratagem opponents must play around; available in Guardians of the Throne and Honoured Companions.'},
+ {k:'o',ts:'2:32:43',t:'Killing big vehicles consistently is done by only three datasheets: Trajann, Telemon and the Annihilator tank. You cannot leave home without some of them.'},
+ {k:'o',ts:'1:22:13',t:'Minus 1 damage (Praesidium Shield, Telemon vs shooting, Vigil Unending) and AP/To-hit/To-wound modifiers are the defensive core: small stacked modifiers are what make the army hard to kill.'}]},
+{id:'hosts',title:'Shield Host ranking (reviewer view)',items:[
+ {k:'o',ts:'1:08:18',t:'Preference order from the discussion: Solar Watch first, then Shadowkeepers, Emperor’s Chosen and Dread Host as the other three they would start with. Emissaries Imperatus sits lower; Aquilan Shield is called the worst.'},
+ {k:'o',ts:'1:08:57',t:'Of the six 1 DP non-Hosts, Honoured Companions and Might of the Moritoi are the ones most likely to see play; Lions needs 2+ Terminator units; Grav-Assault Force and Auric Champions are specialist; Null Maiden Vigil is unlikely.'},
+ {k:'o',ts:'1:36:10',t:'Suggested template: one infantry Shield Host (with reactive move), then Honoured Companions or the detachment of whatever package the list is built around (grav tanks, Telemon, Terminators).'},
+ {k:'o',ts:'1:40:32',t:'A full 13-detachment tier list and several example builds were promised in a separate video, so this ordering is provisional.'}]},
+{id:'builds',title:'Build ideas floated in the video',items:[
+ {k:'o',ts:'1:01:43',t:'Solar Watch with fast infantry and a Shield-Captain using Sally Forth for deployment-zone charges.'},
+ {k:'o',ts:'1:25:15',t:'Dread Host + Lions of the Emperor: rerolled charges on Terminators deep-striking with the up-down.'},
+ {k:'o',ts:'1:29:07',t:'Might of the Moritoi with an upgraded Telemon first, then Galatus/Achillus: roughly a 2–2–1 pattern with infantry as grab-and-hold pieces.'},
+ {k:'o',ts:'2:31:37',t:'Emperor’s Chosen with Annihilator tanks and Prime Target for double rerolls.'},
+ {k:'o',ts:'2:38:43',t:'Skirmish package: one 4-man Prosecutor squad plus three 5-man Witchseeker squads, about 225 points.'}]},
+{id:'pts',title:'Points and unit economics',items:[
+ {k:'o',ts:'2:02:37',t:'Unit density matters: Custodes are priced so that skirmishing with small elite squads is not cheap; the plan is to build a game plan around a big setup turn rather than trade early.'},
+ {k:'o',ts:'1:48:56',t:'Characters are expensive (a Shield-Captain unit exceeds 450 points); you may have 20–40 points left over that does nothing.'},
+ {k:'o',ts:'2:21:15',t:'Several mid-priced units are judged poor value (Gyrfalcon, Pallas, Coronus, Aquilon, Blade Champion, Vigilators); the Wardens’ second unit is judged never worth playing.'},
+ {k:'o',ts:'2:19:09',t:'Comparing datasheets point-for-point with other armies is not going to make you happy; these are best read against the other Custodes options.'},
+ {k:'o',ts:'1:55:23',t:'Infantry at 80 points a model is called very high but unavoidable since the Guard are the cheapest infantry.'}]},
+{id:'risk',title:'Weaknesses and risks',items:[
+ {k:'o',ts:'2:01:05',t:'Biggest fear: the army is black and white against big damage – pass the saves and units survive, fail them and a unit evaporates (melta example). AP help does not stop D6 damage weapons.'},
+ {k:'o',ts:'17:52',t:'Few characters and few damage buffs; most of the book is utility and movement rather than raw damage multipliers, so game plans have to be built around timing.'},
+ {k:'o',ts:'36:36',t:'Very elite armies can be tied up by cheap screens; fall back and act and advance and charge are how you stay in control.'},
+ {k:'f',ts:'1:38:39',t:'Anathema Psykana units are not keyworded Adeptus Custodes, so some Custodes-targeted buffs do not reach them.'},
+ {k:'o',ts:'2:23:12',t:'Model size: the new jetbikes are very large and awkward to base and move.'}]},
+{id:'best',title:'Best and worst datasheets (reviewer view)',items:[
+ {k:'o',ts:'',t:'Best: Trajann Valoris, Shield-Captain with Praesidium Shield, Telemon, Venatari with Verutum Lances, Allarus Custodians, Witchseekers and Prosecutors.'},
+ {k:'o',ts:'',t:'Core: Sentinel Guard, Custodian Guard and (in small numbers) Wardens form the backbone of every list.'},
+ {k:'o',ts:'',t:'Weak: Blade Champion, Aquilon Terminators, Venatari with Kinetic Destroyers, Pallas, Coronus, Gyrfalcon, Vigilators, a second Wardens unit.'},
+ {k:'o',ts:'2:40:36',t:'Expect points cuts on several of these in later updates.'}]}
+];
+
+/* ---- AOW + Meta tabs ---- */
+const tsSec=t=>t.split(':').reduce((a,x)=>a*60+(+x),0);
+const tsLink=t=>'<a class="aw-ts" target="_blank" rel="noopener" href="'+AOW_SRC.url+'&t='+tsSec(t)+'s">▶ '+esc(t)+'</a>';
+const vChip=v=>'<span class="aw-v aw-'+AOW_V[v][1]+'">'+AOW_V[v][0]+'</span>';
+function awCard(id,name,tags,o,extra){
+  return '<article class="cx-d" id="aw-'+id+'"><header class="cx-h"><h2>'+esc(name)+'</h2>'+tags+vChip(o.v)+' '+tsLink(o.t)+'</header>'
+   +'<p class="cx-gist">'+esc(o.sum)+'</p><div class="cx-body"><div><h3>What they liked</h3>'
+   +o.pros.map(x=>'<div class="cx-box aw-pro"><p>'+esc(x)+'</p></div>').join('')+'</div><div><h3>Concerns</h3>'
+   +o.cons.map(x=>'<div class="cx-box aw-con"><p>'+esc(x)+'</p></div>').join('')+'</div></div>'
+   +'<footer class="cx-foot"><span><b>'+(o.take!==undefined?'Their take':'Note')+':</b> '+esc(o.take!==undefined?o.take:o.note)+'</span>'+(extra||'')+'</footer></article>';
+}
+function renderAow(){
+  const f=UI.awf||'all';
+  const dl=f==='ds'?[]:DETS, ul=f==='det'?[]:U.filter(u=>AOW_DS[u.id]);
+  let h='<div class="cx-top"><h1>AOW Commentary</h1><div class="orn">&#10022;</div><p>Paraphrased reviewer opinions from the <a target="_blank" rel="noopener" href="'+AOW_SRC.url+'">'+esc(AOW_SRC.by)+' video “'+esc(AOW_SRC.title)+'”</a>. Verdict chips are our one-word reading of their tone, not their words. Points are as quoted in the video and may differ from this tool’s data. Timestamps open the video at that moment.</p>'
+   +'<div class="cx-nav">'+[['all','All'],['det','Detachments ('+DETS.length+')'],['ds','Datasheets ('+U.filter(u=>AOW_DS[u.id]).length+')']].map(x=>'<button data-act="awf" data-f="'+x[0]+'" aria-pressed="'+(f===x[0])+'">'+x[1]+'</button>').join('')+'</div>'
+   +'<div class="cx-nav">'+dl.map(d=>'<a href="#aw-d-'+d.id+'" data-act="awgo" data-id="d-'+d.id+'">'+esc(d.name)+'</a>').join('')+ul.map(u=>'<a href="#aw-'+u.id+'" data-act="awgo" data-id="'+u.id+'">'+esc(u.id==='venk'?'Venatari (Kinetic)':u.id==='venl'?'Venatari (Lances)':u.name.replace(/ (Sodality|Squad|Dreadnought|Custodians)$/,''))+'</a>').join('')+'</div></div>';
+  if(dl.length) h+='<h2 class="aw-sec">Detachments</h2>'+dl.filter(d=>AOW_DET[d.id]).map(d=>awCard('d-'+d.id,d.name,(d.unique?'<span class="cx-tag u">Unique Shield Host</span>':'<span class="cx-tag">Detachment</span>')+'<span class="cx-tag">'+d.dp+' DP</span>',AOW_DET[d.id])).join('');
+  if(ul.length) h+='<h2 class="aw-sec">Datasheets</h2>'+ul.map(u=>awCard(u.id,u.name,'<span class="cx-tag">'+esc(u.cat)+'</span>'+(AOW_DS[u.id].pts&&AOW_DS[u.id].pts!=='—'?'<span class="cx-tag u">'+esc(AOW_DS[u.id].pts)+' pts</span>':''),AOW_DS[u.id])).join('');
+  $('#aw').innerHTML=h;
+}
+function renderMeta(){
+  let h='<div class="cx-top"><h1>Meta Custodes</h1><div class="orn">&#10022;</div><p>Overall strategy and meta commentary from the <a target="_blank" rel="noopener" href="'+AOW_SRC.url+'">'+esc(AOW_SRC.by)+' review</a>, paraphrased. <b>Fact</b> = rule text stated in the video; <b>Opinion</b> = reviewer judgement (early impressions at release, before wide testing). Several of their ideas were explicitly flagged as untested.</p>'
+   +'<div class="cx-nav">'+META.map(m=>'<a href="#mt-'+m.id+'" data-act="mtgo" data-id="'+m.id+'">'+esc(m.title)+'</a>').join('')+'</div></div>';
+  META.forEach(m=>{
+    h+='<article class="cx-d" id="mt-'+m.id+'"><header class="cx-h"><h2>'+esc(m.title)+'</h2></header><div class="mt-body">'
+     +m.items.map(i=>'<div class="cx-box mt-'+i.k+'"><span class="mt-k">'+(i.k==='f'?'Fact':'Opinion')+'</span>'+(i.ts?tsLink(i.ts):'')+'<p>'+esc(i.t)+'</p></div>').join('')+'</div></article>';
+  });
+  $('#mt').innerHTML=h;
+}
+
 function renderNotes(){
   $('#np').innerHTML='<div class="notes">'+NOTES.map(n=>'<article><h2>'+esc(n[1])+'</h2><ul>'+n[2].map(x=>'<li>'+esc(x)+'</li>').join('')+'</ul></article>').join('')+'</div>';
 }
@@ -804,7 +1079,7 @@ function renderTabs(){
   document.body.dataset.tab=S.tab;
   document.querySelectorAll('#mtabs button').forEach(b=>b.setAttribute('aria-selected',String(b.dataset.tab===S.tab)));
 }
-function renderAll(){ renderTop(); renderLeft(); renderRight(); renderOpts(); renderCodex(); renderNotes(); renderTabs(); }
+function renderAll(){ renderTop(); renderLeft(); renderRight(); renderOpts(); renderCodex(); renderAow(); renderMeta(); renderNotes(); renderTabs(); }
 function commit(){ normalize(); save(); renderAll(); }
 
 /* ============ SAVED LISTS ============ */
@@ -901,11 +1176,15 @@ function listsHtml(){
 document.addEventListener('click',e=>{
   const b=e.target.closest('[data-act]'); if(!b || b.disabled) return;
   const a=b.dataset.act, id=b.dataset.id, uid=+b.dataset.uid;
-  if(a==='tab'){ let t=b.dataset.tab; if(t==='notesToggle') t=S.tab==='notes'?'roster':'notes'; if(t==='codexToggle') t=S.tab==='codex'?'roster':'codex'; S.tab=t; save(); renderTabs(); return; }
-  if(a==='panel'){ const p=b.dataset.p; UI.panel=UI.panel===p?null:p; UI.confirm=false; if(S.tab==='cat'&&window.innerWidth<1000) S.tab='roster'; if(S.tab==='notes'||S.tab==='codex') S.tab='roster'; renderRight(); renderTabs(); return; }
+  if(a==='tab'){ let t=b.dataset.tab; if(t==='notesToggle') t=S.tab==='notes'?'roster':'notes'; if(t==='codexToggle') t=S.tab==='codex'?'roster':'codex'; if(t==='aowToggle') t=S.tab==='aow'?'roster':'aow'; if(t==='metaToggle') t=S.tab==='meta'?'roster':'meta'; S.tab=t; save(); renderTabs(); return; }
+  if(a==='panel'){ const p=b.dataset.p; UI.panel=UI.panel===p?null:p; UI.confirm=false; if(S.tab==='cat'&&window.innerWidth<1000) S.tab='roster'; if(['notes','codex','aow','meta'].includes(S.tab)) S.tab='roster'; renderRight(); renderTabs(); return; }
   if(a==='sec'){ UI.closed[id]=!UI.closed[id]; renderLeft(); renderRight(); renderOpts(); return; }
   if(a==='eyeD'){ UI.eye['d:'+id]=!UI.eye['d:'+id]; renderLeft(); renderRight(); return; }
   if(a==='cxf'){ UI.cxf=b.dataset.f; renderCodex(); return; }
+  if(a==='awf'){ UI.awf=b.dataset.f; renderAow(); return; }
+  if(a==='awgo'){ e.preventDefault(); const el=document.getElementById('aw-'+id); if(el) el.scrollIntoView({behavior:'smooth',block:'start'}); return; }
+  if(a==='mtgo'){ e.preventDefault(); const el=document.getElementById('mt-'+id); if(el) el.scrollIntoView({behavior:'smooth',block:'start'}); return; }
+  if(a==='aowjump'){ S.tab='aow'; UI.awf='all'; save(); renderAow(); renderTabs(); setTimeout(()=>{const el=document.getElementById('aw-'+id); if(el) el.scrollIntoView({block:'start'});},0); return; }
   if(a==='cxgo'){ e.preventDefault(); const el=document.getElementById('cx-'+id); if(el) el.scrollIntoView({behavior:'smooth',block:'start'}); return; }
   if(a==='eyeE'){ UI.eye[b.dataset.key]=!UI.eye[b.dataset.key]; renderRight(); renderOpts(); return; }
   if(a==='pick'){ const it=S.list.find(i=>i.uid===uid); if(!it) return; const k=b.dataset.k; it[k]=it[k]===id?null:id; UI.msg=''; commit(); return; }
