@@ -778,6 +778,7 @@ function exportText(){
       wgDesc(i).forEach(x=>L.push('  • '+x)); });
     L.push('');
   });
+  L.push('','Built with: https://orpheax.github.io/custobuilder/');
   return L.join('\n').trim();
 }
 function renderRight(){
