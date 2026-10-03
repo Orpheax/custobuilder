@@ -93,9 +93,13 @@ body[data-tab="notes"] #np{display:block}
 @media (min-width:900px){.mt-body{grid-template-columns:1fr 1fr}}
 .mt-body .cx-box{margin:0}.mt-k{font-size:.68rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;padding:1px 6px;margin-right:8px;border:1px solid}
 .mt-f .mt-k{color:#9fc4ff;border-color:#3d5f94}.mt-o .mt-k{color:#f3d36b;border-color:#8a6d1e}
-.kt-g{display:grid;gap:10px;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));padding:10px 14px}
-.kt-c{border:1px solid #6b4f33;background:#17120c;padding:0}.kt-c h3{margin:0;padding:6px 10px;background:linear-gradient(90deg,#6b171b,#3a0d10);font-family:'Cinzel',Georgia,serif;letter-spacing:.1em;text-transform:uppercase;color:#fff;font-size:1rem}
-.kt-c p{margin:0;padding:8px 10px;color:#e6dcc0}.kt-c .kt-w{color:var(--muted);font-size:.85rem;padding-bottom:0}.kt-c .kt-f{border-top:1px solid #33291a;font-size:.88rem;color:#d8cba4;margin-top:4px}.kt-c b{color:#f3d36b}
+.kt-g{display:grid;gap:18px 14px;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));padding:10px 14px;align-items:start}
+.kt-c{border:2px solid #111;background:#f4efe3;color:#1a1a1a;clip-path:polygon(0 0,calc(100% - 22px) 0,100% 22px,100% 100%,0 100%)}
+.kt-c h3{margin:0;padding:8px 12px 10px;background:#1c1c1c;color:#f6ead2;font-family:'Cinzel',Georgia,serif;letter-spacing:.06em;text-transform:uppercase;font-size:1.35rem}
+.kt-band{background:#5c4000;color:#fff2c9;font-weight:700;letter-spacing:.1em;font-size:.82rem;padding:5px 12px;border-top:2px solid #111;border-bottom:2px solid #111}
+.kt-r{padding:7px 12px;border-bottom:2px solid #111;font-size:.9rem;line-height:1.35}.kt-r:last-child{border-bottom:0}
+.kt-r ul{margin:4px 0 0 18px;padding:0}.kt-r code{font-family:'Roboto Mono',monospace;font-weight:700}
+.kt-fv{margin:6px 2px 0;font-size:.8rem;color:var(--muted)}.kt-fv b{color:#f3d36b}
 .mt-o{border-left-color:#8a6d1e}.mt-f{border-left-color:#3d5f94}
 /* datasheets */
 .ds-d{background:#17120c}
@@ -1108,16 +1112,19 @@ function renderAow(){
 }
 /* ---- Ka'tah tab (base effects: Warhammer Community preview; favoured effects: codex) ---- */
 const KT=[
- {n:'Conservai',d:'emissaries',w:'Your Command phase, on a readied unit.',b:'Being engaged/battle-shocked does not prevent your unit from being eligible to start an action. Starting an action does not prevent your unit from being eligible to shoot.',t:'Until the end of the turn, being selected to make an advance/fall-back move does not prevent your unit from being eligible to start an action.'},
- {n:'Calistus',d:'solar',w:'Your Movement phase, when a readied unit is selected to move.',b:'When your unit makes a normal/advance/fall-back move, it can move through all types of model.',t:'Your unit has +2" M.'},
- {n:'Salvus',d:'aquilan',w:'Your Shooting phase, when a readied unit is selected to shoot.',b:'Your unit can ignore modifiers to its BS, hit rolls and wound rolls.',t:'Your unit’s ranged attacks have +6" R.'},
- {n:'Dacatarai',d:'dread',w:'Start of the Fight phase, on a readied unit.',b:'Your unit’s melee attacks that target an enemy unit (excluding MONSTER/VEHICLE units) can re-roll hit rolls of 1.',t:'When an enemy unit engaged with your unit makes a pile-in/consolidation move, -2" from that pile-in/consolidation move.'},
- {n:'Kaptaris',d:'shadow',w:'Start of the Fight phase, on a readied unit.',b:'Melee attacks that target your unit have -1 to hit rolls.',t:'You can select one enemy unit engaged with your unit. That enemy unit must make a battle-shock roll, with -1 to that battle-shock roll. You cannot select the same enemy unit for this effect more than once per phase.'},
- {n:'Rendax',d:'chosen',w:'Fight phase, when a readied unit is selected to fight.',b:'Your unit’s melee attacks have [LETHAL HITS: MONSTER/VEHICLE].',t:'You can select one enemy MONSTER/VEHICLE unit engaged with your unit and roll one D6: on a 1-2, that enemy unit suffers 1 mortal wound; on a 3-5, D3 mortal wounds; on a 6, 3 mortal wounds.'}];
+ {n:'Dacatarai',d:'dread',w:'Start of the Fight phase.',tg:'One friendly <b>readied</b> unit.',e:'Your unit’s melee attacks that target an enemy unit (excluding <code>MONSTER/VEHICLE</code> units) can <b>re-roll hit rolls</b> of 1.',f:'When an enemy unit engaged with your unit makes a pile-in/consolidation move, -2" from that pile-in/consolidation move.'},
+ {n:'Kaptaris',d:'shadow',w:'Start of the Fight phase.',tg:'One friendly <b>readied</b> unit.',e:'Melee attacks that target your unit have -1 to <b>hit rolls</b>.',f:'You can select one enemy unit engaged with your unit. That enemy unit must make a battle-shock roll, with -1 to that battle-shock roll. You cannot select the same enemy unit for this effect more than once per phase.'},
+ {n:'Rendax',d:'chosen',w:'Fight phase, when a friendly <b>readied</b> unit is <b>selected to fight</b>.',tg:'One friendly <b>readied</b> unit.',e:'Your unit’s melee attacks have <b><code>[LETHAL HITS: MONSTER/VEHICLE]</code></b>.',f:'You can select one enemy MONSTER/VEHICLE unit engaged with your unit and roll one D6: on a 1-2, that enemy unit suffers 1 mortal wound; on a 3-5, D3 mortal wounds; on a 6, 3 mortal wounds.'},
+ {n:'Conservai',d:'emissaries',w:'Your Command phase.',tg:'One friendly <b>readied</b> unit.',e:'Until the end of the turn:',l:['Being <b>engaged/battle-shocked</b> does not prevent your unit from being <b>eligible to start an action</b>.','Starting an <b>action</b> does not prevent your unit from being <b>eligible to shoot</b>.'],f:'Until the end of the turn, being selected to make an advance/fall-back move does not prevent your unit from being eligible to start an action.'},
+ {n:'Calistus',d:'solar',w:'Your Movement phase, when a friendly <b>readied</b> unit is <b>selected to move</b>.',tg:'That <b>readied</b> unit.',e:'When your unit makes a <b>normal/advance/fall-back move</b>, your unit can move through all types of model.',f:'Your unit has +2" M.'},
+ {n:'Salvus',d:'aquilan',w:'Your Shooting phase, when a friendly <b>readied</b> unit is <b>selected to shoot</b>.',tg:'That <b>readied</b> unit.',e:'Your unit can ignore modifiers to your unit’s:',l:['BS.','<b>Hit rolls</b> and <b>wound rolls</b>.'],f:'Your unit’s ranged attacks have +6" R.'}];
 function renderKt(){
-  let h='<div class="cx-top"><h1>Ka’tah</h1><div class="orn">&#10022;</div><p><b>Martial Ka’tah:</b> Custodian units become <b>readied</b> at the start of the Command phase. A readied unit can use one of six ka’tahs when its trigger occurs, then it is no longer readied. Ka’tahs are no longer limited to the Fight phase. Six of the 13 detachments have a <b>Favoured Ka’tah</b> that adds an extra effect when that ka’tah is used. Base effects follow the <a target="_blank" rel="noopener" href="https://www.warhammer-community.com/en-gb/articles/vygelghy/new-army-rules-from-codex-adeptus-custodes/">Warhammer Community preview</a>; favoured effects are the Additional Effect printed in the codex.</p></div>'
+  let h='<div class="cx-top"><h1>Ka’tah</h1><div class="orn">&#10022;</div><p>Custodian units become <b>readied</b> at the start of the Command phase. A readied unit can use one ka’tah when its trigger occurs, then it is no longer readied. Card text follows the <a target="_blank" rel="noopener" href="https://www.warhammer-community.com/en-gb/articles/vygelghy/new-army-rules-from-codex-adeptus-custodes/">Warhammer Community preview</a>; the Favoured line is the Additional Effect printed in the codex for the six Unique Shield Hosts.</p></div>'
    +'<div class="kt-g">'+KT.map(k=>{ const d=DM[k.d]; const on=S.dets.includes(k.d);
-     return '<article class="kt-c"><h3>'+esc(k.n)+'</h3><p class="kt-w"><b>When:</b> '+esc(k.w)+'</p><p><b>Effect:</b> '+esc(k.b)+'</p><p class="kt-f"><b>Favoured by '+esc(d.name)+'</b> ('+esc(d.fd)+(on?', in your list':'')+')<br><b>Additional Effect:</b> '+esc(k.t)+'</p></article>'; }).join('')+'</div>';
+     return '<div class="kt-w"><article class="kt-c"><h3>'+esc(k.n)+'</h3><div class="kt-band">KA’TAH ABILITY</div>'
+      +'<div class="kt-r"><b>WHEN:</b> '+k.w+'</div><div class="kt-r"><b>TARGET:</b> '+k.tg+'</div>'
+      +'<div class="kt-r"><b>EFFECT:</b> '+k.e+(k.l?'<ul>'+k.l.map(x=>'<li>'+x+'</li>').join('')+'</ul>':'')+'</div></article>'
+      +'<p class="kt-fv"><b>Favoured by '+esc(d.name)+'</b> ('+esc(d.fd)+(on?', in your list':'')+'): '+esc(k.f)+'</p></div>'; }).join('')+'</div>';
   $('#kt').innerHTML=h;
 }
 function renderMeta(){
