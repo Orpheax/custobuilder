@@ -95,7 +95,7 @@ body[data-tab="notes"] #np{display:block}
 .mt-f .mt-k{color:#9fc4ff;border-color:#3d5f94}.mt-o .mt-k{color:#f3d36b;border-color:#8a6d1e}
 .kt-g{display:grid;gap:10px;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));padding:10px 14px}
 .kt-c{border:1px solid #6b4f33;background:#17120c;padding:0}.kt-c h3{margin:0;padding:6px 10px;background:linear-gradient(90deg,#6b171b,#3a0d10);font-family:'Cinzel',Georgia,serif;letter-spacing:.1em;text-transform:uppercase;color:#fff;font-size:1rem}
-.kt-c p{margin:0;padding:8px 10px;color:#e6dcc0}.kt-c .kt-by{border-top:1px solid #33291a;font-size:.82rem;color:var(--muted)}.kt-c .kt-by b{color:#f3d36b}
+.kt-c p{margin:0;padding:8px 10px;color:#e6dcc0}.kt-c .kt-w{color:var(--muted);font-size:.85rem;padding-bottom:0}.kt-c .kt-f{border-top:1px solid #33291a;font-size:.88rem;color:#d8cba4;margin-top:4px}.kt-c b{color:#f3d36b}
 .mt-o{border-left-color:#8a6d1e}.mt-f{border-left-color:#3d5f94}
 /* datasheets */
 .ds-d{background:#17120c}
@@ -1043,7 +1043,7 @@ const META=[
  {k:'f',ts:'15:03',t:'One transport can advance and still let its passengers disembark; the Rhino was confirmed to do this later in the video.'},
  {k:'f',ts:'15:21',t:'Detachment system: one 3 DP detachment, or a mix of 1 DP detachments; six are unique Shield Hosts (only one per army) and the rest can be paired freely.'},
  {k:'f',ts:'1:41:34',t:'Infantry baseline is up: Move +2, Toughness +1, Leadership 5 across the army.'}]},
-{id:'katah',title:'Ka’tah ranking (video; effects differ from printed codex, see Ka’tah tab)',items:[
+{id:'katah',title:'Ka’tah ranking',items:[
  {k:'o',ts:'6:37',t:'Kaptaris (minus 1 to hit against your unit) is the best ka’tah, the best damage buff you can have; keeping a model alive in melee and then hitting back is the core idea.'},
  {k:'o',ts:'8:09',t:'Rendax (Lethal Hits against monsters/vehicles) is second best: Custodes melee is flat and weak into vehicles without it, roughly +15–20% damage there.'},
  {k:'o',ts:'5:19',t:'Dacatarai (reroll hit 1s into non-monster/vehicle) is a decent infantry damage buff, slightly worse than Sustained Hits used to be. Salvus (ignore modifiers in shooting) is good for reliability.'},
@@ -1106,18 +1106,18 @@ function renderAow(){
   if(ul.length) h+='<h2 class="aw-sec">Datasheets</h2>'+ul.map(u=>awCard(u.id,u.name,'<span class="cx-tag">'+esc(u.cat)+'</span>'+(AOW_DS[u.id].pts&&AOW_DS[u.id].pts!=='—'?'<span class="cx-tag u">'+esc(AOW_DS[u.id].pts)+' pts</span>':''),AOW_DS[u.id])).join('');
   $('#aw').innerHTML=h;
 }
-/* ---- Ka'tah tab (Favoured Ka'tah effects as printed in the codex photos) ---- */
+/* ---- Ka'tah tab (base effects: Warhammer Community preview; favoured effects: codex) ---- */
 const KT=[
- {n:'Kaptaris',d:'shadow',t:'You can select one enemy unit engaged with your unit. That enemy unit must make a battle-shock roll, with -1 to that battle-shock roll. You cannot select the same enemy unit for this effect more than once per phase.'},
- {n:'Calistus',d:'solar',t:'Your unit has +2" M.'},
- {n:'Salvus',d:'aquilan',t:'Your unit’s ranged attacks have +6" R.'},
- {n:'Dacatarai',d:'dread',t:'When an enemy unit engaged with your unit makes a pile-in/consolidation move, -2" from that pile-in/consolidation move.'},
- {n:'Conservai',d:'emissaries',t:'Until the end of the turn, being selected to make an advance/fall-back move does not prevent your unit from being eligible to start an action.'},
- {n:'Rendax',d:'chosen',t:'You can select one enemy MONSTER/VEHICLE unit engaged with your unit and roll one D6: on a 1-2, that enemy unit suffers 1 mortal wound; on a 3-5, D3 mortal wounds; on a 6, 3 mortal wounds.'}];
+ {n:'Conservai',d:'emissaries',w:'Your Command phase, on a readied unit.',b:'Being engaged/battle-shocked does not prevent your unit from being eligible to start an action. Starting an action does not prevent your unit from being eligible to shoot.',t:'Until the end of the turn, being selected to make an advance/fall-back move does not prevent your unit from being eligible to start an action.'},
+ {n:'Calistus',d:'solar',w:'Your Movement phase, when a readied unit is selected to move.',b:'When your unit makes a normal/advance/fall-back move, it can move through all types of model.',t:'Your unit has +2" M.'},
+ {n:'Salvus',d:'aquilan',w:'Your Shooting phase, when a readied unit is selected to shoot.',b:'Your unit can ignore modifiers to its BS, hit rolls and wound rolls.',t:'Your unit’s ranged attacks have +6" R.'},
+ {n:'Dacatarai',d:'dread',w:'Start of the Fight phase, on a readied unit.',b:'Your unit’s melee attacks that target an enemy unit (excluding MONSTER/VEHICLE units) can re-roll hit rolls of 1.',t:'When an enemy unit engaged with your unit makes a pile-in/consolidation move, -2" from that pile-in/consolidation move.'},
+ {n:'Kaptaris',d:'shadow',w:'Start of the Fight phase, on a readied unit.',b:'Melee attacks that target your unit have -1 to hit rolls.',t:'You can select one enemy unit engaged with your unit. That enemy unit must make a battle-shock roll, with -1 to that battle-shock roll. You cannot select the same enemy unit for this effect more than once per phase.'},
+ {n:'Rendax',d:'chosen',w:'Fight phase, when a readied unit is selected to fight.',b:'Your unit’s melee attacks have [LETHAL HITS: MONSTER/VEHICLE].',t:'You can select one enemy MONSTER/VEHICLE unit engaged with your unit and roll one D6: on a 1-2, that enemy unit suffers 1 mortal wound; on a 3-5, D3 mortal wounds; on a 6, 3 mortal wounds.'}];
 function renderKt(){
-  let h='<div class="cx-top"><h1>Ka’tah</h1><div class="orn">&#10022;</div><p>Each of the six Unique Shield Hosts has one <b>Favoured Ka’tah</b> that adds an extra effect when it is used. Text below is the <b>Additional Effect</b> as printed in the codex. The base Martial Ka’tah rule itself is not in the pages used here. Important: the AOW video’s ka’tah descriptions differ from the printed text for several of these (Kaptaris, Salvus, Dacatarai, Rendax), so treat its ka’tah ranking in the Meta tab with caution.</p></div>'
+  let h='<div class="cx-top"><h1>Ka’tah</h1><div class="orn">&#10022;</div><p><b>Martial Ka’tah:</b> Custodian units become <b>readied</b> at the start of the Command phase. A readied unit can use one of six ka’tahs when its trigger occurs, then it is no longer readied. Ka’tahs are no longer limited to the Fight phase. Six of the 13 detachments have a <b>Favoured Ka’tah</b> that adds an extra effect when that ka’tah is used. Base effects follow the <a target="_blank" rel="noopener" href="https://www.warhammer-community.com/en-gb/articles/vygelghy/new-army-rules-from-codex-adeptus-custodes/">Warhammer Community preview</a>; favoured effects are the Additional Effect printed in the codex.</p></div>'
    +'<div class="kt-g">'+KT.map(k=>{ const d=DM[k.d]; const on=S.dets.includes(k.d);
-     return '<article class="kt-c"><h3>'+esc(k.n)+'</h3><p><b>Additional Effect:</b> '+esc(k.t)+'</p><p class="kt-by"><b>Favoured by:</b> '+esc(d.name)+' · '+esc(d.fd)+(on?' · <b>in your list</b>':'')+'</p></article>'; }).join('')+'</div>';
+     return '<article class="kt-c"><h3>'+esc(k.n)+'</h3><p class="kt-w"><b>When:</b> '+esc(k.w)+'</p><p><b>Effect:</b> '+esc(k.b)+'</p><p class="kt-f"><b>Favoured by '+esc(d.name)+'</b> ('+esc(d.fd)+(on?', in your list':'')+')<br><b>Additional Effect:</b> '+esc(k.t)+'</p></article>'; }).join('')+'</div>';
   $('#kt').innerHTML=h;
 }
 function renderMeta(){
