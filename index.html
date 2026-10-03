@@ -48,7 +48,8 @@ svg{width:1.25em;height:1.25em;fill:none;stroke:currentColor;stroke-width:2;stro
 
 /* shell */
 .shell{display:grid;grid-template-columns:minmax(0,1fr);gap:8px;align-items:start}
-#lp,#rp,#np,#op,#cx,#aw,#mt,#ds{display:none;min-width:0}
+#lp,#rp,#np,#op,#cx,#aw,#mt,#ds,#kt{display:none;min-width:0}
+body[data-tab="kt"] #kt{display:block}
 body[data-tab="ds"] #ds{display:block}
 body[data-tab="codex"] #cx{display:block}
 body[data-tab="aow"] #aw{display:block}
@@ -71,6 +72,8 @@ body[data-tab="notes"] #np{display:block}
   body #np{display:none}
   body[data-tab="codex"] #lp,body[data-tab="codex"] #rp,body[data-tab="codex"] #op{display:none}
   body[data-tab="codex"] #cx{display:block;grid-column:1/-1}
+  body[data-tab="kt"] #lp,body[data-tab="kt"] #rp,body[data-tab="kt"] #op{display:none}
+  body[data-tab="kt"] #kt{display:block;grid-column:1/-1}
   body[data-tab="ds"] #lp,body[data-tab="ds"] #rp,body[data-tab="ds"] #op{display:none}
   body[data-tab="ds"] #ds{display:block;grid-column:1/-1}
   body[data-tab="aow"] #lp,body[data-tab="aow"] #rp,body[data-tab="aow"] #op,body[data-tab="meta"] #lp,body[data-tab="meta"] #rp,body[data-tab="meta"] #op{display:none}
@@ -90,6 +93,9 @@ body[data-tab="notes"] #np{display:block}
 @media (min-width:900px){.mt-body{grid-template-columns:1fr 1fr}}
 .mt-body .cx-box{margin:0}.mt-k{font-size:.68rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;padding:1px 6px;margin-right:8px;border:1px solid}
 .mt-f .mt-k{color:#9fc4ff;border-color:#3d5f94}.mt-o .mt-k{color:#f3d36b;border-color:#8a6d1e}
+.kt-g{display:grid;gap:10px;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));padding:10px 14px}
+.kt-c{border:1px solid #6b4f33;background:#17120c;padding:0}.kt-c h3{margin:0;padding:6px 10px;background:linear-gradient(90deg,#6b171b,#3a0d10);font-family:'Cinzel',Georgia,serif;letter-spacing:.1em;text-transform:uppercase;color:#fff;font-size:1rem}
+.kt-c p{margin:0;padding:8px 10px;color:#e6dcc0}.kt-c .kt-by{border-top:1px solid #33291a;font-size:.82rem;color:var(--muted)}.kt-c .kt-by b{color:#f3d36b}
 .mt-o{border-left-color:#8a6d1e}.mt-f{border-left-color:#3d5f94}
 /* datasheets */
 .ds-d{background:#17120c}
@@ -259,6 +265,7 @@ body[data-tab="notes"] #np{display:block}
     <button class="tbtn" data-act="panel" data-p="export">Export <svg viewBox="0 0 24 24"><path d="M12 15V4M8 8l4-4 4 4M5 14v6h14v-6"/></svg></button>
     <button class="tbtn" data-act="tab" data-tab="codexToggle">Detachments <svg viewBox="0 0 24 24"><path d="M12 3l8 4v5c0 4.5-3.2 7.7-8 9-4.8-1.3-8-4.5-8-9V7z"/><path d="M12 8v6M9 11h6"/></svg></button>
     <button class="tbtn" data-act="tab" data-tab="dsToggle">Datasheets <svg viewBox="0 0 24 24"><path d="M5 3h14v18H5z"/><path d="M8 8h8M8 12h8M8 16h5"/></svg></button>
+    <button class="tbtn" data-act="tab" data-tab="ktToggle">Ka’tah <svg viewBox="0 0 24 24"><path d="M12 3l2.5 6H21l-5 4 2 7-6-4-6 4 2-7-5-4h6.5z"/></svg></button>
     <button class="tbtn" data-act="tab" data-tab="aowToggle">AOW <svg viewBox="0 0 24 24"><path d="M4 5h16v11H9l-5 4z"/></svg></button>
     <button class="tbtn" data-act="tab" data-tab="metaToggle">Meta <svg viewBox="0 0 24 24"><path d="M4 20V10M10 20V4M16 20v-8M22 20H2"/></svg></button>
     <button class="tbtn" data-act="tab" data-tab="notesToggle">Data notes <svg viewBox="0 0 24 24"><path d="M5 4h11a3 3 0 0 1 3 3v13H8a3 3 0 0 1-3-3zM8 20a3 3 0 0 1-3-3"/></svg></button>
@@ -268,6 +275,7 @@ body[data-tab="notes"] #np{display:block}
       <button role="tab" data-act="tab" data-tab="roster" id="mt-roster">Roster</button>
       <button role="tab" data-act="tab" data-tab="codex">Detach.</button>
       <button role="tab" data-act="tab" data-tab="ds">Sheets</button>
+      <button role="tab" data-act="tab" data-tab="kt">Ka’tah</button>
       <button role="tab" data-act="tab" data-tab="aow">AOW</button>
       <button role="tab" data-act="tab" data-tab="meta">Meta</button>
       <button role="tab" data-act="tab" data-tab="notes">Notes</button>
@@ -290,6 +298,7 @@ body[data-tab="notes"] #np{display:block}
     <section id="ds"></section>
     <section id="aw"></section>
     <section id="mt"></section>
+    <section id="kt"></section>
     <section id="np"></section>
   </div>
 </div>
@@ -506,7 +515,7 @@ function load(){
     if(Array.isArray(o.dets)) S.dets=o.dets.filter(id=>DM[id]);
     if(Array.isArray(o.list)) S.list=o.list.filter(it=>UM[it.id]).map(it=>({uid:uidSeq++,id:it.id,opt:Math.min(it.opt|0,UM[it.id].opts.length-1),custom:+it.custom||0,enh:it.enh||null,upg:it.upg||null,wg:it.wg||{},_w:!!it.w}));
     const w=S.list.find(i=>i._w); S.warlord = w?w.uid:null; S.list.forEach(i=>delete i._w);
-    if(['cat','roster','notes','codex','ds','aow','meta'].includes(o.tab)) S.tab=o.tab;
+    if(['cat','roster','notes','codex','ds','kt','aow','meta'].includes(o.tab)) S.tab=o.tab;
     if(typeof o.name==='string' && o.name) S.name=o.name.slice(0,40);
     if(typeof o.currentId==='string') S.currentId=o.currentId;
     if(typeof o.savedSig==='string') S.savedSig=o.savedSig;
@@ -1034,7 +1043,7 @@ const META=[
  {k:'f',ts:'15:03',t:'One transport can advance and still let its passengers disembark; the Rhino was confirmed to do this later in the video.'},
  {k:'f',ts:'15:21',t:'Detachment system: one 3 DP detachment, or a mix of 1 DP detachments; six are unique Shield Hosts (only one per army) and the rest can be paired freely.'},
  {k:'f',ts:'1:41:34',t:'Infantry baseline is up: Move +2, Toughness +1, Leadership 5 across the army.'}]},
-{id:'katah',title:'Ka’tah ranking',items:[
+{id:'katah',title:'Ka’tah ranking (video; effects differ from printed codex, see Ka’tah tab)',items:[
  {k:'o',ts:'6:37',t:'Kaptaris (minus 1 to hit against your unit) is the best ka’tah, the best damage buff you can have; keeping a model alive in melee and then hitting back is the core idea.'},
  {k:'o',ts:'8:09',t:'Rendax (Lethal Hits against monsters/vehicles) is second best: Custodes melee is flat and weak into vehicles without it, roughly +15–20% damage there.'},
  {k:'o',ts:'5:19',t:'Dacatarai (reroll hit 1s into non-monster/vehicle) is a decent infantry damage buff, slightly worse than Sustained Hits used to be. Salvus (ignore modifiers in shooting) is good for reliability.'},
@@ -1097,6 +1106,20 @@ function renderAow(){
   if(ul.length) h+='<h2 class="aw-sec">Datasheets</h2>'+ul.map(u=>awCard(u.id,u.name,'<span class="cx-tag">'+esc(u.cat)+'</span>'+(AOW_DS[u.id].pts&&AOW_DS[u.id].pts!=='—'?'<span class="cx-tag u">'+esc(AOW_DS[u.id].pts)+' pts</span>':''),AOW_DS[u.id])).join('');
   $('#aw').innerHTML=h;
 }
+/* ---- Ka'tah tab (Favoured Ka'tah effects as printed in the codex photos) ---- */
+const KT=[
+ {n:'Kaptaris',d:'shadow',t:'You can select one enemy unit engaged with your unit. That enemy unit must make a battle-shock roll, with -1 to that battle-shock roll. You cannot select the same enemy unit for this effect more than once per phase.'},
+ {n:'Calistus',d:'solar',t:'Your unit has +2" M.'},
+ {n:'Salvus',d:'aquilan',t:'Your unit’s ranged attacks have +6" R.'},
+ {n:'Dacatarai',d:'dread',t:'When an enemy unit engaged with your unit makes a pile-in/consolidation move, -2" from that pile-in/consolidation move.'},
+ {n:'Conservai',d:'emissaries',t:'Until the end of the turn, being selected to make an advance/fall-back move does not prevent your unit from being eligible to start an action.'},
+ {n:'Rendax',d:'chosen',t:'You can select one enemy MONSTER/VEHICLE unit engaged with your unit and roll one D6: on a 1-2, that enemy unit suffers 1 mortal wound; on a 3-5, D3 mortal wounds; on a 6, 3 mortal wounds.'}];
+function renderKt(){
+  let h='<div class="cx-top"><h1>Ka’tah</h1><div class="orn">&#10022;</div><p>Each of the six Unique Shield Hosts has one <b>Favoured Ka’tah</b> that adds an extra effect when it is used. Text below is the <b>Additional Effect</b> as printed in the codex. The base Martial Ka’tah rule itself is not in the pages used here. Important: the AOW video’s ka’tah descriptions differ from the printed text for several of these (Kaptaris, Salvus, Dacatarai, Rendax), so treat its ka’tah ranking in the Meta tab with caution.</p></div>'
+   +'<div class="kt-g">'+KT.map(k=>{ const d=DM[k.d]; const on=S.dets.includes(k.d);
+     return '<article class="kt-c"><h3>'+esc(k.n)+'</h3><p><b>Additional Effect:</b> '+esc(k.t)+'</p><p class="kt-by"><b>Favoured by:</b> '+esc(d.name)+' · '+esc(d.fd)+(on?' · <b>in your list</b>':'')+'</p></article>'; }).join('')+'</div>';
+  $('#kt').innerHTML=h;
+}
 function renderMeta(){
   let h='<div class="cx-top"><h1>Meta Custodes</h1><div class="orn">&#10022;</div><p>Overall strategy and meta commentary from the <a target="_blank" rel="noopener" href="'+AOW_SRC.url+'">'+esc(AOW_SRC.by)+' review</a>, paraphrased. <b>Fact</b> = rule text stated in the video; <b>Opinion</b> = reviewer judgement (early impressions at release, before wide testing). Several of their ideas were explicitly flagged as untested.</p>'
    +'<div class="cx-nav">'+META.map(m=>'<a href="#mt-'+m.id+'" data-act="mtgo" data-id="'+m.id+'">'+esc(m.title)+'</a>').join('')+'</div></div>';
@@ -1148,7 +1171,7 @@ function renderTabs(){
   document.body.dataset.tab=S.tab;
   document.querySelectorAll('#mtabs button').forEach(b=>b.setAttribute('aria-selected',String(b.dataset.tab===S.tab)));
 }
-function renderAll(){ renderTop(); renderLeft(); renderRight(); renderOpts(); renderCodex(); renderDs(); renderAow(); renderMeta(); renderNotes(); renderTabs(); }
+function renderAll(){ renderTop(); renderLeft(); renderRight(); renderOpts(); renderCodex(); renderDs(); renderKt(); renderAow(); renderMeta(); renderNotes(); renderTabs(); }
 function commit(){ normalize(); save(); renderAll(); }
 
 /* ============ SAVED LISTS ============ */
@@ -1245,8 +1268,8 @@ function listsHtml(){
 document.addEventListener('click',e=>{
   const b=e.target.closest('[data-act]'); if(!b || b.disabled) return;
   const a=b.dataset.act, id=b.dataset.id, uid=+b.dataset.uid;
-  if(a==='tab'){ let t=b.dataset.tab; if(t==='notesToggle') t=S.tab==='notes'?'roster':'notes'; if(t==='codexToggle') t=S.tab==='codex'?'roster':'codex'; if(t==='dsToggle') t=S.tab==='ds'?'roster':'ds'; if(t==='aowToggle') t=S.tab==='aow'?'roster':'aow'; if(t==='metaToggle') t=S.tab==='meta'?'roster':'meta'; S.tab=t; save(); renderTabs(); return; }
-  if(a==='panel'){ const p=b.dataset.p; UI.panel=UI.panel===p?null:p; UI.confirm=false; if(S.tab==='cat'&&window.innerWidth<1000) S.tab='roster'; if(['notes','codex','ds','aow','meta'].includes(S.tab)) S.tab='roster'; renderRight(); renderTabs(); return; }
+  if(a==='tab'){ let t=b.dataset.tab; if(t==='notesToggle') t=S.tab==='notes'?'roster':'notes'; if(t==='codexToggle') t=S.tab==='codex'?'roster':'codex'; if(t==='dsToggle') t=S.tab==='ds'?'roster':'ds'; if(t==='ktToggle') t=S.tab==='kt'?'roster':'kt'; if(t==='aowToggle') t=S.tab==='aow'?'roster':'aow'; if(t==='metaToggle') t=S.tab==='meta'?'roster':'meta'; S.tab=t; save(); renderTabs(); return; }
+  if(a==='panel'){ const p=b.dataset.p; UI.panel=UI.panel===p?null:p; UI.confirm=false; if(S.tab==='cat'&&window.innerWidth<1000) S.tab='roster'; if(['notes','codex','ds','kt','aow','meta'].includes(S.tab)) S.tab='roster'; renderRight(); renderTabs(); return; }
   if(a==='sec'){ UI.closed[id]=!UI.closed[id]; renderLeft(); renderRight(); renderOpts(); return; }
   if(a==='eyeD'){ UI.eye['d:'+id]=!UI.eye['d:'+id]; renderLeft(); renderRight(); return; }
   if(a==='cxf'){ UI.cxf=b.dataset.f; renderCodex(); return; }
