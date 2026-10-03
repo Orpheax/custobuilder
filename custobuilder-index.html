@@ -1,0 +1,909 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="theme-color" content="#5a1013">
+<title>Custodes 11th List</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&family=Cinzel:wght@600;700&display=swap">
+<style>
+/* Layout: gold-and-crimson Custodes app bar on top; catalogue panel on the left (own scroll, search pinned at the bottom); roster on the right; on phones the three views become tabs. Single dark theme by design. */
+:root{
+  --font:'Roboto','Helvetica Neue',Arial,sans-serif;
+  --bg:#0b0906; --bar1:#8f1b20; --bar2:#5a1013; --bar-line:#d4a72c;
+  --sec1:#5c4410; --sec2:#34260a;
+  --row:#080604; --row2:#130e07; --row-hover:#1f1809; --line:#33291a;
+  --fg:#f7f0dc; --muted:#b9ad8e; --blue:#e3b94a; --blue-d:#b88a1e;
+  --ok:#5fcf80; --warn:#f2a542; --err:#ff6f62;
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+body{background:var(--bg);background-image:radial-gradient(1200px 500px at 70% -10%,#7a141a40,transparent 70%);color:var(--fg);font-family:var(--font);font-size:14px;line-height:1.35}
+button,input,select,textarea{font:inherit;color:inherit}
+button{cursor:pointer}
+:focus-visible{outline:2px solid var(--blue);outline-offset:1px}
+svg{width:1.25em;height:1.25em;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;flex:none}
+.app{max-width:1500px;margin-inline:auto;padding-inline:12px;padding-block:8px 28px}
+
+/* app bar */
+.topbar{border-top:2px solid #f3d36b !important;box-shadow:0 2px 0 #000,0 3px 0 #b88a1e55;position:sticky;top:env(safe-area-inset-top,0px);z-index:30;background:linear-gradient(var(--bar1),var(--bar2));border:1px solid var(--bar-line);display:flex;flex-wrap:wrap;align-items:center;gap:6px 14px;padding:8px 12px;margin-bottom:8px}
+.brand{display:flex;align-items:center;gap:10px;min-width:0}
+.logo{width:44px;height:44px;flex:none;filter:drop-shadow(0 1px 3px #000a)}
+.wm{display:none;font-family:'Cinzel',Georgia,serif;font-weight:700;letter-spacing:.14em;font-size:.78rem;color:var(--blue);line-height:1.1;text-transform:uppercase}
+.wm small{display:block;color:#f0dfae;font-weight:600;letter-spacing:.2em;font-size:.6rem}
+@media (min-width:700px){.wm{display:block}}
+.rname{background:transparent;border:0;border-bottom:1px dashed #ffffff55;color:#fff;font-weight:700;font-size:1.05rem;width:min(220px,46vw);padding:2px 2px}
+.pts{color:var(--blue);font-weight:500;white-space:nowrap;font-variant-numeric:tabular-nums}
+.pts .bad{color:var(--err)}
+.pts{color:#f0dfae}
+.tb-sp{flex:1 1 0}
+.tbtn{display:flex;align-items:center;gap:6px;background:transparent;border:0;color:#fff;font-weight:500;padding:4px 6px}
+.tbtn:hover{background:#ffffff1f}
+.tbtn[data-tab="notesToggle"]{display:none}
+@media (min-width:1000px){.tbtn[data-tab="notesToggle"]{display:flex}}
+.mtabs{display:flex;gap:2px;width:100%}
+.mtabs button{flex:1;background:#2a0b0d;border:1px solid var(--bar-line);color:#f0dfae;padding:7px 4px;font-weight:500}
+.mtabs button[aria-selected="true"]{background:var(--blue-d);color:#fff}
+.meter{height:3px;background:#2a0b0d;width:100%}
+.meter i{display:block;height:100%;background:var(--blue);transition:width .25s}
+.meter.over i{background:var(--err)}
+
+/* shell */
+.shell{display:grid;grid-template-columns:minmax(0,1fr);gap:8px;align-items:start}
+#lp,#rp,#np,#op{display:none;min-width:0}
+body[data-tab="cat"] #lp{display:flex}
+body[data-tab="roster"] #rp{display:block}
+body[data-tab="notes"] #np{display:block}
+.lp{flex-direction:column;border:1px solid var(--line);background:var(--row)}
+@media (min-width:1000px){
+  .mtabs{display:none}
+  .shell{grid-template-columns:400px minmax(0,1fr) 380px}
+  body #op{display:block;position:sticky;top:calc(env(safe-area-inset-top,0px) + 62px);max-height:calc(100vh - 82px);overflow:auto;border:1px solid var(--line);background:var(--row)}
+  .inl{display:none}
+  body[data-tab="notes"] #op{display:none}
+  body[data-tab="notes"] #np{grid-column:2/-1}
+  body #lp{display:flex;position:sticky;top:calc(env(safe-area-inset-top,0px) + 62px);height:calc(100vh - 82px);min-height:420px}
+  body #rp{display:block}
+  body[data-tab="notes"] #rp{display:none}
+  body[data-tab="notes"] #np{display:block}
+  body #np{display:none}
+  body[data-tab="notes"] #np{display:block}
+}
+
+/* left panel */
+.lp-head{padding:10px 12px;border-bottom:1px solid var(--line);background:linear-gradient(#2a1e08,#1c1608)}
+.lp-head b{display:block;font-size:1.05rem}
+.lp-head span{color:var(--blue);font-size:.88rem}
+.lp-body{flex:1 1 auto;overflow:auto;min-height:0}
+.lp-search{display:flex;gap:6px;padding:8px;border-top:1px solid var(--line);background:#120e07}
+.lp-search input{flex:1;min-width:0;background:#241d10;border:1px solid #4a3d22;border-radius:6px;padding:7px 10px}
+.lp-search button{background:#241d10;border:1px solid #4a3d22;border-radius:6px;padding:0 9px}
+.lp-search button[aria-pressed="false"]{color:var(--muted)}
+.sh{margin:0;display:flex;align-items:center;gap:8px;background:linear-gradient(90deg,var(--sec1),var(--sec2));border-bottom:1px solid var(--bar-line);border-top:1px solid #2a0b0d}
+.sh button{flex:1;min-width:0;display:flex;align-items:center;gap:8px;background:none;border:0;color:#fff;font-weight:700;font-size:1.02rem;padding:7px 10px;text-align:left}
+.sh .tot{color:var(--blue);font-weight:500;font-size:.9rem}
+.sh svg{color:var(--blue);transition:transform .15s}
+.sh[data-closed="1"] svg{transform:rotate(-90deg)}
+.sh .push{margin-left:auto}
+
+.cr{display:flex;align-items:center;gap:6px;padding:0 6px 0 10px;border-bottom:1px solid var(--line);min-height:36px;background:var(--row)}
+.cr:hover{background:var(--row-hover)}
+.cr.locked{opacity:.5}
+.cr.has{background:#1c1608}
+.cr-main{flex:1;min-width:0;display:flex;flex-wrap:wrap;align-items:baseline;gap:2px 8px;padding-block:5px}
+.cr-pts{color:var(--blue);font-weight:500;font-size:.85rem;white-space:nowrap;font-variant-numeric:tabular-nums}
+.cr-name{font-weight:700;overflow-wrap:anywhere}
+.cr-cnt{color:var(--muted);font-weight:400}
+.tg{font-size:.68rem;letter-spacing:.06em;text-transform:uppercase;border:1px solid var(--blue-d);color:var(--blue);padding:0 5px;border-radius:3px}
+.cr-act{display:flex;align-items:center;gap:2px}
+.mini{width:58px;background:#241d10;border:1px solid #4a3d22;border-radius:4px;padding:3px 5px;font-variant-numeric:tabular-nums}
+.ib{background:none;border:0;color:#f2e9cf;padding:6px;border-radius:6px;display:flex;align-items:center}
+.ib:hover:not(:disabled){background:#ffffff1c;color:#fff}
+.ib:disabled{opacity:.3;cursor:not-allowed}
+.ib.pl{color:#fff}
+.cr-x{padding:8px 12px 10px;background:var(--row2);border-bottom:1px solid var(--line);font-size:.86rem;color:var(--muted);display:grid;gap:6px}
+.cr-x b{color:var(--fg)}
+.cr-x .warnl{color:var(--warn)}
+.cr-x h4{margin:6px 0 0;font-size:.74rem;letter-spacing:.08em;text-transform:uppercase;color:var(--blue)}
+.cr-x p{margin:0}
+.cr-x .it b{display:block}
+.cr-x .cpb{background:var(--blue-d);color:#fff;padding:0 5px;border-radius:3px;font-size:.75rem;margin-left:6px}
+
+/* right panel */
+.notice{background:#000;border:1px solid var(--line);padding:8px 12px;margin-bottom:8px;display:grid;gap:5px}
+.notice p{margin:0;font-size:.88rem;display:flex;gap:8px;align-items:baseline}
+.notice p::before{content:"";width:8px;height:8px;border-radius:50%;background:var(--muted);flex:none;transform:translateY(-1px)}
+.notice .err::before{background:var(--err)} .notice .warn::before{background:var(--warn)} .notice .ok::before{background:var(--ok)}
+.notice .info{color:var(--muted)}
+.er{display:flex;align-items:flex-start;gap:8px;padding:6px 8px 6px 10px;background:var(--row);border-bottom:1px solid var(--line)}
+.er:hover{background:var(--row-hover)}
+.er.wl{box-shadow:inset 3px 0 0 var(--blue)}
+.ico{width:28px;height:28px;border-radius:50%;background:#fff;color:#1c1608;display:grid;place-items:center;flex:none;margin-top:1px}
+.ico svg{width:17px;height:17px;stroke-width:2.2}
+.er-main{flex:1;min-width:0}
+.er-t{display:flex;flex-wrap:wrap;align-items:baseline;gap:2px 8px}
+.er-t b{font-size:1rem;overflow-wrap:anywhere}
+.er-t i{font-style:normal;color:var(--blue);font-size:.88rem;font-variant-numeric:tabular-nums}
+.er-t em{font-style:normal;font-size:.68rem;letter-spacing:.07em;text-transform:uppercase;background:var(--blue-d);color:#fff;padding:0 6px;border-radius:3px}
+.er-s{color:#cfc4a6;font-size:.88rem;overflow-wrap:anywhere}
+.er-act{display:flex;gap:0;flex:none}
+.chips{display:flex;flex-wrap:wrap;gap:5px;margin-top:5px}
+.chip{background:#241d10;border:1px solid #4a3d22;border-radius:14px;padding:2px 11px;font-size:.84rem}
+.chip[aria-pressed="true"]{background:var(--blue-d);border-color:var(--blue-d);color:#fff}
+.edit{background:var(--row2);border-bottom:1px solid var(--line);padding:10px 12px;display:grid;gap:8px;grid-template-columns:repeat(auto-fit,minmax(200px,1fr))}
+.edit label{display:grid;gap:3px;font-size:.72rem;color:var(--muted);text-transform:uppercase;letter-spacing:.07em;min-width:0}
+.edit select,.edit input[type=number]{width:100%;min-width:0;background:#241d10;border:1px solid #4a3d22;border-radius:5px;padding:5px 7px;font-size:.9rem;text-transform:none;letter-spacing:0}
+.wg-t{margin:0;padding:6px 12px;font-size:.74rem;letter-spacing:.08em;text-transform:uppercase;color:var(--blue);background:var(--row2);border-bottom:1px solid var(--line)}
+.wg-t span{text-transform:none;letter-spacing:0;color:var(--muted)}
+.ib.step{min-width:30px;justify-content:center;font-size:1.1rem;border:1px solid #4a3d22;margin-left:4px}
+.op-h{display:flex;justify-content:space-between;gap:8px;align-items:baseline;padding:9px 12px;background:linear-gradient(90deg,var(--bar1),#6b171b);color:#fff;border-bottom:1px solid var(--bar-line)}
+.op-h span{color:#f0dfae;font-weight:500;white-space:nowrap}
+.er.sel{background:#1c1608;box-shadow:inset 3px 0 0 var(--blue)}
+.er-main[data-act]{cursor:pointer}
+.opt-sec{border-bottom:1px solid var(--line)}
+.opt-sec .sh{border-top:1px solid #2a0b0d}
+.opt-sec .sh .cnt{color:var(--muted);font-weight:400;font-size:.9rem;margin-left:2px}
+.cbx{width:20px;height:20px;flex:none;border:2px solid #a48d55;border-radius:4px;background:#17110a;color:#fff;display:grid;place-items:center;padding:0}
+.cbx[aria-checked="true"]{background:var(--blue-d);border-color:var(--blue)}
+.cbx svg{width:14px;height:14px;opacity:0}
+.cbx[aria-checked="true"] svg{opacity:1}
+.cbx:disabled{opacity:.35;cursor:not-allowed}
+.edit .full{grid-column:1/-1;display:flex;flex-wrap:wrap;gap:6px;align-items:center;color:var(--muted);font-size:.84rem}
+.btn{background:#241d10;border:1px solid #4a3d22;border-radius:6px;padding:5px 12px;font-weight:500}
+.btn:hover:not(:disabled){border-color:var(--blue)}
+.btn.pri{background:var(--blue-d);border-color:var(--blue-d);color:#fff}
+.btn.danger{color:var(--err)}
+.btn:disabled{opacity:.4;cursor:not-allowed}
+.panelbox{background:var(--row);border:1px solid var(--line);padding:10px 12px;margin-bottom:8px;display:grid;gap:10px}
+.panelbox h3{margin:0;font-size:.8rem;text-transform:uppercase;letter-spacing:.08em;color:var(--blue)}
+.panelbox textarea{width:100%;min-height:170px;background:#120e07;border:1px solid #4a3d22;border-radius:6px;padding:8px;font-family:ui-monospace,Menlo,Consolas,monospace;font-size:.82rem;resize:vertical}
+.panelbox input[type=number]{background:#241d10;border:1px solid #4a3d22;border-radius:5px;padding:4px 7px;width:90px}
+.row{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.muted{color:var(--muted);font-size:.86rem}
+.empty{padding:14px 12px;color:var(--muted);background:var(--row);border:1px solid var(--line)}
+.notes{display:grid;gap:8px}
+.notes article{background:var(--row);border:1px solid var(--line)}
+.notes h2{margin:0;padding:7px 10px;background:linear-gradient(90deg,var(--sec1),var(--sec2));font-size:1rem}
+.notes ul{margin:0;padding:10px 12px 10px 28px;display:grid;gap:5px;font-size:.9rem;color:#e6dcc0}
+@media (prefers-reduced-motion:reduce){.meter i,.sh svg{transition:none}}
+</style></head><body>
+
+<div class="app">
+  <header class="topbar">
+    <div class="brand">
+      <svg class="logo" viewBox="0 0 64 64" aria-hidden="true" style="stroke:none;fill:none;width:44px;height:44px"><defs><linearGradient id="gg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#f7dd85"/><stop offset=".55" stop-color="#d4a72c"/><stop offset="1" stop-color="#8a6512"/></linearGradient></defs><path d="M32 3l23 8v17c0 17-10 28-23 33C19 56 9 45 9 28V11z" fill="#6b171b" stroke="url(#gg)" stroke-width="3" style="stroke-linejoin:round"/><g fill="url(#gg)"><circle cx="32" cy="27" r="7"/><path d="M32 12l2 7h-4zM32 42l2-7h-4zM17 27l7-2v4zM47 27l-7-2v4zM21.5 16.5l7 4-3 3zM42.5 16.5l-7 4 3 3zM21.5 37.5l7-4-3-3zM42.5 37.5l-7-4 3-3z"/><path d="M31 8h2v47h-2z"/><path d="M32 4l-4 8h8z"/></g><circle cx="32" cy="27" r="3" fill="#6b171b"/></svg><div class="wm">Adeptus Custodes<small>11th Edition</small></div>
+      <input class="rname" id="rname" aria-label="Roster name" maxlength="40">
+    </div>
+    <div class="pts" id="pts"></div>
+    <div class="tb-sp"></div>
+    <button class="tbtn" data-act="panel" data-p="lists">My lists <svg viewBox="0 0 24 24"><path d="M4 5h16M4 10h16M4 15h10M4 20h7"/></svg></button>
+    <button class="tbtn" data-act="panel" data-p="export">Export <svg viewBox="0 0 24 24"><path d="M12 15V4M8 8l4-4 4 4M5 14v6h14v-6"/></svg></button>
+    <button class="tbtn" data-act="tab" data-tab="notesToggle">Data notes <svg viewBox="0 0 24 24"><path d="M5 4h11a3 3 0 0 1 3 3v13H8a3 3 0 0 1-3-3zM8 20a3 3 0 0 1-3-3"/></svg></button>
+    <button class="tbtn" data-act="panel" data-p="opts">Options <svg viewBox="0 0 24 24"><path d="M4 6h16M4 12h16M4 18h16"/></svg></button>
+    <div class="mtabs" id="mtabs" role="tablist">
+      <button role="tab" data-act="tab" data-tab="cat">Catalogue</button>
+      <button role="tab" data-act="tab" data-tab="roster" id="mt-roster">Roster</button>
+      <button role="tab" data-act="tab" data-tab="notes">Notes</button>
+    </div>
+    <div class="meter" id="meter"><i></i></div>
+  </header>
+
+  <div class="shell">
+    <aside class="lp" id="lp">
+      <div class="lp-head" id="lp-head"></div>
+      <div class="lp-body" id="lp-body"></div>
+      <div class="lp-search">
+        <input type="search" id="q" placeholder="Search units, categories, costs, keywords" aria-label="Search">
+        <button id="toggleNo" data-act="toggleNo" aria-pressed="true" title="Show units without points" aria-label="Show units without points"><svg viewBox="0 0 24 24"><path d="M4 5h16l-6 8v6l-4-2v-4z"/></svg></button>
+      </div>
+    </aside>
+    <main id="rp"></main>
+    <aside id="op"></aside>
+    <section id="np"></section>
+  </div>
+</div>
+
+<script>
+/* ============ DATA ============ */
+const CU = 'ADEPTUS CUSTODES', AP = 'ANATHEMA PSYKANA';
+
+// Detachments (PDF pages 92-105)
+const DETS = [
+ {id:'gott',name:'Guardians of the Throne',unique:false,gist:'All-rounder: Sustained Hits 1 or Lethal Hits in melee for every unit.',
+  rule:{n:'Martial Mastery',t:'In the Fight phase, when a friendly ADEPTUS CUSTODES unit is selected to fight, its melee attacks have [SUSTAINED HITS 1] or [LETHAL HITS] (choose one).'},
+  strats:[
+   ['Superhuman Focus',1,'Any phase','A friendly ADEPTUS CUSTODES unit that is not readied becomes readied. Same unit only once per battle round.'],
+   ['Unlimited Endurance',1,'Your Movement phase','After an advance move: ranged attacks have [ASSAULT]; the advance does not prevent declaring a charge.'],
+   ['Shield of Honour',1,'Start of Fight phase','INFANTRY/MOUNTED: an engaged enemy model that does not target your unit with all its attacks has -1 to hit and -1 to wound.'],
+   ['Prime Target',1,'Your Shooting phase','Ranged attacks: re-roll one hit roll, one wound roll, one damage roll.'],
+   ['In Auramite Clad',1,'Opponent Shooting / Fight','Attacks that target your unit (not Custodian Wardens) have -1 AP until that enemy unit has attacked.'],
+   ['Swift as the Eagle',1,'Opponent Movement','Enemy ends a move within 8" of an unengaged TRUSTED SENTINEL: that unit makes a normal move up to D3+3".']]},
+ {id:'shadow',name:'Shadowkeepers',unique:true,gist:'Melee objective defence and pressure on enemy morale.',
+  rule:{n:'Wardens of the Dark Cells',t:'ADEPTUS CUSTODES unit (not MONSTER/VEHICLE) within range of an objective: melee attacks targeting it with S greater than its T have -1 to wound.'},
+  ka:{n:'Kaptaris',t:'Select one enemy unit engaged with your unit: it makes a battle-shock roll with -1. Same enemy unit only once per phase.'},
+  strats:[
+   ['Grim Responsibility',1,'Fight phase','INFANTRY selected to fight: melee attacks have [LETHAL HITS: CHARACTER/MONSTER].'],
+   ['No Escape',2,'Opponent Movement','Enemy ends a fall-back move: your unengaged INFANTRY within 6" declares a charge (only against units that fell back and are within max distance).'],
+   ['Indomitable Guardians',1,'Opponent Fight phase','After an enemy unit has fought: your unit within an objective and eligible to fight has Fights First and must be your next unit selected to fight.']]},
+ {id:'solar',name:'Solar Watch',unique:true,gist:'Mobility: fall back without losing the charge, +2" Move.',
+  rule:{n:'Talon Sortie',t:'When a friendly ADEPTUS CUSTODES unit makes a fall-back move, it can still be eligible to charge.'},
+  ka:{n:'Calistus',t:'Your unit has +2" M.'},
+  strats:[
+   ['Inexorable',1,'Your Movement phase','Until end of turn, ignore modifiers to M, advance rolls and charge rolls.'],
+   ['At Spear’s Length',1,'Your Movement phase','Fall-back move does not prevent your unit from being eligible to shoot.'],
+   ['Gravimetric Grenade',1,'Start of opponent Charge','Unengaged unit: one visible enemy within 12" has -1 to its charge rolls when it declares a charge.']]},
+ {id:'aquilan',name:'Aquilan Shield',unique:true,gist:'Shooting: +6" range and objective protection against high-Strength shots.',
+  rule:{n:'Gilded Guardians',t:'ADEPTUS CUSTODES unit (not MONSTER/VEHICLE) within range of an objective: ranged attacks targeting it with S greater than its T have -1 to wound.'},
+  ka:{n:'Salvus',t:'Your unit’s ranged attacks have +6" R.'},
+  strats:[
+   ['Manoeuvre and Fire',1,'Your Movement phase','Fall-back move does not prevent shooting or declaring a charge.'],
+   ['Tip of the Talon',1,'Your Shooting phase','Ranged attacks that target an enemy unit within 9" have +1 S.'],
+   ['Rapid Reactions',1,'Opponent Movement','Enemy ends a fall-back move: your INFANTRY that was engaged with it shoots (normal shooting), only that enemy unit.']]},
+ {id:'dread',name:'Dread Host',unique:true,gist:'Charging: re-roll charge rolls, shorter pile-ins for the opponent.',
+  rule:{n:'Instruments of the Emperor’s Wrath',t:'Friendly ADEPTUS CUSTODES units can re-roll charge rolls.'},
+  ka:{n:'Dacatarai',t:'When an enemy unit engaged with your unit makes a pile-in/consolidation move, -2" from that move.'},
+  strats:[
+   ['Lightning Wrath',1,'Fight phase','Your unit’s pile-in move can be up to D3+3".'],
+   ['Golden Light of the Moiraides',2,'Your Movement phase','After an ingress move: until your next turn, attacks targeting your unit have -1 to hit and it cannot be targeted by snap shooting.'],
+   ['Preternatural Rapidity',1,'Your Movement phase','After an advance move: it does not prevent your unit from being eligible to declare a charge.']]},
+ {id:'emissaries',name:'Emissaries Imperatus',unique:true,gist:'Fights First for everyone, objectives and actions.',
+  rule:{n:'Heralds of the Throne',t:'Friendly ADEPTUS CUSTODES units have Fights First.'},
+  ka:{n:'Conservai',t:'Until end of turn, advance/fall-back moves do not prevent your unit from being eligible to start an action.'},
+  strats:[
+   ['Bearers of His Light',1,'Fight phase','Your unit’s melee attacks can ignore modifiers to hit rolls and wound rolls.'],
+   ['Slayers of Nightmares',1,'Fight phase','Melee attacks that target a unit with a T greater than your unit’s T have +1 to wound.'],
+   ['Selfless Service',1,'End of opponent Charge','Unengaged unit within 6" of an enemy unit declares a charge (charge roll above 6 becomes 6; targets only within 6").']]},
+ {id:'chosen',name:'Emperor’s Chosen',unique:true,gist:'Re-roll one hit and one wound for any unit that attacks.',
+  rule:{n:'Magna Imperator',t:'When a friendly ADEPTUS CUSTODES unit is selected to attack, its attacks can re-roll one hit roll and one wound roll.'},
+  ka:{n:'Rendax',t:'Select one enemy MONSTER/VEHICLE engaged with your unit, roll D6: 1-2 = 1 mortal wound, 3-5 = D3, 6 = 3 mortal wounds.'},
+  strats:[
+   ['Superhuman Focus',1,'End of any phase','A friendly ADEPTUS CUSTODES unit that is not readied becomes readied. Once per unit per battle round.'],
+   ['In Auramite Clad',1,'Opponent Shooting / Fight','Attacks that target your unit (not Custodian Wardens) have -1 AP until that enemy unit has attacked.'],
+   ['Impenetrable Bastion',1,'End of your Movement','Unit (not MONSTER/VEHICLE) controlling an objective: that objective is secured.']]},
+ {id:'auric',name:'Auric Champions',unique:false,gist:'Big-game hunting: Characters get +1 to wound against the chosen target.',
+  rule:{n:'Assemblage of Might',t:'In your Command phase, select one enemy unit to be a dreadful foe until your next Command phase. ADEPTUS CUSTODES CHARACTER attacks against it have +1 to wound.'},
+  strats:[
+   ['Gilded Champion',1,'Any phase','After a CHARACTER used a (once per battle, per unit) datasheet ability: use it one additional time, not in the same phase. Once per battle per model.'],
+   ['Duty Unto Death',1,'Fight phase','When a model is destroyed (unit not yet selected to fight): roll D6 (+1 if CHARACTER); on 3+ it stays on the battlefield until the unit has fought.']]},
+ {id:'honoured',name:'Honoured Companions',unique:false,gist:'Trusted Sentinel: re-roll wound rolls of 1 on objectives.',
+  rule:{n:'Companion’s Watch',t:'TRUSTED SENTINEL unit within range of an objective: its attacks can re-roll wound rolls of 1.'},
+  strats:[
+   ['Emperor’s Domain',1,'Fight phase','TRUSTED SENTINEL consolidation: may use the objective consolidation mode regardless of its Before Moving restrictions.'],
+   ['Avenge the Fallen',1,'Fight phase','TRUSTED SENTINEL below starting strength: melee attacks (not CHARACTER models) have +2 A.'],
+   ['Swift as the Eagle',1,'Opponent Movement','Enemy ends a move within 8" of an unengaged TRUSTED SENTINEL: normal move up to D3+3".']]},
+ {id:'lions',name:'Lions of the Emperor',unique:false,gist:'Terminators: back to strategic reserves, aggressive ingress.',
+  rule:{n:'On Gilded Wings',t:'At the end of your opponent’s Fight phase, an unengaged ADEPTUS CUSTODES TERMINATOR unit can be placed in strategic reserves.'},
+  strats:[
+   ['Vigil Unending',2,'Opponent Shooting / Fight','TERMINATOR unit targeted: attacks that target it have -1 D until that enemy unit has attacked.'],
+   ['Unleash the Lions',1,'Your Command phase','TERMINATOR unit with 2+ models splits into separate one-model units.'],
+   ['Fury of the Emperor',1,'Your Charge phase','TERMINATOR unit that made an ingress move this turn: +2 to charge rolls.']]},
+ {id:'moritoi',name:'Might of the Moritoi',unique:false,gist:'Dreadnoughts that get more dangerous when wounded.',
+  rule:{n:'Moritoi Ancients',t:'DREADNOUGHT at starting strength: +2 OC. Below starting strength: re-roll hit rolls of 1. Below half-strength: re-roll hit and wound rolls of 1.'},
+  strats:[
+   ['Honoured Interred',1,'Shooting / Fight','Unit gains an aura: friendly DREADNOUGHT within 6" can re-roll hit rolls of 1.'],
+   ['Unceasing Onslaught',1,'Your Movement phase','After an advance move: ranged attacks have [ASSAULT]; the advance does not prevent a charge.'],
+   ['Unstoppable Momentum',1,'Movement / Charge','DREADNOUGHT unit has MOBILE.']]},
+ {id:'grav',name:'Grav-Assault Force',unique:false,gist:'Grav-Assault vehicles: 4+ invulnerable save against shooting.',
+  rule:{n:'Flare Shields',t:'Friendly GRAV-ASSAULT units have 4+ InSv against ranged attacks.'},
+  strats:[
+   ['Victory Before Death',1,'Any phase','GRAV-ASSAULT unit within range of an objective is destroyed: that objective can become secured (conditions apply).'],
+   ['Advanced Stabilisers',1,'Your Shooting phase','Your unit’s ranged attacks have [ASSAULT].'],
+   ['Inevitable Annihilation',1,'Your Shooting phase','Your unit can ignore modifiers to BS and hit rolls.']]},
+ {id:'nmv',name:'Null Maiden Vigil',unique:false,gist:'Anathema Psykana: can be Warlord, Prosecutors become Battleline.',
+  rule:{n:'Silent Sisterhood',t:'You can select a friendly ANATHEMA PSYKANA CHARACTER as your WARLORD. Friendly PROSECUTOR SQUAD units have BATTLELINE. Friendly ANATHEMA PSYKANA units have Creeping Dread (aura): enemy PSYKER/below-starting-strength units within 12" take battle-shock with -1.'},
+  strats:[
+   ['Anathema Blademastery',1,'Fight phase','VIGILATOR SQUAD: attacks have [SUSTAINED HITS 1] or [LETHAL HITS].'],
+   ['Psy-Chaff Volley',1,'Your Shooting phase','After a PROSECUTOR SQUAD shot: one enemy unit hit becomes prosecuted (+1 AP against it).'],
+   ['Purgation Sweep',1,'Your Shooting phase','WITCHSEEKER SQUAD: [TORRENT] attacks have +1 A, or +2 A against PSYKER/battle-shocked units.']]}
+];
+
+// Enhancements (enh) and Upgrades (upg). req = required keywords; any = at least one; not = excluded
+const ENH = [
+ {id:'bane',p:20,det:'gott',name:'Bane of Abominations',k:'enh',req:[CU,'CHARACTER'],t:'Attacks that target an enemy CHARACTER/MONSTER/VEHICLE unit have +1 to wound.'},
+ {id:'light',p:15,det:'gott',name:'Emperor’s Light',k:'enh',req:[CU,'CHARACTER'],t:'Gains Emperor’s Light [EXTRA ATTACKS]: Melee, A3, WS2+, S5, AP-2, D2.'},
+ {id:'castellan',p:25,det:'gott',name:'Castellan’s Mark',k:'enh',req:[CU,'CHARACTER'],t:'After deployment: redeploy up to 3 friendly ADEPTUS CUSTODES units, possibly into strategic reserves.'},
+ {id:'eagleeye',p:30,det:'gott',name:'Eagle’s Eye',k:'enh',req:[CU,'CHARACTER'],t:'+1 W. Once per battle, per army: 3+ InSv ability when attacks are allocated (text partly illegible in the photo).'},
+ {id:'genal',p:30,det:'shadow',name:'Genalchemic Warding',k:'enh',req:[CU,'CHARACTER'],t:'Feel No Pain 5+.'},
+ {id:'unstop',p:25,det:'shadow',name:'Unstoppable Destroyer',k:'enh',req:[CU,'INFANTRY','CHARACTER'],t:'Pile-in/consolidation up to 4", any consolidation mode regardless of Before Moving restrictions.'},
+ {id:'sally',p:30,det:'solar',name:'Sally Forth',k:'enh',req:[CU,'SHIELD-CAPTAIN'],t:'Start of your Charge phase: one friendly ADEPTUS CUSTODES INFANTRY unit within 6" of this model; if it advanced this turn, that advance does not prevent it from declaring a charge.'},
+ {id:'eagle',p:15,det:'solar',name:'Auric Eagle',k:'upg',req:[CU],any:['INFANTRY','MOUNTED'],not:['TERMINATOR'],t:'Unit has +1 to advance rolls and charge rolls (INFANTRY/MOUNTED, not TERMINATOR).'},
+ {id:'pareldor',p:30,det:'aquilan',name:'Pareldor’s Caducatrix',k:'enh',req:[CU,'CHARACTER'],t:'Once per battle, per army, at the start of any phase: heals D3+3 wounds.'},
+ {id:'shell',p:10,det:'aquilan',name:'Not a Shell Wasted',k:'enh',req:[CU,'INFANTRY','CHARACTER'],t:'The unit’s ranged attacks have +1 A.'},
+ {id:'exemplar',p:15,det:'dread',name:'Auric Exemplar',k:'enh',req:[CU,'CHARACTER'],t:'Melee attacks have [CLEAVE 1].'},
+ {id:'bladework',p:15,det:'dread',name:'Flawless Bladework',k:'enh',req:[CU,'CHARACTER'],t:'Melee attacks have [SUSTAINED HITS 1].'},
+ {id:'orb',p:20,det:'emissaries',name:'Auriferous Orb',k:'enh',req:[CU,'CHARACTER'],t:'Gains Auriferous Orb: 12", A3, BS2+, S1, AP0, D1 [ANTI-non-MONSTER/VEHICLE 2+, BLINDING LIGHT, DEVASTATING WOUNDS].'},
+ {id:'edge',p:15,det:'emissaries',name:'Edge of the Blade',k:'enh',req:[CU,'CHARACTER'],t:'If the unit charged this turn: re-roll hit rolls and wound rolls of 1.'},
+ {id:'mantle',p:40,det:'chosen',name:'Radiant Mantle',k:'enh',req:[CU,'INFANTRY','CHARACTER'],t:'Attacks that target this unit have -1 to hit.'},
+ {id:'armouries',p:15,det:'chosen',name:'From the Hall of Armouries',k:'enh',req:[CU,'CHARACTER'],t:'Melee attacks have [DEVASTATING WOUNDS].'},
+ {id:'shroud',p:20,det:'auric',name:'Shroud of the Hidden Blade',k:'enh',req:[CU,'CHARACTER'],t:'Stealth and Lone Operative.'},
+ {id:'inspir',p:10,det:'auric',name:'Inspirational Exemplar',k:'enh',req:[CU,'INFANTRY','CHARACTER'],t:'Once per battle round, per army: a battle-shocked friendly unit within 9" is no longer battle-shocked.'},
+ {id:'superior',p:30,det:'auric',name:'Superior Creation',k:'enh',req:[CU,'INFANTRY','CHARACTER'],t:'When destroyed, roll D6: on 2+ set it back up unengaged with 3 wounds remaining.'},
+ {id:'arae',p:20,det:'honoured',name:'Arae-Shrike',k:'enh',req:[CU,'INFANTRY','CHARACTER'],t:'Enemy units making an ingress move cannot be set up within 12" of this unit.'},
+ {id:'celer',p:15,det:'honoured',name:'Celeritous Sentries',k:'upg',req:['TRUSTED SENTINEL'],t:'Once per phase, per unit: target with Heroic Intervention at -1 CP without blocking other uses.'},
+ {id:'descent',p:20,det:'lions',name:'Lightning Descent',k:'enh',req:['SHIELD-CAPTAIN IN ALLARUS TERMINATOR ARMOUR'],t:'In your first Movement phase this unit can make an ingress move.'},
+ {id:'leonine',p:20,det:'lions',name:'Fierce Conqueror',k:'enh',req:['SHIELD-CAPTAIN IN ALLARUS TERMINATOR ARMOUR'],t:'Once per phase, per army: Rapid Ingress on this unit at -1 CP without blocking other uses.'},
+ {id:'memento',p:30,det:'moritoi',name:'Memento Moritoi',k:'upg',req:[CU,'DREADNOUGHT'],t:'One per army. Melee attacks have +1 A, +1 S and +1 D.'},
+ {id:'augury',p:30,det:'moritoi',name:'Augury Uplink',k:'upg',req:[CU,'DREADNOUGHT'],t:'One per army. Feel No Pain 5+.'},
+ {id:'combat',p:20,det:'grav',name:'Combat Deployment',k:'upg',req:['GRAV-ASSAULT','TRANSPORT'],t:'When a unit disembarks from this transport: it can re-roll charge rolls and cannot be targeted by snap shooting.'},
+ {id:'antigrav',p:15,det:'grav',name:'Anti-Gravitic Mobility',k:'upg',req:['GRAV-ASSAULT'],t:'A fall-back move does not prevent this unit from being eligible to shoot.'},
+ {id:'oblivion',p:15,det:'nmv',name:'Oblivion Knight',k:'enh',req:[AP,'CHARACTER'],t:'+1 to hit rolls, or +1 to hit and wound if it targets a PSYKER/battle-shocked unit.'},
+ {id:'huntress',p:10,det:'nmv',name:'Huntress’ Eye',k:'enh',req:[AP,'CHARACTER'],t:'Movement phase: one visible enemy within 12" makes a battle-shock roll with -1.'}
+];
+
+// Display categories
+const CATS = [['char','Characters'],['bl','Battleline'],['inf','Infantry'],['term','Terminators'],['mnt','Mounted'],['dread','Dreadnoughts'],['veh','Grav Vehicles'],['ana','Anathema Psykana']];
+
+// Units. p = points (null = not provided). r = to be confirmed. ups = surcharge from the nth copy.
+const U = [
+ {id:'trajann',name:'Trajann Valoris',cat:'char',kw:[CU,'INFANTRY','CHARACTER','EPIC HERO','IMPERIUM'],st:'8" · T7 · 2+ · W10 · OC2 · Inv 4+',opts:[{l:'1 model',p:265}]},
+ {id:'sc',name:'Shield-Captain',cat:'char',kw:[CU,'INFANTRY','CHARACTER','IMPERIUM','SHIELD-CAPTAIN'],st:'8" · T7 · 2+ · W8 · OC2 · Inv 4+',opts:[{l:'On foot',p:180}],ups:{2:20}},
+ {id:'scall',name:'Shield-Captain in Allarus Terminator Armour',cat:'char',kw:[CU,'INFANTRY','CHARACTER','IMPERIUM','SHIELD-CAPTAIN','TERMINATOR','SHIELD-CAPTAIN IN ALLARUS TERMINATOR ARMOUR'],st:'7" · T8 · 2+ · W9 · OC2 · Inv 4+',opts:[{l:'1 model',p:185}],ups:{2:20}},
+ {id:'scjet',name:'Shield-Captain on Dawneagle Jetbike',cat:'char',kw:[CU,'MOUNTED','CHARACTER','FLY','IMPERIUM','SHIELD-CAPTAIN'],st:'12" · T8 · 2+ · W10 · OC2 · Inv 4+',opts:[{l:'1 model',p:205}],ups:{2:20}},
+ {id:'blade',name:'Blade Champion',cat:'char',kw:[CU,'INFANTRY','CHARACTER','IMPERIUM'],st:'8" · T7 · 2+ · W7 · OC2 · Inv 4+',opts:[{l:'1 model',p:175}]},
+ {id:'kc',name:'Knight-Centura',cat:'ana',kw:[AP,'INFANTRY','CHARACTER','IMPERIUM'],st:'7" · T3 · 3+ · W4 · OC1 · Inv 5+',opts:[{l:'1 model',p:55}]},
+
+ {id:'sentinel',name:'Sentinel Guard Sodality',cat:'bl',kw:[CU,'INFANTRY','BATTLELINE','IMPERIUM','TRUSTED SENTINEL'],st:'8" · T7 · 2+ · W5 · OC3 · Inv 4+',opts:[{l:'3 models',p:240}],ups:{3:30}},
+ {id:'guard',name:'Custodian Guard',cat:'bl',kw:[CU,'INFANTRY','BATTLELINE','IMPERIUM','TRUSTED SENTINEL'],st:'8" · T7 · 2+ · W5 · OC3 · Inv 4+',opts:[{l:'3 models',p:240}],ups:{3:30}},
+
+ {id:'wardens',name:'Custodian Wardens',cat:'inf',kw:[CU,'INFANTRY','IMPERIUM','TRUSTED SENTINEL'],st:'8" · T7 · 2+ · W6 · OC2 · Inv 4+',opts:[{l:'2 models',p:200},{l:'3 models',p:295}],ups:{2:30}},
+ {id:'venk',name:'Venatari Custodians — Kinetic Destroyers',cat:'inf',kw:[CU,'INFANTRY','EXPLOSIVES','FLY','JUMP PACK','IMPERIUM'],st:'12" · T7 · 2+ · W5 · OC2 · Inv 4+',opts:[{l:'3 models',p:255}],ups:{3:25}},
+ {id:'venl',name:'Venatari Custodians — Verutum Lances',cat:'inf',kw:[CU,'INFANTRY','EXPLOSIVES','FLY','JUMP PACK','IMPERIUM'],st:'12" · T7 · 2+ · W5 · OC2 · Inv 4+',opts:[{l:'3 models',p:270}],ups:{3:30},flag:'Source says "about 300" from the 3rd unit, sentence cut off: +30 assumed.'},
+
+ {id:'allarus',name:'Allarus Custodians',cat:'term',kw:[CU,'INFANTRY','IMPERIUM','TERMINATOR'],st:'7" · T8 · 2+ · W6 · OC2 · Inv 4+',opts:[{l:'2 models',p:180},{l:'3 models',p:270}],ups:{3:30}},
+ {id:'aquilon',name:'Aquilon Custodians',cat:'term',kw:[CU,'INFANTRY','IMPERIUM','TERMINATOR'],st:'7" · T8 · 2+ · W6 · OC2 · Inv 4+',opts:[{l:'Solarite Power Gauntlets · 3 models',p:285},{l:'Solarite Power Talons · 3 models',p:275}]},
+
+ {id:'vertus',name:'Vertus Praetors',cat:'mnt',kw:[CU,'MOUNTED','FLY','IMPERIUM'],st:'12" · T8 · 2+ · W7 · OC2 · Inv 4+',opts:[{l:'2 models',p:220},{l:'3 models',p:330}],ups:{2:20}},
+ {id:'gyrfalcon',name:'Gyrfalcon Jetbike Sodality',cat:'mnt',kw:[CU,'MOUNTED','FLY','IMPERIUM'],st:'12" · T8 · 2+ · W9 · OC2 · Inv 4+',opts:[{l:'2 models',p:260},{l:'3 models',p:390,r:true}],flag:'3-model price: old rumor (Agamatus), to be confirmed.'},
+
+ {id:'galatus',name:'Contemptor-Galatus Dreadnought',cat:'dread',kw:[CU,'VEHICLE','DREADNOUGHT','IMPERIUM','WALKER'],st:'9" · T10 · 2+ · W12 · OC3 · Inv 4+',opts:[{l:'Estimate 220',p:220,r:true},{l:'Estimate 230',p:230,r:true}],flag:'The transcript contradicts itself: 220 or 230.'},
+ {id:'achillus',name:'Contemptor-Achillus Dreadnought',cat:'dread',kw:[CU,'VEHICLE','DREADNOUGHT','IMPERIUM','WALKER'],st:'9" · T10 · 2+ · W12 · OC3 · Inv 5+',opts:[{l:'1 model',p:220}]},
+ {id:'telemon',name:'Telemon Heavy Dreadnought',cat:'dread',kw:[CU,'VEHICLE','DREADNOUGHT','IMPERIUM','WALKER'],st:'10" · T11 · 2+ · W14 · OC4 · Inv 4+',opts:[{l:'1 model',p:280}],ups:{2:30}},
+
+ {id:'pallas',name:'Pallas Grav-Attack',cat:'veh',kw:[CU,'VEHICLE','FLY','FRAME','GRAV-ASSAULT','IMPERIUM'],st:'12" · T9 · 2+ · W10 · OC2 · Inv 5+',opts:[{l:'1 model',p:135}]},
+ {id:'caladius',name:'Caladius Grav-Tank',cat:'veh',kw:[CU,'VEHICLE','CALADIUS','FLY','FRAME','GRAV-ASSAULT','IMPERIUM'],st:'10" · T11 · 2+ · W14 · OC4 · Inv 5+',opts:[{l:'1 model',p:230}],ups:{3:30}},
+ {id:'annihilator',name:'Caladius Annihilator Grav-Tank',cat:'veh',kw:[CU,'VEHICLE','CALADIUS','FLY','FRAME','GRAV-ASSAULT','IMPERIUM'],st:'10" · T11 · 2+ · W14 · OC4 · Inv 5+',opts:[{l:'1 model',p:250}],ups:{3:30}},
+ {id:'coronus',name:'Coronus Grav-Carrier',cat:'veh',kw:[CU,'VEHICLE','FLY','FRAME','GRAV-ASSAULT','IMPERIUM','TRANSPORT'],st:'12" · T12 · 2+ · W16 · OC5 · Inv 5+ · Transport 12',opts:[{l:'1 model',p:225}],ups:{3:20}},
+
+ {id:'prosec',name:'Prosecutor Squad',cat:'ana',kw:[AP,'INFANTRY','IMPERIUM','PROSECUTOR SQUAD'],st:'7" · T3 · 3+ · W1 · OC2 · 4 to 10 models',opts:[{l:'4 models',p:45},{l:'5 models (+5)',p:50,r:true}],flag:'The 5-model price comes from the previous version and is missing from the latest. Other sizes: not listed.'},
+ {id:'witch',name:'Witchseeker Squad',cat:'ana',kw:[AP,'INFANTRY','IMPERIUM','WITCHSEEKER SQUAD'],st:'7" · T3 · 3+ · W1 · OC1 · 4 to 10 models',opts:[{l:'4 models',p:55},{l:'10 models',p:110}],flag:'Sizes from 5 to 9 models: not listed.'},
+ {id:'vigil',name:'Vigilator Squad',cat:'ana',kw:[AP,'INFANTRY','IMPERIUM','VIGILATOR SQUAD'],st:'7" · T3 · 3+ · W1 · OC1 · 4 to 10 models',opts:[{l:'4 models',p:50},{l:'10 models',p:100}],flag:'Sizes from 5 to 9 models: not listed.'},
+ {id:'rhino',name:'Anathema Psykana Rhino',cat:'ana',kw:[AP,'VEHICLE','DEDICATED TRANSPORT','FRAME','IMPERIUM','SMOKE','TRANSPORT'],st:'12" · T9 · 3+ · W10 · OC2 · Transport 12',opts:[{l:'1 model',p:null}]}
+];
+
+// Wargear options (codex datasheets). k: 'one' = pick one loadout (c[0] = default), 'tog' = optional add-on (0/1),
+// 'each' = each model may swap f (default weapon) for one of c; counts per alternative, total up to the model count.
+// None of these options has a points cost in the datasheets. opt = only for that unit option index.
+const WG = {
+ sc:[{id:'m',k:'one',t:'Melee weapon and shield',c:['Pyrithite Spear + Praesidium Shield','Eternity-pattern Paragon Blade (replaces the Pyrithite Spear)','Castellan Axe (replaces spear and shield)','Guardian Spear (replaces spear and shield)']}],
+ scall:[{id:'m',k:'one',t:'Melee weapon',c:['Guardian Spear','Castellan Axe']}],
+ scjet:[{id:'r',k:'one',t:'Ranged weapon',c:['Salvo Launcher','Hurricane Bolter']}],
+ sentinel:[{id:'v',k:'tog',t:'Standard bearer',c:['Vexilla (1 model)']}],
+ guard:[{id:'v',k:'tog',t:'Standard bearer',c:['Vexilla (1 model)']}],
+ wardens:[{id:'a',k:'each',t:'Melee weapons',f:'Guardian Spear',c:['Castellan Axe']},{id:'v',k:'tog',t:'Standard bearer',c:['Vexilla (1 model)']}],
+ allarus:[{id:'a',k:'each',t:'Melee weapons',f:'Guardian Spear',c:['Castellan Axe']},{id:'v',k:'tog',t:'Standard bearer',c:['Vexilla (1 model)']}],
+ aquilon:[{id:'r',k:'each',t:'Ranged weapons',f:'Lastrum Storm Bolter',c:['Infernus Firepike'],opt:1}],
+ achillus:[{id:'r',k:'one',t:'Lastrum Storm Bolters (2)',c:['2 Lastrum Storm Bolters','2 Adrathic Combi-destructors','2 Twin Infernus Incinerators']}],
+ vertus:[{id:'r',k:'each',t:'Ranged weapons',f:'Salvo Launcher',c:['Hurricane Bolter']}],
+ gyrfalcon:[{id:'r',k:'each',t:'Ranged weapons',f:'Lastrum Bolt Cannon',c:['Adrathic Devastator','Arachnus Volley Cannon','Twin Corvae Las-pulser']}],
+ telemon:[{id:'l',k:'one',t:'Heavy weapons',c:['Dual Caestus Fists + 2 Twin Neutronium Cascade Projectors','Adrathic Desolator + Caestus Fist + Twin Neutronium Cascade Projectors','Arachnus Storm Cannon + Caestus Fist + Twin Neutronium Cascade Projectors','Caestus Fist + Iliastus Accelerator Culverin + Twin Neutronium Cascade Projectors']}],
+ pallas:[{id:'r',k:'one',t:'Main weapon',c:['Twin Arachnus Blaze Cannon','Twin Iliastus Accelerator Fusil']}],
+ coronus:[{id:'r',k:'one',t:'Secondary weapon',c:['Twin Lastrum Bolt Cannon','Twin Neutronium Cascade Projectors']}],
+ caladius:[{id:'r',k:'one',t:'Secondary weapon',c:['Twin Lastrum Bolt Cannon','Twin Neutronium Cascade Projectors']}],
+ annihilator:[{id:'r',k:'one',t:'Secondary weapon',c:['Twin Lastrum Bolt Cannon','Twin Neutronium Cascade Projectors'],flag:true}],
+ kc:[{id:'m',k:'one',t:'Weapon',c:['Executioner Greatblade','Master-crafted Boltgun + Gun Stock','Master-crafted Flamer + Gun Stock']}],
+ rhino:[{id:'h',k:'tog',t:'Equipment',c:['Hunter-killer Missile']}]
+};
+const UM = Object.fromEntries(U.map(u=>[u.id,u]));
+const DM = Object.fromEntries(DETS.map(d=>[d.id,d]));
+const EM = Object.fromEntries(ENH.map(e=>[e.id,e]));
+const DP_COST = {gott:3}; // tous les autres : 1
+DETS.forEach(d=>d.dp = DP_COST[d.id]||1);
+const DP_DEFAULT = 3;
+
+/* ============ STATE ============ */
+const KEY = 'custodes11-list-v3';
+let S = {limit:2000, dpMax:DP_DEFAULT, dets:[], list:[], warlord:null, tab:'cat', name:'My roster', currentId:null, savedSig:null};
+let uidSeq = 1;
+
+function load(){
+  try{
+    const raw = localStorage.getItem(KEY);
+    if(!raw) return;
+    const o = JSON.parse(raw);
+    if(typeof o.limit==='number' && o.limit>0) S.limit=o.limit;
+    if(typeof o.dpMax==='number' && o.dpMax>0) S.dpMax=o.dpMax;
+    if(Array.isArray(o.dets)) S.dets=o.dets.filter(id=>DM[id]);
+    if(Array.isArray(o.list)) S.list=o.list.filter(it=>UM[it.id]).map(it=>({uid:uidSeq++,id:it.id,opt:Math.min(it.opt|0,UM[it.id].opts.length-1),custom:+it.custom||0,enh:it.enh||null,upg:it.upg||null,wg:it.wg||{},_w:!!it.w}));
+    const w=S.list.find(i=>i._w); S.warlord = w?w.uid:null; S.list.forEach(i=>delete i._w);
+    if(['cat','roster','notes'].includes(o.tab)) S.tab=o.tab;
+    if(typeof o.name==='string' && o.name) S.name=o.name.slice(0,40);
+    if(typeof o.currentId==='string') S.currentId=o.currentId;
+    if(typeof o.savedSig==='string') S.savedSig=o.savedSig;
+  }catch(e){}
+}
+function save(){
+  try{
+    localStorage.setItem(KEY, JSON.stringify({currentId:S.currentId,savedSig:S.savedSig,name:S.name,limit:S.limit,dpMax:S.dpMax,dets:S.dets,tab:S.tab,
+      list:S.list.map(i=>({id:i.id,opt:i.opt,custom:i.custom,enh:i.enh,upg:i.upg,wg:i.wg||{},w:i.uid===S.warlord}))}));
+  }catch(e){}
+}
+
+/* ============ RULES ============ */
+const basePts = it => { const o=UM[it.id].opts[it.opt]; return o.p!=null ? o.p : (it.custom||0); };
+// Later copies cost more: u.ups = {n: surcharge from the nth copy of the datasheet}
+const copyIdx = it => { let n=0; for(const i of S.list){ if(i.id===it.id){ n++; if(i===it) return n; } } return n; };
+const surcharge = it => { const u=UM[it.id]; if(!u.ups) return 0; const n=copyIdx(it); let s=0; Object.keys(u.ups).map(Number).sort((a,b)=>a-b).forEach(k=>{ if(n>=k) s=u.ups[k]; }); return s; };
+const enhPts = it => (it.enh?EM[it.enh].p:0) + (it.upg?EM[it.upg].p:0);
+const pts = it => basePts(it) + surcharge(it) + enhPts(it);
+const dpUsed = () => S.dets.reduce((a,id)=>a+DM[id].dp,0);
+const optLabel = o => o.l + (o.r?' (to be confirmed)':'');
+const priced = it => UM[it.id].opts[it.opt].p!=null || it.custom>0;
+const total = () => S.list.reduce((a,i)=>a+pts(i),0);
+const uniqueSel = () => S.dets.find(id=>DM[id].unique);
+
+function eligible(u,e){
+  const k=new Set(u.kw);
+  if(e.k==='enh' && k.has('EPIC HERO')) return false;
+  if(e.req && !e.req.every(x=>k.has(x))) return false;
+  if(e.any && !e.any.some(x=>k.has(x))) return false;
+  if(e.not && e.not.some(x=>k.has(x))) return false;
+  return true;
+}
+function detLock(id){
+  if(S.dets.includes(id)) return null;
+  if(dpUsed()+DM[id].dp>S.dpMax) return 'Not enough detachment points: '+dpUsed()+'/'+S.dpMax+' used, this detachment costs '+DM[id].dp+'.';
+  if(DM[id].unique){ const u=uniqueSel(); if(u) return 'Only one Unique Shield Host allowed: '+DM[u].name+' is already selected.'; }
+  return null;
+}
+function canWarlord(it){
+  const u=UM[it.id];
+  if(!u.kw.includes('CHARACTER')) return false;
+  if(u.kw.includes(CU)) return true;
+  return u.kw.includes(AP) && S.dets.includes('nmv');
+}
+function usedEnh(exceptUid){
+  const s=new Set(); S.list.forEach(i=>{ if(i.uid!==exceptUid){ if(i.enh) s.add(i.enh); if(i.upg) s.add(i.upg);} }); return s;
+}
+function availEnh(it,k){
+  const u=UM[it.id], used=usedEnh(it.uid);
+  return ENH.filter(e=>e.k===k && S.dets.includes(e.det) && eligible(u,e) && !used.has(e.id));
+}
+
+// ---- wargear helpers ----
+const nModels = it => { const m=/(\d+) models?/.exec(UM[it.id].opts[it.opt].l); return m?+m[1]:1; };
+const wgGroups = it => (WG[it.id]||[]).filter(g=>g.opt==null||g.opt===it.opt);
+function wgClean(it){
+  const out={};
+  wgGroups(it).forEach(g=>{
+    const v=it.wg&&it.wg[g.id];
+    if(g.k==='one'){ const n=v|0; if(n>0&&n<g.c.length) out[g.id]=n; }
+    else if(g.k==='tog'){ if(v) out[g.id]=1; }
+    else { let left=nModels(it); const a=g.c.map((_,i)=>{ const n=Math.max(0,Math.min(left,(Array.isArray(v)?v[i]:0)|0)); left-=n; return n; }); if(a.some(x=>x>0)) out[g.id]=a; }
+  });
+  it.wg=out;
+}
+function wgDesc(it){
+  const L=[];
+  wgGroups(it).forEach(g=>{
+    const v=it.wg&&it.wg[g.id];
+    if(g.k==='one'){ if(v>0) L.push(g.c[v].replace(/ \(replaces.*\)$/,'')); }
+    else if(g.k==='tog'){ if(v) L.push(g.c[0]); }
+    else if(Array.isArray(v)) v.forEach((n,i)=>{ if(n>0) L.push(n+'× '+g.c[i]); });
+  });
+  return L;
+}
+
+// Restore a valid state after every change
+function normalize(){
+  const notes=[];
+  // detachments: within the DP budget, one unique only
+  const keep=[]; let uniq=false, dp=0;
+  S.dets.forEach(id=>{ if(!DM[id]||keep.includes(id)) return; if(dp+DM[id].dp>S.dpMax) return; if(DM[id].unique){ if(uniq) return; uniq=true; } dp+=DM[id].dp; keep.push(id); });
+  S.dets=keep;
+  const seen=new Set();
+  S.list.forEach(it=>{
+    ['enh','upg'].forEach(k=>{
+      const id=it[k]; if(!id) return;
+      const e=EM[id];
+      let bad = !e || e.k!==k || !S.dets.includes(e.det) || !eligible(UM[it.id],e) || seen.has(id);
+      if(bad){ if(e) notes.push(e.name+' removed from '+UM[it.id].name+'.'); it[k]=null; } else seen.add(id);
+    });
+  });
+  S.list.forEach(wgClean);
+  // warlord
+  const hasT = S.list.find(i=>i.id==='trajann');
+  if(hasT) S.warlord = hasT.uid;
+  const w = S.list.find(i=>i.uid===S.warlord);
+  if(!w || !canWarlord(w)){ if(w) notes.push('Warlord removed: '+UM[w.id].name+' is no longer eligible.'); S.warlord=null; }
+  if(notes.length) UI.msg=notes.join(' ');
+}
+
+function issues(){
+  const out=[]; const t=total();
+  if(t>S.limit) out.push(['err','Over the '+S.limit+' pts limit by '+(t-S.limit)+' pts.']);
+  if(!S.dets.length) out.push(['warn','No detachment selected.']);
+  if(S.list.length){
+    if(!S.warlord){
+      const any=S.list.some(canWarlord);
+      out.push(['warn', any?'No Warlord selected.':'No Character eligible as Warlord. Add an ADEPTUS CUSTODES Character.']);
+    }
+  }
+  const np=S.list.filter(i=>!priced(i));
+  if(np.length) out.push(['warn',np.length+' unit(s) without listed points: counted at '+(np.every(i=>!i.custom)?'0':'your value')+'.']);
+  if(S.list.some(i=>i.id==='trajann')) out.push(['info','Trajann Valoris: Supreme Commander, he must be your Warlord.']);
+  if(S.list.some(i=>UM[i.id].kw.includes(AP)) ) out.push(['info','Anathema Psykana: units allowed in the army, never Warlord except with Null Maiden Vigil.']);
+  if(S.list.some(i=>i.id==='prosec') && !S.dets.includes('nmv')) out.push(['info','Prosecutor Squad: Battleline only with Null Maiden Vigil.']);
+  const tbc=S.list.filter(i=>UM[i.id].opts[i.opt].r);
+  if(tbc.length) out.push(['info','Prices to confirm: '+[...new Set(tbc.map(i=>UM[i.id].name))].join(', ')+'.']);
+  const sur=S.list.filter(i=>surcharge(i)>0);
+  if(sur.length) out.push(['info','Later copies cost more: '+sur.map(i=>UM[i.id].name+' +'+surcharge(i)).join(', ')+'.']);
+  if(!out.some(o=>o[0]==='err'||o[0]==='warn') && S.list.length) out.unshift(['ok','List is valid according to the provided rules.']);
+  return out;
+}
+
+/* ============ RENDER ============ */
+const $ = s => document.querySelector(s);
+const esc = s => String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const IC = {
+ plus:'<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg>',
+ eye:'<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg>',
+ copy:'<svg viewBox="0 0 24 24" aria-hidden="true"><rect x="9" y="9" width="11" height="11" rx="1.5"/><path d="M5 15V5a1 1 0 0 1 1-1h10"/></svg>',
+ trash:'<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16M10 11v6M14 11v6M6 7l1 13h10l1-13M9 7V4h6v3"/></svg>',
+ gear:'<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3M4.9 4.9l2.1 2.1M17 17l2.1 2.1M4.9 19.1L7 17M17 7l2.1-2.1"/></svg>',
+ down:'<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 4v15M6 13l6 6 6-6"/></svg>',
+ helm:'<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 20v-9a6 6 0 0 1 12 0v9M9 20v-5h6v5M12 5V2"/></svg>',
+ tank:'<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 15l3-6h9l3 4h3v2zM6 18h12"/></svg>'
+};
+const SIZES = {500:'Combat Patrol',1000:'Incursion',2000:'Strike Force',3000:'Onslaught'};
+let UI = {open:{}, msg:'', manual:{}, q:'', showNo:true, eye:{}, exp:{}, closed:{}, panel:null, confirm:false, pending:null};
+
+const ibtn = (act,attrs,icon,label,cls='',dis=false)=>'<button class="ib '+cls+'" data-act="'+act+'" '+attrs+' aria-label="'+esc(label)+'" title="'+esc(label)+'"'+(dis?' disabled':'')+'>'+icon+'</button>';
+const unitIcon = u => u.kw.includes('VEHICLE') ? IC.tank : IC.helm;
+
+function renderTop(){
+  const t=total(), d=t-S.limit;
+  $('#pts').innerHTML = t+' / '+S.limit+' pts <span class="'+(d>0?'bad':'')+'">('+(d>0?'+':'')+d+')</span>'+(S.currentId&&isDirty()?' · <span style="color:#ffd27a">modified</span>':'');
+  const m=$('#meter'); m.className='meter'+(t>S.limit?' over':''); m.firstElementChild.style.width=Math.min(100,t/S.limit*100)+'%';
+  const rn=$('#rname'); if(document.activeElement!==rn) rn.value=S.name;
+  $('#mt-roster').textContent='Roster ('+S.list.length+')';
+}
+
+/* ---- left: catalogue ---- */
+function secHead(id,label,tot){
+  const closed=!!UI.closed[id];
+  return '<h2 class="sh" data-closed="'+(closed?1:0)+'"><button data-act="sec" data-id="'+id+'" aria-expanded="'+(!closed)+'">'+IC.down+'<span>'+esc(label)+'</span>'+(tot?'<span class="tot">'+tot+'</span>':'')+'</button></h2>';
+}
+function rulesHtml(d){
+  const enhs=ENH.filter(e=>e.det===d.id).map(e=>'<p class="it"><b>'+esc(e.name)+(e.k==='upg'?' <span class="tg">upgrade</span>':'')+'<span class="cpb">'+e.p+' pts</span></b>'+esc(e.t)+'</p>').join('');
+  const strats=d.strats.map(s=>'<p class="it"><b>'+esc(s[0])+'<span class="cpb">'+s[1]+' CP</span></b><i>'+esc(s[2])+'.</i> '+esc(s[3])+'</p>').join('');
+  return '<h4>Detachment rule</h4><p class="it"><b>'+esc(d.rule.n)+'</b>'+esc(d.rule.t)+'</p>'
+   +(d.ka?'<h4>Favoured Ka’tah</h4><p class="it"><b>'+esc(d.ka.n)+'</b>'+esc(d.ka.t)+'</p>':'')
+   +'<h4>Enhancements</h4>'+enhs+'<h4>Stratagems</h4>'+strats;
+}
+function detRow(d){
+  const sel=S.dets.includes(d.id), lock=detLock(d.id), open=!!UI.eye['d:'+d.id];
+  return '<div class="cr'+(sel?' has':'')+(lock?' locked':'')+'"><div class="cr-main"><span class="cr-pts">'+d.dp+' DP</span><span class="cr-name">'+esc(d.name)+'</span><span class="cr-cnt">('+(sel?1:0)+'/1)</span></div>'
+   +'<div class="cr-act">'+ibtn('eyeD','data-id="'+d.id+'"',IC.eye,'View rules of '+d.name)
+   +(sel?ibtn('det','data-id="'+d.id+'"',IC.trash,'Remove '+d.name,''):ibtn('det','data-id="'+d.id+'"',IC.plus,lock?lock:'Add '+d.name,'pl',!!lock))+'</div></div>'
+   +(open?'<div class="cr-x"><p>'+esc(d.gist)+'</p>'+(lock?'<p class="warnl">'+esc(lock)+'</p>':'')+rulesHtml(d)+'</div>':'');
+}
+function unitRows(u){
+  const q=UI.q.trim().toLowerCase();
+  const allNo=u.opts.every(o=>o.p==null);
+  if(allNo && !UI.showNo) return '';
+  let out='';
+  u.opts.forEach((o,i)=>{
+    const label=u.name+(u.opts.length>1?' — '+optLabel(o):'');
+    const hay=(label+' '+u.kw.join(' ')+' '+(o.p!=null?o.p+' pts':'')+' '+u.cat).toLowerCase();
+    if(q && !hay.includes(q)) return;
+    const key=u.id+':'+i, cnt=S.list.filter(x=>x.id===u.id&&x.opt===i).length, open=!!UI.eye[key];
+    const man=UI.manual[u.id]||0;
+    const addOk = o.p!=null || man>0;
+    out+='<div class="cr'+(cnt?' has':'')+'"><div class="cr-main"><span class="cr-pts">'+(o.p!=null?o.p+' pts':'? pts')+'</span><span class="cr-name">'+esc(label)+'</span><span class="cr-cnt">('+cnt+')</span></div>'
+      +'<div class="cr-act">'+(o.p==null?'<input class="mini" type="number" min="0" step="5" data-act="manual" data-id="'+u.id+'" value="'+(man||'')+'" placeholder="pts" aria-label="Points for '+esc(u.name)+'">':'')
+      +ibtn('eyeU','data-key="'+key+'"',IC.eye,'Details of '+label)
+      +ibtn('add','data-id="'+u.id+'" data-opt="'+i+'"',IC.plus,addOk?'Add '+label:'Enter points to add','pl',!addOk)+'</div></div>'
+      +(open?'<div class="cr-x"><p><b>'+esc(u.st)+'</b></p><p>'+esc(u.kw.filter(k=>k!==CU&&k!==AP&&k!=='IMPERIUM').join(' · '))+'</p>'+(u.ups?'<p class="warnl">'+esc('Later copies cost more: '+Object.keys(u.ups).map(k=>'from copy '+k+': +'+u.ups[k]+' pts').join(', ')+'.')+'</p>':'')+(u.flag?'<p class="warnl">'+esc(u.flag)+'</p>':'')+(o.p==null?'<p class="warnl">Points not provided: enter a value.</p>':'')+'</div>':'');
+  });
+  return out;
+}
+function renderLeft(){
+  $('#lp-head').innerHTML='<b>Imperium — Adeptus Custodes</b><span>'+total()+' / '+S.limit+' pts · '+dpUsed()+' / '+S.dpMax+' detachment points</span>';
+  const uniq=DETS.filter(d=>d.unique), oth=DETS.filter(d=>!d.unique);
+  const q=UI.q.trim().toLowerCase();
+  const dmatch=d=>!q||(d.name+' '+d.dp+' dp detachement shield host').toLowerCase().includes(q);
+  let html='';
+  const du=uniq.filter(dmatch), dd=oth.filter(dmatch);
+  if(du.length||dd.length){
+    html+=secHead('s-det','Detachments',dpUsed()+'/'+S.dpMax+' DP');
+    if(!UI.closed['s-det']) html+=du.map(detRow).join('')+dd.map(detRow).join('');
+  }
+  CATS.forEach(([cid,label])=>{
+    const rows=U.filter(u=>u.cat===cid).map(unitRows).join('');
+    if(!rows) return;
+    html+=secHead('c-'+cid,label);
+    if(!UI.closed['c-'+cid]) html+=rows;
+  });
+  $('#lp-body').innerHTML = html || '<div class="empty">No results.</div>';
+  $('#toggleNo').setAttribute('aria-pressed',String(UI.showNo));
+}
+
+/* ---- right: roster ---- */
+function optsHtml(it){
+  const u=UM[it.id], o=u.opts[it.opt], isW=S.warlord===it.uid;
+    const optSel=u.opts.length>1?'<label>Option<select data-act="opt" data-uid="'+it.uid+'">'+u.opts.map((x,i)=>'<option value="'+i+'"'+(i===it.opt?' selected':'')+'>'+esc(optLabel(x))+(x.p!=null?' — '+x.p+' pts':'')+'</option>').join('')+'</select></label>':'';
+    const custom=o.p==null?'<label>Points (not provided)<input type="number" min="0" step="5" data-act="custom" data-uid="'+it.uid+'" value="'+(it.custom||'')+'" placeholder="0"></label>':'';
+    const lockedW=S.list.some(i=>i.id==='trajann')&&it.id!=='trajann';
+    const CK='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5 9-10"/></svg>';
+    const row=(chk,dis,act,attrs,label,ptsTxt,cntTxt,eyeKey,desc)=>{
+      const open=eyeKey&&UI.eye[eyeKey];
+      return '<div class="cr'+(chk?' has':'')+'"><button class="cbx" role="checkbox" aria-checked="'+chk+'" aria-label="'+esc(label)+'" data-act="'+act+'" '+attrs+(dis?' disabled':'')+'>'+CK+'</button>'
+       +'<div class="cr-main"><span class="cr-name">'+esc(label)+'</span>'+(ptsTxt?'<span class="cr-pts">'+ptsTxt+'</span>':'')+'<span class="cr-cnt">('+cntTxt+')</span></div>'
+       +(eyeKey?'<div class="cr-act">'+ibtn('eyeE','data-key="'+eyeKey+'"',IC.eye,'Details of '+label)+'</div>':'')+'</div>'
+       +(open?'<div class="cr-x"><p>'+esc(desc)+'</p></div>':'');
+    };
+    const sec=(id,label,cnt,body)=>'<div class="opt-sec"><h2 class="sh" data-closed="'+(UI.closed[id]?1:0)+'"><button data-act="sec" data-id="'+id+'" aria-expanded="'+!UI.closed[id]+'">'+IC.down+'<span>'+label+' <span class="cnt">('+cnt+')</span></span></button></h2>'+(UI.closed[id]?'':body)+'</div>';
+    const mkSec=(k,label)=>{
+      const av=availEnh(it,k), cur=it[k]?EM[it[k]]:null, list=cur?[cur,...av.filter(e=>e.id!==cur.id)]:av;
+      if(!list.length) return '';
+      const body=list.map(e=>row(!!(cur&&cur.id===e.id),false,'pick','data-k="'+k+'" data-uid="'+it.uid+'" data-id="'+e.id+'"',e.name,e.p+' pts',(cur&&cur.id===e.id?1:0)+'/1','e:'+it.uid+':'+e.id,'['+DM[e.det].name+'] '+e.t)).join('');
+      return sec('o-'+k+'-'+it.uid,label,(cur?1:0)+'/1',body);
+    };
+    const wlSec=canWarlord(it)?row(isW,lockedW||it.id==='trajann','wl','data-uid="'+it.uid+'"','Warlord','',(isW?1:0)+'/1',null,''):'';
+    const wgBody=g=>{
+      const v=(it.wg&&it.wg[g.id]), pre='<h4 class="wg-t">'+esc(g.t)+(g.f&&g.k==='each'?' <span>(default: '+esc(g.f)+')</span>':'')+'</h4>';
+      if(g.k==='one') return pre+g.c.map((c,i)=>row((v|0)===i,false,'wg1','data-uid="'+it.uid+'" data-g="'+g.id+'" data-c="'+i+'"',c,'',((v|0)===i?1:0)+'/1',null,'')).join('');
+      if(g.k==='tog') return pre+row(!!v,false,'wgt','data-uid="'+it.uid+'" data-g="'+g.id+'"',g.c[0],'',(v?1:0)+'/1',null,'');
+      const n=nModels(it), a=Array.isArray(v)?v:g.c.map(()=>0), used=a.reduce((x,y)=>x+y,0);
+      return pre+g.c.map((c,i)=>'<div class="cr'+(a[i]?' has':'')+'"><div class="cr-main"><span class="cr-name">'+esc(c)+'</span><span class="cr-cnt">('+a[i]+'/'+n+')</span></div><div class="cr-act"><button class="ib step" data-act="wgs" data-uid="'+it.uid+'" data-g="'+g.id+'" data-c="'+i+'" data-d="-1" aria-label="Fewer '+esc(c)+'"'+(a[i]<=0?' disabled':'')+'>−</button><button class="ib step" data-act="wgs" data-uid="'+it.uid+'" data-g="'+g.id+'" data-c="'+i+'" data-d="1" aria-label="More '+esc(c)+'"'+(used>=n?' disabled':'')+'>+</button></div></div>').join('');
+    };
+    const wgs=wgGroups(it), wgSec=wgs.length?sec('o-wg-'+it.uid,'Wargear',wgDesc(it).length?wgDesc(it).length+' changed':'default',wgs.map(wgBody).join('')+(wgs.some(g=>g.flag)?'<div class="cr-x"><p class="warnl">Part of this line is blurry in the photo; the swap is read from the visible fragments.</p></div>':'')+'<div class="cr-x"><p>Wargear options have no points cost in the datasheets.</p></div>'):'';
+    return '<div class="edit">'+optSel+custom+'<div class="full"><span>'+esc(u.st)+'</span></div></div>'+wlSec+mkSec('enh','Enhancements')+mkSec('upg','Upgrades')+wgSec;
+}
+const selUid=()=>{ if(S.list.some(i=>i.uid===UI.sel)) return UI.sel; if(UI.sel===null) return null; const l=S.list[S.list.length-1]; return l?l.uid:null; };
+function entryRow(it){
+  const u=UM[it.id], o=u.opts[it.opt], isW=S.warlord===it.uid, open=selUid()===it.uid;
+  const sub=[optLabel(o)]; if(it.enh) sub.push(EM[it.enh].name+' +'+EM[it.enh].p); if(it.upg) sub.push(EM[it.upg].name+' (upgrade) +'+EM[it.upg].p);
+  wgDesc(it).forEach(x=>sub.push(x));
+  if(surcharge(it)) sub.push('copy #'+copyIdx(it)+' : +'+surcharge(it)+' pts');
+  let h='<div class="er'+(isW?' wl':'')+(open?' sel':'')+'"><span class="ico">'+unitIcon(u)+'</span><div class="er-main" data-act="selu" data-uid="'+it.uid+'"><div class="er-t"><b>'+esc(u.name)+'</b><i>'+pts(it)+' pts</i>'+(isW?'<em>Warlord</em>':'')+'</div><div class="er-s">'+esc(sub.join(' · '))+'</div></div>'
+   +'<div class="er-act">'+ibtn('rexp','data-uid="'+it.uid+'"',IC.eye,open?'Hide options':'Show options')
+   +ibtn('dup','data-uid="'+it.uid+'"',IC.copy,'Duplicate')+ibtn('rm','data-uid="'+it.uid+'"',IC.trash,'Remove')+'</div></div>';
+  if(open) h+='<div class="inl">'+optsHtml(it)+'</div>';
+  return h;
+}
+function exportText(){
+  const L=[], t=total();
+  L.push(S.name+' — ADEPTUS CUSTODES — '+t+' / '+S.limit+' pts');
+  L.push('Detachments ('+dpUsed()+'/'+S.dpMax+' DP): '+(S.dets.length?S.dets.map(id=>DM[id].name+(DM[id].unique?' (Unique Shield Host)':'')).join(', '):'none'));
+  const w=S.list.find(i=>i.uid===S.warlord); L.push('Warlord: '+(w?UM[w.id].name:'not selected')); L.push('');
+  CATS.forEach(([cid,label])=>{
+    const its=S.list.filter(i=>UM[i.id].cat===cid); if(!its.length) return;
+    L.push('['+label+']');
+    its.forEach(i=>{ const u=UM[i.id], o=u.opts[i.opt];
+      L.push(u.name+' — '+o.l+' ('+pts(i)+' pts)'+(i.uid===S.warlord?' [Warlord]':''));
+      if(i.enh) L.push('  + '+EM[i.enh].name+' ('+EM[i.enh].p+' pts)');
+      if(i.upg) L.push('  + '+EM[i.upg].name+' (upgrade, '+EM[i.upg].p+' pts)');
+      wgDesc(i).forEach(x=>L.push('  • '+x)); });
+    L.push('');
+  });
+  return L.join('\n').trim();
+}
+function renderRight(){
+  let h='';
+  if(UI.panel==='opts'){
+    h+='<div class="panelbox"><h3>List options</h3>'
+     +'<div><div class="muted">Battle size</div><div class="chips">'+Object.keys(SIZES).map(k=>'<button class="chip" data-act="size" data-v="'+k+'" aria-pressed="'+(S.limit===+k)+'">'+SIZES[k]+' · '+k+'</button>').join('')+'</div></div>'
+     +'<div class="row"><label class="muted" for="limitIn">Custom limit</label><input type="number" id="limitIn" min="50" step="50" value="'+S.limit+'"><label class="muted" for="dpMax">Max detachment points</label><input type="number" id="dpMax" min="1" max="12" value="'+S.dpMax+'"></div>'
+     +'<div class="row">'+(UI.confirm?'<button class="btn danger" data-act="reset-yes">Confirm: clear everything</button><button class="btn" data-act="reset-no">Cancel</button>':'<button class="btn danger" data-act="reset">Clear list</button>')+'</div></div>';
+  }
+  if(UI.panel==='lists') h+=listsHtml();
+  if(UI.panel==='export'){
+    h+='<div class="panelbox"><h3>Text export</h3><textarea id="exp" readonly>'+esc(exportText())+'</textarea><div class="row"><button class="btn pri" data-act="copy">Copy</button><span class="muted" id="copied"></span></div></div>';
+  }
+  const iss=issues();
+  h+='<div class="notice">'+(UI.msg?'<p class="warn">'+esc(UI.msg)+'</p>':'')+iss.map(x=>'<p class="'+x[0]+'">'+esc(x[1])+'</p>').join('')+(!iss.length&&!UI.msg?'<p class="info">No messages.</p>':'')+'</div>';
+  // Configuration
+  const sizeName=SIZES[S.limit]?SIZES[S.limit]+' ('+S.limit+' pts)':'Custom ('+S.limit+' pts)';
+  h+=secHead('r-conf','Configuration');
+  if(!UI.closed['r-conf']){
+    h+='<div class="er"><span class="ico">'+IC.gear+'</span><div class="er-main"><div class="er-t"><b>Battle size</b></div><div class="er-s">'+esc(sizeName)+'</div></div></div>';
+    h+='<div class="er"><span class="ico">'+IC.gear+'</span><div class="er-main"><div class="er-t"><b>Detachment points</b><i>'+dpUsed()+' / '+S.dpMax+' DP</i></div><div class="er-s">'+(S.dets.length?'':'No detachment selected. Add one from the catalogue.')+'</div></div></div>';
+    S.dets.forEach(id=>{ const d=DM[id], open=!!UI.eye['d:'+id];
+      h+='<div class="er"><span class="ico">'+IC.gear+'</span><div class="er-main"><div class="er-t"><b>'+esc(d.name)+'</b><i>'+d.dp+' DP</i>'+(d.unique?'<em>Unique Shield Host</em>':'')+'</div><div class="er-s">'+esc(d.rule.n)+(d.ka?' · '+esc(d.ka.n):'')+'</div></div>'
+       +'<div class="er-act">'+ibtn('eyeD','data-id="'+id+'"',IC.eye,'Rules')+ibtn('det','data-id="'+id+'"',IC.trash,'Remove')+'</div></div>'
+       +(open?'<div class="cr-x"><p>'+esc(d.gist)+'</p>'+rulesHtml(d)+'</div>':'');
+    });
+  }
+  // categories
+  const any=S.list.length;
+  CATS.forEach(([cid,label])=>{
+    const its=S.list.filter(i=>UM[i.id].cat===cid); if(!its.length) return;
+    h+=secHead('r-'+cid,label,its.reduce((a,i)=>a+pts(i),0)+' pts');
+    if(!UI.closed['r-'+cid]) h+=its.map(entryRow).join('');
+  });
+  if(!any) h+='<div class="empty">Empty roster. Add units with the + button in the catalogue.</div>';
+  $('#rp').innerHTML=h;
+}
+
+const NOTES = [
+ ['fact','What comes from the sources you provided',['Datasheet points: the V2 table you provided. It replaces V1.','Detachment costs: Guardians of the Throne 3 DP, every other detachment 1 DP. A budget of 3 DP is confirmed: Guardians of the Throne is taken alone, otherwise up to 3 other detachments. Only one Unique Shield Host per army.','Later copies cost more (extra points): Shield-Captain on foot, Allarus and Jetbike +20 from the 2nd; Wardens +30 from the 2nd unit; Telemon +30 from the 2nd; Vertus Praetors +20 from the 2nd unit; Sentinel Guard, Custodian Guard, Allarus Custodians, Caladius and Annihilator +30 from the 3rd; Venatari Kinetic Destroyers +25 from the 3rd; Coronus +20 from the 3rd.','Enhancement and Upgrade points: the table you provided (29 items, e.g. Radiant Mantle 40, Huntress’ Eye 10). Leonine Ferocity is named Fierce Conqueror in your table (20 pts); I kept the rules text from the codex photo.','Detachments, rules, enhancements and stratagems: photos of the 11th edition codex (pages 91 to 105). Stats: datasheets.','Anathema Psykana (page 91): units are included without the ADEPTUS CUSTODES keyword and are never Warlord, except with Null Maiden Vigil.']],
+ ['assume','Assumptions made by the tool',['A later copy surcharge also applies to the copies after it (4th, 5th…). The sources say nothing beyond what is listed.','Each datasheet counts its own copies. Venatari with pistols and with lances are two separate datasheets, as are Caladius and Annihilator.','Venatari with lances: "then ~300, sentence cut off". I assumed +30 from the 3rd unit.','Contemptor-Galatus: the transcript contradicts itself between 220 and 230. Two options are offered, marked to be confirmed.','Gyrfalcon at 3 models (390) comes from an old rumor. Prosecutors at 5 models (50) comes from V1 and is not repeated in V2. Both are marked to be confirmed.','Wargear options (Wargear section of each unit) come from the datasheets, have no points cost, and are not otherwise restricted. Enhancements are limited to Characters, except Upgrades, which target units. Each can be taken once per army. The rule of 3 copies and any cap on the number of enhancements are not applied.']],
+ ['gap','Not provided, so not calculated',['Missing points: Anathema Psykana Rhino. A field lets you enter your own points.','Vigilators and Witchseekers: prices for 4 and 10 models only. Prosecutors: 4 models (and 5 in V1).','Points limits (Combat Patrol 500, Incursion 1000, Strike Force 2000, Onslaught 3000): the tool’s choice, adjustable by hand.','Not applied: rule of 3 copies, maximum number of enhancements, transport restrictions. Nothing in the pages provided.','Eagle’s Eye enhancement text: partly illegible in the photo.']]
+];
+function renderOpts(){
+  const uid=selUid(), it=S.list.find(i=>i.uid===uid), el=$('#op');
+  if(!it){ el.innerHTML='<div class="op-h"><b>Unit options</b></div><div class="empty">Select a unit in the roster to see its options, enhancements and upgrades.</div>'; return; }
+  el.innerHTML='<div class="op-h"><b>'+esc(UM[it.id].name)+'</b><span>'+pts(it)+' pts</span></div>'+optsHtml(it);
+}
+function renderNotes(){
+  $('#np').innerHTML='<div class="notes">'+NOTES.map(n=>'<article><h2>'+esc(n[1])+'</h2><ul>'+n[2].map(x=>'<li>'+esc(x)+'</li>').join('')+'</ul></article>').join('')+'</div>';
+}
+function renderTabs(){
+  document.body.dataset.tab=S.tab;
+  document.querySelectorAll('#mtabs button').forEach(b=>b.setAttribute('aria-selected',String(b.dataset.tab===S.tab)));
+}
+function renderAll(){ renderTop(); renderLeft(); renderRight(); renderOpts(); renderNotes(); renderTabs(); }
+function commit(){ normalize(); save(); renderAll(); }
+
+/* ============ SAVED LISTS ============ */
+const LS_SAVED='custodes11-saved-v1';
+const Saved={kind:'local',items:[],ready:false,msg:'',note:'',busy:false};
+let _db=null,_uid=null;
+const sigNow=()=>JSON.stringify([S.name,S.limit,S.dpMax,S.dets,S.list.map(i=>[i.id,i.opt,i.custom,i.enh,i.upg,i.wg||{},i.uid===S.warlord])]);
+const isDirty=()=>S.list.length>0 && sigNow()!==S.savedSig;
+function docNow(){
+  return {name:S.name,updatedAt:new Date().toISOString(),limit:S.limit,dpMax:S.dpMax,dets:S.dets.slice(),total:total(),count:S.list.length,
+    units:S.list.map(i=>({id:i.id,opt:i.opt,custom:i.custom,enh:i.enh,upg:i.upg,wg:i.wg||{},w:i.uid===S.warlord}))};
+}
+function localRead(){ try{ const o=JSON.parse(localStorage.getItem(LS_SAVED)||'{}'); return Object.keys(o).map(id=>Object.assign({id},o[id])); }catch(e){ return []; } }
+function localWrite(id,doc){ try{ const o=JSON.parse(localStorage.getItem(LS_SAVED)||'{}'); if(doc) o[id]=doc; else delete o[id]; localStorage.setItem(LS_SAVED,JSON.stringify(o)); return true; }catch(e){ return false; } }
+const cloudCol=()=>_db.collection('data/users/'+_uid);
+async function refreshSaved(){
+  try{
+    if(Saved.kind==='cloud'){ const snap=await cloudCol().get(); Saved.items=snap.docs.filter(d=>d.exists).map(d=>Object.assign({id:d.id},d.data())); }
+    else Saved.items=localRead();
+    Saved.items.sort((a,b)=>String(b.updatedAt||'').localeCompare(String(a.updatedAt||'')));
+  }catch(e){ Saved.items=[]; Saved.note='Could not read lists ('+((e&&e.code)||'error')+').'; }
+  Saved.ready=true; if(UI.panel==='lists') renderRight();
+}
+async function initStore(){
+  try{
+    const c=window.claude;
+    if(c&&c.use){
+      const db=await c.use('db'), user=await c.use('user');
+      const uid=user?await user.id():null;
+      if(db&&uid){ _db=db; _uid=uid; Saved.kind='cloud'; }
+    }
+  }catch(e){}
+  await refreshSaved();
+}
+async function storeSet(id,doc){
+  if(Saved.kind==='cloud'){
+    try{ await cloudCol().doc(id).set(doc); return true; }
+    catch(e){ Saved.kind='local'; Saved.note='Write refused on your account ('+((e&&e.code)||'error')+'): saved in this browser instead.'; }
+  }
+  return localWrite(id,doc);
+}
+async function storeDel(id){
+  if(Saved.kind==='cloud'){ try{ await cloudCol().doc(id).delete(); return true; }catch(e){ Saved.note='Deletion refused ('+((e&&e.code)||'error')+').'; return false; } }
+  return localWrite(id,null);
+}
+async function doSave(id){
+  if(Saved.busy) return; Saved.busy=true; Saved.note='';
+  const doc=docNow(), nid=id||('r_'+Date.now().toString(36)+Math.random().toString(36).slice(2,6));
+  const ok=await storeSet(nid,doc);
+  if(ok){ S.currentId=nid; S.savedSig=sigNow(); Saved.msg='List "'+doc.name+'" saved.'; save(); } else Saved.msg='Could not save: storage unavailable.';
+  Saved.busy=false; await refreshSaved(); renderTop(); renderRight();
+}
+async function doDelete(id){
+  if(Saved.busy) return; Saved.busy=true; Saved.note='';
+  const it=Saved.items.find(x=>x.id===id);
+  if(await storeDel(id)){ Saved.msg='List "'+(it?it.name:'')+'" deleted.'; if(S.currentId===id){ S.currentId=null; S.savedSig=null; save(); } }
+  Saved.busy=false; await refreshSaved(); renderTop(); renderRight();
+}
+function applyDoc(d,id){
+  const units=(Array.isArray(d.units)?d.units:[]).filter(u=>UM[u.id]);
+  S.name=(d.name||'My roster').slice(0,40);
+  S.limit=+d.limit>0?+d.limit:2000; S.dpMax=+d.dpMax>0?+d.dpMax:DP_DEFAULT;
+  S.dets=(Array.isArray(d.dets)?d.dets:[]).filter(x=>DM[x]);
+  S.list=units.map(u=>({uid:uidSeq++,id:u.id,opt:Math.min(u.opt|0,UM[u.id].opts.length-1),custom:+u.custom||0,enh:u.enh||null,upg:u.upg||null,wg:u.wg||{}}));
+  const wi=units.findIndex(u=>u.w); S.warlord=wi>=0?S.list[wi].uid:null;
+  S.currentId=id; UI.msg=''; normalize(); S.savedSig=sigNow(); Saved.msg='List "'+S.name+'" loaded.'; save(); renderAll();
+}
+function fmtDate(iso){ try{ return new Date(iso).toLocaleString('en-GB',{day:'numeric',month:'short',hour:'2-digit',minute:'2-digit'}); }catch(e){ return ''; } }
+function listsHtml(){
+  const cur=Saved.items.find(x=>x.id===S.currentId);
+  let h='<div class="panelbox"><h3>My lists</h3>';
+  h+='<p class="muted" style="margin:0">'+(Saved.kind==='cloud'?'Lists saved to your account, private to you. They stay available on your next visit and on your other devices.':'Lists saved in this browser only (account storage unavailable in this view).')+'</p>';
+  if(Saved.note) h+='<p class="muted" style="margin:0;color:var(--warn)">'+esc(Saved.note)+'</p>';
+  h+='<div class="row"><button class="btn pri" data-act="saveNew"'+(Saved.busy||!S.list.length?' disabled':'')+'>Save as new list</button>'
+   +(cur?'<button class="btn" data-act="saveCur"'+(Saved.busy||!S.list.length?' disabled':'')+'>Update "'+esc(cur.name)+'"</button>':'')+'</div>';
+  if(!S.list.length) h+='<p class="muted" style="margin:0">Add at least one unit to save.</p>';
+  if(Saved.msg) h+='<p class="muted" style="margin:0;color:var(--ok)">'+esc(Saved.msg)+'</p>';
+  h+='</div>';
+  if(!Saved.ready) return h+'<div class="empty">Loading lists…</div>';
+  if(!Saved.items.length) return h+'<div class="empty">No saved lists.</div>';
+  h+=secHead('r-saved','Saved lists',Saved.items.length+'');
+  if(!UI.closed['r-saved']) Saved.items.forEach(it=>{
+    const pend=UI.pending&&UI.pending.id===it.id?UI.pending.type:null, isCur=it.id===S.currentId;
+    h+='<div class="er'+(isCur?' wl':'')+'"><div class="er-main"><div class="er-t"><b>'+esc(it.name||'Untitled')+'</b><i>'+(it.total||0)+' / '+(it.limit||0)+' pts</i>'+(isCur?'<em>Loaded</em>':'')+'</div>'
+     +'<div class="er-s">'+(it.count||0)+' unit'+((it.count||0)>1?'s':'')+' · '+esc((it.dets||[]).map(x=>DM[x]?DM[x].name:x).join(', ')||'no detachment')+' · '+esc(fmtDate(it.updatedAt))+'</div>'
+     +(pend==='load'?'<div class="chips"><span class="muted">Replace the current unsaved list?</span><button class="btn pri" data-act="confirmLoad" data-id="'+it.id+'">Confirm</button><button class="btn" data-act="pendNo">Cancel</button></div>':'')
+     +(pend==='del'?'<div class="chips"><span class="muted">Delete this list?</span><button class="btn danger" data-act="confirmDel" data-id="'+it.id+'">Delete</button><button class="btn" data-act="pendNo">Cancel</button></div>':'')
+     +'</div><div class="er-act"><button class="btn" data-act="loadList" data-id="'+it.id+'" style="margin-right:4px">Load</button>'+ibtn('delList','data-id="'+it.id+'"',IC.trash,'Delete this list')+'</div></div>';
+  });
+  return h;
+}
+
+/* ============ EVENTS ============ */
+document.addEventListener('click',e=>{
+  const b=e.target.closest('[data-act]'); if(!b || b.disabled) return;
+  const a=b.dataset.act, id=b.dataset.id, uid=+b.dataset.uid;
+  if(a==='tab'){ let t=b.dataset.tab; if(t==='notesToggle') t=S.tab==='notes'?'roster':'notes'; S.tab=t; save(); renderTabs(); return; }
+  if(a==='panel'){ const p=b.dataset.p; UI.panel=UI.panel===p?null:p; UI.confirm=false; if(S.tab==='cat'&&window.innerWidth<1000) S.tab='roster'; if(S.tab==='notes') S.tab='roster'; renderRight(); renderTabs(); return; }
+  if(a==='sec'){ UI.closed[id]=!UI.closed[id]; renderLeft(); renderRight(); renderOpts(); return; }
+  if(a==='eyeD'){ UI.eye['d:'+id]=!UI.eye['d:'+id]; renderLeft(); renderRight(); return; }
+  if(a==='eyeE'){ UI.eye[b.dataset.key]=!UI.eye[b.dataset.key]; renderRight(); renderOpts(); return; }
+  if(a==='pick'){ const it=S.list.find(i=>i.uid===uid); if(!it) return; const k=b.dataset.k; it[k]=it[k]===id?null:id; UI.msg=''; commit(); return; }
+  if(a==='eyeU'){ UI.eye[b.dataset.key]=!UI.eye[b.dataset.key]; renderLeft(); return; }
+  if(a==='toggleNo'){ UI.showNo=!UI.showNo; renderLeft(); return; }
+  if(a==='size'){ S.limit=+b.dataset.v; UI.msg=''; commit(); return; }
+  if(a==='det'){ UI.msg=''; if(S.dets.includes(id)) S.dets=S.dets.filter(x=>x!==id); else if(!detLock(id)) S.dets.push(id); commit(); return; }
+  if(a==='add'){
+    UI.msg=''; const u=UM[id], opt=+b.dataset.opt;
+    S.list.push({uid:uidSeq++,id,opt,custom:u.opts[opt].p==null?(UI.manual[id]||0):0,enh:null,upg:null,wg:{}}); UI.sel=S.list[S.list.length-1].uid;
+    if(id==='trajann') S.warlord=S.list[S.list.length-1].uid;
+    commit(); return;
+  }
+  if(a==='saveNew'){ doSave(null); return; }
+  if(a==='saveCur'){ doSave(S.currentId); return; }
+  if(a==='loadList'){ const it=Saved.items.find(x=>x.id===id); if(!it) return; if(isDirty()){ UI.pending={type:'load',id}; renderRight(); } else applyDoc(it,id); return; }
+  if(a==='confirmLoad'){ const it=Saved.items.find(x=>x.id===id); UI.pending=null; if(it) applyDoc(it,id); return; }
+  if(a==='delList'){ UI.pending={type:'del',id}; renderRight(); return; }
+  if(a==='confirmDel'){ UI.pending=null; doDelete(id); return; }
+  if(a==='pendNo'){ UI.pending=null; renderRight(); return; }
+  if(a==='rexp'){ UI.sel=selUid()===uid?null:uid; renderRight(); renderOpts(); return; }
+  if(a==='selu'){ UI.sel=uid; renderRight(); renderOpts(); return; }
+  if(a==='rm'){ UI.msg=''; S.list=S.list.filter(i=>i.uid!==uid); if(S.warlord===uid) S.warlord=null; commit(); return; }
+  if(a==='dup'){
+    UI.msg=''; const it=S.list.find(i=>i.uid===uid); if(!it) return;
+    if(it.id==='trajann'){ UI.msg='Trajann Valoris is an Epic Hero: only one copy.'; renderRight(); return; }
+    S.list.push({uid:uidSeq++,id:it.id,opt:it.opt,custom:it.custom,enh:null,upg:null,wg:JSON.parse(JSON.stringify(it.wg||{}))}); UI.sel=S.list[S.list.length-1].uid; commit(); return;
+  }
+  if(a==='wg1'||a==='wgt'||a==='wgs'){
+    const it=S.list.find(i=>i.uid===uid); if(!it) return; const g=wgGroups(it).find(x=>x.id===b.dataset.g); if(!g) return; it.wg=it.wg||{};
+    if(a==='wg1'){ it.wg[g.id]=+b.dataset.c; }
+    else if(a==='wgt'){ it.wg[g.id]=it.wg[g.id]?0:1; }
+    else { const arr=Array.isArray(it.wg[g.id])?it.wg[g.id].slice():g.c.map(()=>0); const i=+b.dataset.c; arr[i]=Math.max(0,arr[i]+(+b.dataset.d)); it.wg[g.id]=arr; }
+    UI.msg=''; commit(); return;
+  }
+  if(a==='wl'){ UI.msg=''; S.warlord=S.warlord===uid?null:uid; commit(); return; }
+  if(a==='reset'){ UI.confirm=true; renderRight(); return; }
+  if(a==='reset-no'){ UI.confirm=false; renderRight(); return; }
+  if(a==='reset-yes'){ UI.confirm=false; UI.msg=''; S.list=[]; S.warlord=null; commit(); return; }
+  if(a==='copy'){
+    const ta=$('#exp'), done=m=>{ const c=$('#copied'); if(c) c.textContent=m; };
+    const fallback=()=>{ ta.focus(); ta.select(); done('Text selected: copy it with Ctrl+C.'); };
+    try{ navigator.clipboard.writeText(ta.value).then(()=>done('Copied.'),fallback); }catch(err){ fallback(); }
+  }
+});
+document.addEventListener('change',e=>{
+  const t=e.target, a=t.dataset&&t.dataset.act;
+  if(t.id==='rname'){ S.name=(t.value.trim()||'My roster').slice(0,40); t.value=S.name; save(); if(UI.panel==='export') renderRight(); return; }
+  if(t.id==='dpMax'){ const v=Math.round(+t.value); if(v>=1&&v<=12){ S.dpMax=v; UI.msg=''; commit(); } return; }
+  if(t.id==='limitIn'){ const v=Math.round(+t.value); if(v>=50){ S.limit=v; UI.msg=''; commit(); } return; }
+  if(!a) return;
+  const uid=+t.dataset.uid, it=S.list.find(i=>i.uid===uid);
+  if(a==='manual'){ UI.manual[t.dataset.id]=Math.max(0,Math.round(+t.value)||0); renderLeft(); return; }
+  if(a==='opt'&&it){ it.opt=+t.value; UI.msg=''; commit(); return; }
+  if(a==='custom'&&it){ it.custom=Math.max(0,Math.round(+t.value)||0); commit(); return; }
+  if(a==='enh'&&it){ it[t.dataset.k]=t.value||null; UI.msg=''; commit(); return; }
+});
+$('#q').addEventListener('input',e=>{ UI.q=e.target.value; renderLeft(); });
+
+/* ============ INIT ============ */
+load(); normalize();
+renderAll();
+initStore();
+</script>
+
+</body></html>
