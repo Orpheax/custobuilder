@@ -48,7 +48,8 @@ svg{width:1.25em;height:1.25em;fill:none;stroke:currentColor;stroke-width:2;stro
 
 /* shell */
 .shell{display:grid;grid-template-columns:minmax(0,1fr);gap:8px;align-items:start}
-#lp,#rp,#np,#op{display:none;min-width:0}
+#lp,#rp,#np,#op,#cx{display:none;min-width:0}
+body[data-tab="codex"] #cx{display:block}
 body[data-tab="cat"] #lp{display:flex}
 body[data-tab="roster"] #rp{display:block}
 body[data-tab="notes"] #np{display:block}
@@ -65,8 +66,40 @@ body[data-tab="notes"] #np{display:block}
   body[data-tab="notes"] #rp{display:none}
   body[data-tab="notes"] #np{display:block}
   body #np{display:none}
+  body[data-tab="codex"] #lp,body[data-tab="codex"] #rp,body[data-tab="codex"] #op{display:none}
+  body[data-tab="codex"] #cx{display:block;grid-column:1/-1}
   body[data-tab="notes"] #np{display:block}
 }
+
+/* codex page */
+.cx-top{padding:18px 16px 12px;text-align:center;border:1px solid var(--bar-line);background:linear-gradient(#2a0b0d,#120e07);margin-bottom:10px}
+.cx-top h1{margin:0;font-family:'Cinzel',Georgia,serif;font-size:clamp(1.3rem,3.2vw,2rem);letter-spacing:.18em;color:var(--blue);text-transform:uppercase}
+.cx-top p{margin:6px auto 0;max-width:70ch;color:var(--muted)}
+.orn{display:flex;align-items:center;gap:10px;color:var(--blue);margin:10px auto 0;max-width:420px}
+.orn::before,.orn::after{content:"";flex:1;height:1px;background:linear-gradient(90deg,transparent,var(--blue))}
+.orn::after{transform:scaleX(-1)}
+.cx-nav{display:flex;flex-wrap:wrap;gap:6px;justify-content:center;margin:12px 0 0}
+.cx-nav a,.cx-nav button{background:#17110a;border:1px solid #4a3d22;color:#f0dfae;padding:4px 10px;border-radius:999px;font-size:.82rem;text-decoration:none}
+.cx-nav a:hover,.cx-nav button:hover,.cx-nav button[aria-pressed="true"]{background:var(--blue-d);color:#fff;border-color:var(--blue)}
+.cx-d{border:1px solid #4a3d22;background:linear-gradient(#17110a,#0c0905);margin:0 0 14px;scroll-margin-top:90px}
+.cx-h{display:flex;flex-wrap:wrap;align-items:center;gap:8px 14px;padding:12px 14px;background:linear-gradient(90deg,#6b171b,#3a0d10 70%,#1c1608);border-bottom:2px solid var(--blue)}
+.cx-h h2{margin:0;font-family:'Cinzel',Georgia,serif;font-size:clamp(1.1rem,2.4vw,1.5rem);letter-spacing:.08em;color:#fff;text-transform:uppercase;flex:1 1 260px}
+.cx-tag{font-size:.72rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:2px 8px;border:1px solid var(--blue);color:#f3d36b;background:#00000040}
+.cx-tag.u{background:var(--blue-d);color:#fff;border-color:#f3d36b}
+.cx-gist{padding:10px 14px 0;font-style:italic;color:#e6dcc0;font-family:Georgia,serif;font-size:1.02rem}
+.cx-body{display:grid;gap:16px;padding:12px 14px 14px}
+@media (min-width:900px){.cx-body{grid-template-columns:1fr 1fr}}
+.cx-body h3{margin:0 0 6px;font-family:'Cinzel',Georgia,serif;font-size:.86rem;letter-spacing:.14em;text-transform:uppercase;color:var(--blue);border-bottom:1px solid #4a3d22;padding-bottom:3px}
+.cx-box{background:#120e07;border:1px solid #33291a;border-left:3px solid var(--blue);padding:8px 10px;margin:0 0 8px}
+.cx-box b{display:block;color:#f7f0dc;font-family:'Cinzel',Georgia,serif;letter-spacing:.04em}
+.cx-box small{display:block;color:var(--muted);margin-top:2px}
+.cx-box p{margin:3px 0 0;color:#e6dcc0}
+.cx-box .pp{float:right;margin-left:8px;color:#f3d36b;font-weight:700;white-space:nowrap}
+.cx-st{border-left-color:#c43b3f}
+.cx-st .cp{float:right;margin-left:8px;background:#8f1b20;color:#fff;font-size:.74rem;font-weight:700;padding:1px 7px;border-radius:3px}
+.cx-st i{display:block;color:#f0dfae;font-style:normal;font-size:.8rem;text-transform:uppercase;letter-spacing:.06em;margin-top:2px}
+.cx-foot{display:flex;flex-wrap:wrap;align-items:center;gap:8px;padding:8px 14px;border-top:1px solid #33291a;background:#0e0a05}
+.cx-foot .warnl{color:var(--warn);font-size:.84rem}
 
 /* left panel */
 .lp-head{padding:10px 12px;border-bottom:1px solid var(--line);background:linear-gradient(#2a1e08,#1c1608)}
@@ -176,11 +209,13 @@ body[data-tab="notes"] #np{display:block}
     <div class="tb-sp"></div>
     <button class="tbtn" data-act="panel" data-p="lists">My lists <svg viewBox="0 0 24 24"><path d="M4 5h16M4 10h16M4 15h10M4 20h7"/></svg></button>
     <button class="tbtn" data-act="panel" data-p="export">Export <svg viewBox="0 0 24 24"><path d="M12 15V4M8 8l4-4 4 4M5 14v6h14v-6"/></svg></button>
+    <button class="tbtn" data-act="tab" data-tab="codexToggle">Detachments <svg viewBox="0 0 24 24"><path d="M12 3l8 4v5c0 4.5-3.2 7.7-8 9-4.8-1.3-8-4.5-8-9V7z"/><path d="M12 8v6M9 11h6"/></svg></button>
     <button class="tbtn" data-act="tab" data-tab="notesToggle">Data notes <svg viewBox="0 0 24 24"><path d="M5 4h11a3 3 0 0 1 3 3v13H8a3 3 0 0 1-3-3zM8 20a3 3 0 0 1-3-3"/></svg></button>
     <button class="tbtn" data-act="panel" data-p="opts">Options <svg viewBox="0 0 24 24"><path d="M4 6h16M4 12h16M4 18h16"/></svg></button>
     <div class="mtabs" id="mtabs" role="tablist">
       <button role="tab" data-act="tab" data-tab="cat">Catalogue</button>
       <button role="tab" data-act="tab" data-tab="roster" id="mt-roster">Roster</button>
+      <button role="tab" data-act="tab" data-tab="codex">Codex</button>
       <button role="tab" data-act="tab" data-tab="notes">Notes</button>
     </div>
     <div class="meter" id="meter"><i></i></div>
@@ -197,6 +232,7 @@ body[data-tab="notes"] #np{display:block}
     </aside>
     <main id="rp"></main>
     <aside id="op"></aside>
+    <section id="cx"></section>
     <section id="np"></section>
   </div>
 </div>
@@ -413,7 +449,7 @@ function load(){
     if(Array.isArray(o.dets)) S.dets=o.dets.filter(id=>DM[id]);
     if(Array.isArray(o.list)) S.list=o.list.filter(it=>UM[it.id]).map(it=>({uid:uidSeq++,id:it.id,opt:Math.min(it.opt|0,UM[it.id].opts.length-1),custom:+it.custom||0,enh:it.enh||null,upg:it.upg||null,wg:it.wg||{},_w:!!it.w}));
     const w=S.list.find(i=>i._w); S.warlord = w?w.uid:null; S.list.forEach(i=>delete i._w);
-    if(['cat','roster','notes'].includes(o.tab)) S.tab=o.tab;
+    if(['cat','roster','notes','codex'].includes(o.tab)) S.tab=o.tab;
     if(typeof o.name==='string' && o.name) S.name=o.name.slice(0,40);
     if(typeof o.currentId==='string') S.currentId=o.currentId;
     if(typeof o.savedSig==='string') S.savedSig=o.savedSig;
@@ -734,6 +770,33 @@ function renderOpts(){
   if(!it){ el.innerHTML='<div class="op-h"><b>Unit options</b></div><div class="empty">Select a unit in the roster to see its options, enhancements and upgrades.</div>'; return; }
   el.innerHTML='<div class="op-h"><b>'+esc(UM[it.id].name)+'</b><span>'+pts(it)+' pts</span></div>'+optsHtml(it);
 }
+/* ---- codex page: every detachment ---- */
+function reqText(e){
+  const nice=k=>k.split(' ').map(w=>w.charAt(0)+w.slice(1).toLowerCase()).join(' ');
+  const parts=[]; if(e.req) parts.push(e.req.map(nice).join(' · '));
+  if(e.any) parts.push('one of: '+e.any.map(nice).join(' / ')); if(e.not) parts.push('not '+e.not.map(nice).join(' / '));
+  return parts.join(' — ');
+}
+function renderCodex(){
+  const f=UI.cxf||'all';
+  const list=DETS.filter(d=>f==='all'||(f==='unique'?d.unique:!d.unique));
+  let h='<div class="cx-top"><h1>Detachments</h1><div class="orn">&#10022;</div><p>Adeptus Custodes · 11th edition. '+DETS.length+' detachments: '+DETS.filter(d=>d.unique).length+' Unique Shield Hosts (only one per army) and '+DETS.filter(d=>!d.unique).length+' others. Budget: '+dpUsed()+' / '+S.dpMax+' DP used.</p>'
+   +'<div class="cx-nav">'+[['all','All'],['unique','Unique Shield Hosts'],['other','Other detachments']].map(x=>'<button data-act="cxf" data-f="'+x[0]+'" aria-pressed="'+(f===x[0])+'">'+x[1]+'</button>').join('')+'</div>'
+   +'<div class="cx-nav">'+list.map(d=>'<a href="#cx-'+d.id+'" data-act="cxgo" data-id="'+d.id+'">'+esc(d.name)+'</a>').join('')+'</div></div>';
+  list.forEach(d=>{
+    const sel=S.dets.includes(d.id), lock=detLock(d.id), enhs=ENH.filter(e=>e.det===d.id);
+    h+='<article class="cx-d" id="cx-'+d.id+'"><header class="cx-h"><h2>'+esc(d.name)+'</h2>'
+     +(d.unique?'<span class="cx-tag u">Unique Shield Host</span>':'<span class="cx-tag">Detachment</span>')+'<span class="cx-tag">'+d.dp+' DP</span></header>'
+     +'<p class="cx-gist">'+esc(d.gist)+'</p><div class="cx-body"><div>'
+     +'<h3>Detachment rule</h3><div class="cx-box"><b>'+esc(d.rule.n)+'</b><p>'+esc(d.rule.t)+'</p></div>'
+     +(d.ka?'<h3>Favoured Ka’tah</h3><div class="cx-box"><b>'+esc(d.ka.n)+'</b><p>'+esc(d.ka.t)+'</p></div>':'')
+     +'<h3>Enhancements &amp; upgrades</h3>'+enhs.map(e=>'<div class="cx-box"><span class="pp">'+e.p+' pts</span><b>'+esc(e.name)+(e.k==='upg'?' <span class="cx-tag">Upgrade</span>':'')+'</b><small>'+esc(reqText(e))+'</small><p>'+esc(e.t)+'</p></div>').join('')
+     +'</div><div><h3>Stratagems</h3>'+d.strats.map(x=>'<div class="cx-box cx-st"><span class="cp">'+x[1]+' CP</span><b>'+esc(x[0])+'</b><i>'+esc(x[2])+'</i><p>'+esc(x[3])+'</p></div>').join('')+'</div></div>'
+     +'<footer class="cx-foot">'+(sel?'<button class="btn" data-act="det" data-id="'+d.id+'">Remove from my list</button><span class="muted">In your list.</span>'
+       :'<button class="btn pri" data-act="det" data-id="'+d.id+'"'+(lock?' disabled':'')+'>Add to my list ('+d.dp+' DP)</button>'+(lock?'<span class="warnl">'+esc(lock)+'</span>':''))+'</footer></article>';
+  });
+  $('#cx').innerHTML=h;
+}
 function renderNotes(){
   $('#np').innerHTML='<div class="notes">'+NOTES.map(n=>'<article><h2>'+esc(n[1])+'</h2><ul>'+n[2].map(x=>'<li>'+esc(x)+'</li>').join('')+'</ul></article>').join('')+'</div>';
 }
@@ -741,7 +804,7 @@ function renderTabs(){
   document.body.dataset.tab=S.tab;
   document.querySelectorAll('#mtabs button').forEach(b=>b.setAttribute('aria-selected',String(b.dataset.tab===S.tab)));
 }
-function renderAll(){ renderTop(); renderLeft(); renderRight(); renderOpts(); renderNotes(); renderTabs(); }
+function renderAll(){ renderTop(); renderLeft(); renderRight(); renderOpts(); renderCodex(); renderNotes(); renderTabs(); }
 function commit(){ normalize(); save(); renderAll(); }
 
 /* ============ SAVED LISTS ============ */
@@ -838,10 +901,12 @@ function listsHtml(){
 document.addEventListener('click',e=>{
   const b=e.target.closest('[data-act]'); if(!b || b.disabled) return;
   const a=b.dataset.act, id=b.dataset.id, uid=+b.dataset.uid;
-  if(a==='tab'){ let t=b.dataset.tab; if(t==='notesToggle') t=S.tab==='notes'?'roster':'notes'; S.tab=t; save(); renderTabs(); return; }
-  if(a==='panel'){ const p=b.dataset.p; UI.panel=UI.panel===p?null:p; UI.confirm=false; if(S.tab==='cat'&&window.innerWidth<1000) S.tab='roster'; if(S.tab==='notes') S.tab='roster'; renderRight(); renderTabs(); return; }
+  if(a==='tab'){ let t=b.dataset.tab; if(t==='notesToggle') t=S.tab==='notes'?'roster':'notes'; if(t==='codexToggle') t=S.tab==='codex'?'roster':'codex'; S.tab=t; save(); renderTabs(); return; }
+  if(a==='panel'){ const p=b.dataset.p; UI.panel=UI.panel===p?null:p; UI.confirm=false; if(S.tab==='cat'&&window.innerWidth<1000) S.tab='roster'; if(S.tab==='notes'||S.tab==='codex') S.tab='roster'; renderRight(); renderTabs(); return; }
   if(a==='sec'){ UI.closed[id]=!UI.closed[id]; renderLeft(); renderRight(); renderOpts(); return; }
   if(a==='eyeD'){ UI.eye['d:'+id]=!UI.eye['d:'+id]; renderLeft(); renderRight(); return; }
+  if(a==='cxf'){ UI.cxf=b.dataset.f; renderCodex(); return; }
+  if(a==='cxgo'){ e.preventDefault(); const el=document.getElementById('cx-'+id); if(el) el.scrollIntoView({behavior:'smooth',block:'start'}); return; }
   if(a==='eyeE'){ UI.eye[b.dataset.key]=!UI.eye[b.dataset.key]; renderRight(); renderOpts(); return; }
   if(a==='pick'){ const it=S.list.find(i=>i.uid===uid); if(!it) return; const k=b.dataset.k; it[k]=it[k]===id?null:id; UI.msg=''; commit(); return; }
   if(a==='eyeU'){ UI.eye[b.dataset.key]=!UI.eye[b.dataset.key]; renderLeft(); return; }
