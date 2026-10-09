@@ -125,7 +125,7 @@ body[data-tab="notes"] #np{display:block}
 .ds-hk{flex:1 1 100%;margin-top:-4px}.ds-uk{background:#00000040;border-color:#b88a1e;color:#f3e3b0}.ds-fk{background:#6b171b;border-color:#d4a72c;color:#fff}
 /* codex page */
 .cx-top{padding:18px 16px 12px;text-align:center;border:1px solid var(--bar-line);background:linear-gradient(#2a0b0d,#120e07);margin-bottom:10px}
-.cx-top h1{margin:0;font-family:'Cinzel',Georgia,serif;font-size:clamp(1.3rem,3.2vw,2rem);letter-spacing:.18em;color:var(--blue);text-transform:uppercase}
+.cx-top h1,.cx-top .cx-t{margin:0;font-family:'Cinzel',Georgia,serif;font-size:clamp(1.3rem,3.2vw,2rem);letter-spacing:.18em;color:var(--blue);text-transform:uppercase}
 .cx-top p{margin:6px auto 0;max-width:70ch;color:var(--muted)}
 .orn{display:flex;align-items:center;gap:10px;color:var(--blue);margin:10px auto 0;max-width:420px}
 .orn::before,.orn::after{content:"";flex:1;height:1px;background:linear-gradient(90deg,transparent,var(--blue))}

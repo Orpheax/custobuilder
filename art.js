@@ -1,4 +1,4 @@
-/* Procedural Custodes-style heraldry: winged sun-eye emblem, laurel, orbit ring. All original geometry. */
+/* Procedural Custodes-style heraldry: winged eagle medallion, laurel, orbit ring. All original geometry. */
 (function(){
   const f=n=>n.toFixed(1);
   function feather(cx,cy,ang,len,w){
