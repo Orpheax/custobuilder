@@ -59,6 +59,7 @@
      '<linearGradient id="gw1" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#f6dc86"/><stop offset="1" stop-color="#a87618"/></linearGradient>'+
      '<linearGradient id="gw2" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#e9c765"/><stop offset="1" stop-color="#8f6212"/></linearGradient>'+
      '<linearGradient id="gw3" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#d7b04f"/><stop offset="1" stop-color="#76500e"/></linearGradient>'+
+     '<radialGradient id="gm" cx=".4" cy=".35" r=".8"><stop offset="0" stop-color="#f1ece0"/><stop offset=".7" stop-color="#c9c2b2"/><stop offset="1" stop-color="#8d8677"/></radialGradient><clipPath id="gclip"><circle cx="200" cy="132" r="39"/></clipPath>'+
      '<radialGradient id="gc" cx=".5" cy=".4" r=".7"><stop offset="0" stop-color="#8e1a20"/><stop offset="1" stop-color="#2d0709"/></radialGradient></defs>';
     const eye='<path d="M170 132 Q200 108 230 132 Q200 156 170 132Z" fill="#12090a" stroke="url(#gl)" stroke-width="2"/><circle cx="200" cy="132" r="9" fill="url(#gl)"/><circle cx="200" cy="132" r="3.6" fill="#12090a"/>';
     const star='<path d="M200 98 L206 124 L232 132 L206 140 L200 166 L194 140 L168 132 L194 124Z" fill="none" stroke="url(#gl)" stroke-width=".8" opacity=".7"/>';
@@ -66,7 +67,15 @@
       '<g class="emb-rays">'+rays(48,50,82)+'</g>'+
       '<g class="emb-wings">'+wing(-1)+wing(1)+'</g>'+
       '<g class="emb-ring">'+ring(46,60)+'</g>'+
-      '<circle cx="200" cy="132" r="42" fill="url(#gc)" stroke="url(#gl)" stroke-width="3"/>'+star+eye+
+      '<g clip-path="url(#gclip)"><circle cx="200" cy="132" r="42" fill="url(#gm)"/>'+
+      '<path d="M178 100 L190 118 L186 124 M222 98 L212 116 L218 126 L210 138 M170 150 L188 142 L196 150 M226 152 L214 146" fill="none" stroke="#5b5448" stroke-width=".8" opacity=".65"/>'+
+      '<path d="M200 92 L206 108 M175 128 L190 126 M231 128 L220 130" fill="none" stroke="#5b5448" stroke-width=".6" opacity=".5"/>'+
+      '<path d="M206 146 L226 158 L190 172 L182 152Z" fill="#6f4d10"/>'+
+      '<path d="M206 102 C196 100 187 106 185 114 C178 116 172 122 172 130 C172 135 173 139 174 142 C176 137 179 134 184 133 L191 137 C192 142 195 147 198 153 L225 153 L216 128 C222 118 218 106 206 102Z" fill="url(#gl)" stroke="#3a2508" stroke-width="1.1"/>'+
+      '<path d="M185 114 C178 116 172 122 172 130 C172 135 173 139 174 142 C176 137 179 134 184 133 L187 124Z" fill="#fbe9a0" stroke="#3a2508" stroke-width=".9"/><path d="M178 123 l3 1" stroke="#3a2508" stroke-width="1"/>'+
+      '<path d="M200 110 L207 120 L197 117 M204 125 L214 132 L202 132 M201 141 L208 152 M209 137 L219 146 M195 104 L204 111" fill="none" stroke="#7a5412" stroke-width="1.1" stroke-linecap="round"/>'+
+'<path d="M186 116 L198 121" fill="none" stroke="#3a2508" stroke-width="1.6"/><circle cx="193" cy="123" r="2.6" fill="#12090a"/><circle cx="192.3" cy="122.3" r=".8" fill="#fbe9a0"/></g>'+
+      '<circle cx="200" cy="132" r="41" fill="none" stroke="url(#gl)" stroke-width="5"/><circle cx="200" cy="132" r="37.5" fill="none" stroke="#3a2508" stroke-width="1"/>'+
       laurelLeaves()+
       '<path d="M200 178 L214 196 L200 222 L186 196Z" fill="url(#gl)" stroke="#2a1706" stroke-width="1"/>'+
     '</svg>';
