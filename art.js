@@ -52,6 +52,35 @@
       o+='<path d="M'+f(200+Math.cos(a)*r)+' '+f(132+Math.sin(a)*r)+' L'+f(200+Math.cos(a)*(r+l))+' '+f(132+Math.sin(a)*(r+l))+'" stroke="url(#gl)" stroke-width="1"/>'; }
     return o;
   }
+
+  function eagleHead(){
+    // original heraldic eagle head, faces left, drawn in a 100x100 box
+    let neck='';
+    for(let r=0;r<7;r++){ const y=58+r*8;
+      for(let x=(r%2?40:45); x<100; x+=10){
+        neck+='<path d="M'+x+' '+y+' C'+(x+6)+' '+(y+1)+' '+(x+7)+' '+(y+9)+' '+x+' '+(y+15)+' C'+(x-7)+' '+(y+9)+' '+(x-6)+' '+(y+1)+' '+x+' '+y+'Z" fill="url(#gf)" stroke="#2a1706" stroke-width=".7"/>'+
+              '<path d="M'+x+' '+(y+3)+' L'+x+' '+(y+11)+'" stroke="#7a5412" stroke-width=".6" opacity=".8"/>';
+      }
+    }
+    let neck2='';
+    for(let r=0;r<8;r++){ const y=50+r*7.5;
+      for(let x=(r%2?42:47); x<100; x+=9){ if(r<2&&x<56) continue;
+        neck2+='<path d="M'+x+' '+y+' C'+(x+5.5)+' '+(y+1)+' '+(x+6.5)+' '+(y+8)+' '+x+' '+(y+13)+' C'+(x-6.5)+' '+(y+8)+' '+(x-5.5)+' '+(y+1)+' '+x+' '+y+'Z" fill="url(#gf)" stroke="#5a3a08" stroke-width=".8"/>'+
+               '<path d="M'+x+' '+(y+2.5)+' L'+x+' '+(y+9.5)+'" stroke="#8a5c10" stroke-width=".6"/>';
+      }
+    }
+    const crest='<path d="M60 20 L86 4 L74 24Z M66 26 L94 16 L78 34Z M70 34 L98 32 L80 44Z" fill="url(#gf)" stroke="#2a1706" stroke-width=".8"/>';
+    const head='<path d="M64 18 C52 12 38 16 33 28 C30 33 30 37 31 40 C22 41 14 47 13 58 C12 66 15 73 20 79 C19 70 22 64 29 61 L40 63 C38 67 37 71 40 75 C44 83 50 92 56 102 L92 102 L82 60 C86 40 80 24 64 18Z" fill="url(#gf)" stroke="#2a1706" stroke-width="1.3"/>';
+    const cheek='<path d="M52 44 l7 5 -9 1 M64 34 l7 6 -9 1 M62 44 l8 5 -10 2" fill="none" stroke="#7a5412" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"/>'+
+      '<path d="M46 24 C52 22 58 24 62 30" fill="none" stroke="#fff3b8" stroke-width="1.4" opacity=".6" stroke-linecap="round"/>';
+    const beak='<path d="M31 40 C22 41 14 47 13 58 C12 66 15 73 20 79 C19 70 22 64 29 61 L38 59 C38 51 35 44 31 40Z" fill="url(#gb)" stroke="#2a1706" stroke-width="1.1"/>'+
+      '<path d="M29 61 L40 63" stroke="#2a1706" stroke-width="1.4" stroke-linecap="round"/><path d="M30 41 C33 44 36 50 36 58" fill="none" stroke="#6b470c" stroke-width="1.2"/>'+
+      '<ellipse cx="28.5" cy="47" rx="1.7" ry="2.6" transform="rotate(-20 28.5 47)" fill="#2a1706"/><path d="M16 56 C15 62 17 68 20 73" fill="none" stroke="#fff6c8" stroke-width="1.2" opacity=".8" stroke-linecap="round"/>';
+    const eye='<path d="M30 33 C37 26 48 27 54 35 L50 38 C45 33 38 33 32 38Z" fill="#241408" stroke="#2a1706" stroke-width=".8"/>'+
+      '<circle cx="42" cy="38.5" r="4.3" fill="#ffd23a" stroke="#2a1706" stroke-width="1"/><circle cx="42" cy="38.5" r="2.1" fill="#0d0705"/><circle cx="41" cy="37.5" r=".8" fill="#fff"/>';
+    const hp='M64 18 C52 12 38 16 33 28 C30 33 30 37 31 40 C22 41 14 47 13 58 C12 66 15 73 20 79 C19 70 22 64 29 61 L40 63 C38 67 37 71 40 75 C44 83 50 92 56 102 L92 102 L82 60 C86 40 80 24 64 18Z';
+    return '<g transform="translate(160.5 91) scale(.74)"><clipPath id="ghc"><path d="'+hp+'"/></clipPath>'+crest+head+'<g clip-path="url(#ghc)">'+neck2+'</g>'+cheek+beak+eye+'</g>';
+  }
   window.Emblem=function(opt){
     opt=opt||{}; const id='e'+Math.random().toString(36).slice(2,6);
     const defs='<defs>'+
@@ -59,6 +88,7 @@
      '<linearGradient id="gw1" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#f6dc86"/><stop offset="1" stop-color="#a87618"/></linearGradient>'+
      '<linearGradient id="gw2" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#e9c765"/><stop offset="1" stop-color="#8f6212"/></linearGradient>'+
      '<linearGradient id="gw3" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#d7b04f"/><stop offset="1" stop-color="#76500e"/></linearGradient>'+
+     '<linearGradient id="gf" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#fbe9a0"/><stop offset=".45" stop-color="#d9a93a"/><stop offset="1" stop-color="#8a5c10"/></linearGradient><linearGradient id="gb" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#fff2b8"/><stop offset=".6" stop-color="#eec24f"/><stop offset="1" stop-color="#b98a22"/></linearGradient>'+
      '<radialGradient id="gm" cx=".4" cy=".35" r=".8"><stop offset="0" stop-color="#f1ece0"/><stop offset=".7" stop-color="#c9c2b2"/><stop offset="1" stop-color="#8d8677"/></radialGradient><clipPath id="gclip"><circle cx="200" cy="132" r="39"/></clipPath>'+
      '<radialGradient id="gc" cx=".5" cy=".4" r=".7"><stop offset="0" stop-color="#8e1a20"/><stop offset="1" stop-color="#2d0709"/></radialGradient></defs>';
     const eye='<path d="M170 132 Q200 108 230 132 Q200 156 170 132Z" fill="#12090a" stroke="url(#gl)" stroke-width="2"/><circle cx="200" cy="132" r="9" fill="url(#gl)"/><circle cx="200" cy="132" r="3.6" fill="#12090a"/>';
@@ -70,11 +100,7 @@
       '<g clip-path="url(#gclip)"><circle cx="200" cy="132" r="42" fill="url(#gm)"/>'+
       '<path d="M178 100 L190 118 L186 124 M222 98 L212 116 L218 126 L210 138 M170 150 L188 142 L196 150 M226 152 L214 146" fill="none" stroke="#5b5448" stroke-width=".8" opacity=".65"/>'+
       '<path d="M200 92 L206 108 M175 128 L190 126 M231 128 L220 130" fill="none" stroke="#5b5448" stroke-width=".6" opacity=".5"/>'+
-      '<path d="M206 146 L226 158 L190 172 L182 152Z" fill="#6f4d10"/>'+
-      '<path d="M206 102 C196 100 187 106 185 114 C178 116 172 122 172 130 C172 135 173 139 174 142 C176 137 179 134 184 133 L191 137 C192 142 195 147 198 153 L225 153 L216 128 C222 118 218 106 206 102Z" fill="url(#gl)" stroke="#3a2508" stroke-width="1.1"/>'+
-      '<path d="M185 114 C178 116 172 122 172 130 C172 135 173 139 174 142 C176 137 179 134 184 133 L187 124Z" fill="#fbe9a0" stroke="#3a2508" stroke-width=".9"/><path d="M178 123 l3 1" stroke="#3a2508" stroke-width="1"/>'+
-      '<path d="M200 110 L207 120 L197 117 M204 125 L214 132 L202 132 M201 141 L208 152 M209 137 L219 146 M195 104 L204 111" fill="none" stroke="#7a5412" stroke-width="1.1" stroke-linecap="round"/>'+
-'<path d="M186 116 L198 121" fill="none" stroke="#3a2508" stroke-width="1.6"/><circle cx="193" cy="123" r="2.6" fill="#12090a"/><circle cx="192.3" cy="122.3" r=".8" fill="#fbe9a0"/></g>'+
+      eagleHead()+'</g>'+
       '<circle cx="200" cy="132" r="41" fill="none" stroke="url(#gl)" stroke-width="5"/><circle cx="200" cy="132" r="37.5" fill="none" stroke="#3a2508" stroke-width="1"/>'+
       laurelLeaves()+
       '<path d="M200 178 L214 196 L200 222 L186 196Z" fill="url(#gl)" stroke="#2a1706" stroke-width="1"/>'+
