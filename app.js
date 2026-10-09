@@ -1,0 +1,1042 @@
+
+/* ============ DATA ============ */
+const CU = 'ADEPTUS CUSTODES', AP = 'ANATHEMA PSYKANA';
+
+// Detachments (PDF pages 92-105)
+const DETS = [
+ {id:'gott',fd:'Priority Assets and Purge the Foe',name:'Guardians of the Throne',unique:false,gist:'All-rounder: Sustained Hits 1 or Lethal Hits in melee for every unit.',
+  rule:{n:'Martial Mastery',t:'In the Fight phase, when a friendly ADEPTUS CUSTODES unit is selected to fight, its melee attacks have [SUSTAINED HITS 1] or [LETHAL HITS] (choose one).'},
+  strats:[
+   ['Superhuman Focus',1,'Any phase','A friendly ADEPTUS CUSTODES unit that is not readied becomes readied. Same unit only once per battle round.'],
+   ['Unlimited Endurance',1,'Your Movement phase','After an advance move: ranged attacks have [ASSAULT]; the advance does not prevent declaring a charge.'],
+   ['Shield of Honour',1,'Start of Fight phase','INFANTRY/MOUNTED: an engaged enemy model that does not target your unit with all its attacks has -1 to hit and -1 to wound.'],
+   ['Prime Target',1,'Your Shooting phase','Ranged attacks: re-roll one hit roll, one wound roll, one damage roll.'],
+   ['In Auramite Clad',1,'Opponent Shooting / Fight','Attacks that target your unit (not Custodian Wardens) have -1 AP until that enemy unit has attacked.'],
+   ['Swift as the Eagle',1,'Opponent Movement','Enemy ends a move within 8" of an unengaged TRUSTED SENTINEL: that unit makes a normal move up to D3+3".']]},
+ {id:'shadow',fd:'Purge the Foe',name:'Shadowkeepers',unique:true,gist:'Melee objective defence and pressure on enemy morale.',
+  rule:{n:'Wardens of the Dark Cells',t:'ADEPTUS CUSTODES unit (not MONSTER/VEHICLE) within range of an objective: melee attacks targeting it with S greater than its T have -1 to wound.'},
+  ka:{n:'Kaptaris',t:'Select one enemy unit engaged with your unit: it makes a battle-shock roll with -1. Same enemy unit only once per phase.'},
+  strats:[
+   ['Grim Responsibility',1,'Fight phase','INFANTRY selected to fight: melee attacks have [LETHAL HITS: CHARACTER/MONSTER].'],
+   ['No Escape',2,'Opponent Movement','Enemy ends a fall-back move: your unengaged INFANTRY within 6" declares a charge (only against units that fell back and are within max distance).'],
+   ['Indomitable Guardians',1,'Opponent Fight phase','After an enemy unit has fought: your unit within an objective and eligible to fight has Fights First and must be your next unit selected to fight.']]},
+ {id:'solar',fd:'Reconnaissance',name:'Solar Watch',unique:true,gist:'Mobility: fall back without losing the charge, +2" Move.',
+  rule:{n:'Talon Sortie',t:'When a friendly ADEPTUS CUSTODES unit makes a fall-back move, it can still be eligible to charge.'},
+  ka:{n:'Calistus',t:'Your unit has +2" M.'},
+  strats:[
+   ['Inexorable',1,'Your Movement phase','Until end of turn, ignore modifiers to M, advance rolls and charge rolls.'],
+   ['At Spear’s Length',1,'Your Movement phase','Fall-back move does not prevent your unit from being eligible to shoot.'],
+   ['Gravimetric Grenade',1,'Start of opponent Charge','Unengaged unit: one visible enemy within 12" has -1 to its charge rolls when it declares a charge.']]},
+ {id:'aquilan',fd:'Take and Hold',name:'Aquilan Shield',unique:true,gist:'Shooting: +6" range and objective protection against high-Strength shots.',
+  rule:{n:'Gilded Guardians',t:'ADEPTUS CUSTODES unit (not MONSTER/VEHICLE) within range of an objective: ranged attacks targeting it with S greater than its T have -1 to wound.'},
+  ka:{n:'Salvus',t:'Your unit’s ranged attacks have +6" R.'},
+  strats:[
+   ['Manoeuvre and Fire',1,'Your Movement phase','Fall-back move does not prevent shooting or declaring a charge.'],
+   ['Tip of the Talon',1,'Your Shooting phase','Ranged attacks that target an enemy unit within 9" have +1 S.'],
+   ['Rapid Reactions',1,'Opponent Movement','Enemy ends a fall-back move: your INFANTRY that was engaged with it shoots (normal shooting), only that enemy unit.']]},
+ {id:'dread',fd:'Purge the Foe',name:'Dread Host',unique:true,gist:'Charging: re-roll charge rolls, shorter pile-ins for the opponent.',
+  rule:{n:'Instruments of the Emperor’s Wrath',t:'Friendly ADEPTUS CUSTODES units can re-roll charge rolls.'},
+  ka:{n:'Dacatarai',t:'When an enemy unit engaged with your unit makes a pile-in/consolidation move, -2" from that move.'},
+  strats:[
+   ['Lightning Wrath',1,'Fight phase','Your unit’s pile-in move can be up to D3+3".'],
+   ['Golden Light of the Moiraides',2,'Your Movement phase','After an ingress move: until your next turn, attacks targeting your unit have -1 to hit and it cannot be targeted by snap shooting.'],
+   ['Preternatural Rapidity',1,'Your Movement phase','After an advance move: it does not prevent your unit from being eligible to declare a charge.']]},
+ {id:'emissaries',fd:'Priority Assets',name:'Emissaries Imperatus',unique:true,gist:'Fights First for everyone, objectives and actions.',
+  rule:{n:'Heralds of the Throne',t:'Friendly ADEPTUS CUSTODES units have Fights First.'},
+  ka:{n:'Conservai',t:'Until end of turn, advance/fall-back moves do not prevent your unit from being eligible to start an action.'},
+  strats:[
+   ['Bearers of His Light',1,'Fight phase','Your unit’s melee attacks can ignore modifiers to hit rolls and wound rolls.'],
+   ['Slayers of Nightmares',1,'Fight phase','Melee attacks that target a unit with a T greater than your unit’s T have +1 to wound.'],
+   ['Selfless Service',1,'End of opponent Charge','Unengaged unit within 6" of an enemy unit declares a charge (charge roll above 6 becomes 6; targets only within 6").']]},
+ {id:'chosen',fd:'Priority Assets',name:'Emperor’s Chosen',unique:true,gist:'Re-roll one hit and one wound for any unit that attacks.',
+  rule:{n:'Magna Imperator',t:'When a friendly ADEPTUS CUSTODES unit is selected to attack, its attacks can re-roll one hit roll and one wound roll.'},
+  ka:{n:'Rendax',t:'Select one enemy MONSTER/VEHICLE engaged with your unit, roll D6: 1-2 = 1 mortal wound, 3-5 = D3, 6 = 3 mortal wounds.'},
+  strats:[
+   ['Superhuman Focus',1,'End of any phase','A friendly ADEPTUS CUSTODES unit that is not readied becomes readied. Once per unit per battle round.'],
+   ['In Auramite Clad',1,'Opponent Shooting / Fight','Attacks that target your unit (not Custodian Wardens) have -1 AP until that enemy unit has attacked.'],
+   ['Impenetrable Bastion',1,'End of your Movement','Unit (not MONSTER/VEHICLE) controlling an objective: that objective is secured.']]},
+ {id:'auric',fd:'Purge the Foe',name:'Auric Champions',unique:false,gist:'Big-game hunting: Characters get +1 to wound against the chosen target.',
+  rule:{n:'Assemblage of Might',t:'In your Command phase, select one enemy unit to be a dreadful foe until your next Command phase. ADEPTUS CUSTODES CHARACTER attacks against it have +1 to wound.'},
+  strats:[
+   ['Gilded Champion',1,'Any phase','After a CHARACTER used a (once per battle, per unit) datasheet ability: use it one additional time, not in the same phase. Once per battle per model.'],
+   ['Duty Unto Death',1,'Fight phase','When a model is destroyed (unit not yet selected to fight): roll D6 (+1 if CHARACTER); on 3+ it stays on the battlefield until the unit has fought.']]},
+ {id:'honoured',fd:'Take and Hold',name:'Honoured Companions',unique:false,gist:'Trusted Sentinel: re-roll wound rolls of 1 on objectives.',
+  rule:{n:'Companion’s Watch',t:'TRUSTED SENTINEL unit within range of an objective: its attacks can re-roll wound rolls of 1.'},
+  strats:[
+   ['Emperor’s Domain',1,'Fight phase','TRUSTED SENTINEL consolidation: may use the objective consolidation mode regardless of its Before Moving restrictions.'],
+   ['Avenge the Fallen',1,'Fight phase','TRUSTED SENTINEL below starting strength: melee attacks (not CHARACTER models) have +2 A.'],
+   ['Swift as the Eagle',1,'Opponent Movement','Enemy ends a move within 8" of an unengaged TRUSTED SENTINEL: normal move up to D3+3".']]},
+ {id:'lions',fd:'Disruption',name:'Lions of the Emperor',unique:false,gist:'Terminators: back to strategic reserves, aggressive ingress.',
+  rule:{n:'On Gilded Wings',t:'At the end of your opponent’s Fight phase, an unengaged ADEPTUS CUSTODES TERMINATOR unit can be placed in strategic reserves.'},
+  strats:[
+   ['Vigil Unending',2,'Opponent Shooting / Fight','TERMINATOR unit targeted: attacks that target it have -1 D until that enemy unit has attacked.'],
+   ['Unleash the Lions',1,'Your Command phase','TERMINATOR unit with 2+ models splits into separate one-model units.'],
+   ['Fury of the Emperor',1,'Your Charge phase','TERMINATOR unit that made an ingress move this turn: +2 to charge rolls.']]},
+ {id:'moritoi',fd:'Take and Hold',name:'Might of the Moritoi',unique:false,gist:'Dreadnoughts that get more dangerous when wounded.',
+  rule:{n:'Moritoi Ancients',t:'DREADNOUGHT at starting strength: +2 OC. Below starting strength: re-roll hit rolls of 1. Below half-strength: re-roll hit and wound rolls of 1.'},
+  strats:[
+   ['Honoured Interred',1,'Shooting / Fight','Unit gains an aura: friendly DREADNOUGHT within 6" can re-roll hit rolls of 1.'],
+   ['Unceasing Onslaught',1,'Your Movement phase','After an advance move: ranged attacks have [ASSAULT]; the advance does not prevent a charge.'],
+   ['Unstoppable Momentum',1,'Movement / Charge','DREADNOUGHT unit has MOBILE.']]},
+ {id:'grav',fd:'Reconnaissance',name:'Grav-Assault Force',unique:false,gist:'Grav-Assault vehicles: 4+ invulnerable save against shooting.',
+  rule:{n:'Flare Shields',t:'Friendly GRAV-ASSAULT units have 4+ InSv against ranged attacks.'},
+  strats:[
+   ['Victory Before Death',1,'Any phase','GRAV-ASSAULT unit within range of an objective is destroyed: that objective can become secured (conditions apply).'],
+   ['Advanced Stabilisers',1,'Your Shooting phase','Your unit’s ranged attacks have [ASSAULT].'],
+   ['Inevitable Annihilation',1,'Your Shooting phase','Your unit can ignore modifiers to BS and hit rolls.']]},
+ {id:'nmv',fd:'Disruption',name:'Null Maiden Vigil',unique:false,gist:'Anathema Psykana: can be Warlord, Prosecutors become Battleline.',
+  rule:{n:'Silent Sisterhood',t:'You can select a friendly ANATHEMA PSYKANA CHARACTER as your WARLORD. Friendly PROSECUTOR SQUAD units have BATTLELINE. Friendly ANATHEMA PSYKANA units have Creeping Dread (aura): enemy PSYKER/below-starting-strength units within 12" take battle-shock with -1.'},
+  strats:[
+   ['Anathema Blademastery',1,'Fight phase','VIGILATOR SQUAD: attacks have [SUSTAINED HITS 1] or [LETHAL HITS].'],
+   ['Psy-Chaff Volley',1,'Your Shooting phase','After a PROSECUTOR SQUAD shot: one enemy unit hit becomes prosecuted (+1 AP against it).'],
+   ['Purgation Sweep',1,'Your Shooting phase','WITCHSEEKER SQUAD: [TORRENT] attacks have +1 A, or +2 A against PSYKER/battle-shocked units.']]}
+];
+
+// Enhancements (enh) and Upgrades (upg). req = required keywords; any = at least one; not = excluded
+const ENH = [
+ {id:'bane',p:20,det:'gott',name:'Bane of Abominations',k:'enh',req:[CU,'CHARACTER'],t:'Attacks that target an enemy CHARACTER/MONSTER/VEHICLE unit have +1 to wound.'},
+ {id:'light',p:15,det:'gott',name:'Emperor’s Light',k:'enh',req:[CU,'CHARACTER'],t:'Gains Emperor’s Light [EXTRA ATTACKS]: Melee, A3, WS2+, S5, AP-2, D2.'},
+ {id:'castellan',p:25,det:'gott',name:'Castellan’s Mark',k:'enh',req:[CU,'CHARACTER'],t:'After deployment: redeploy up to 3 friendly ADEPTUS CUSTODES units, possibly into strategic reserves.'},
+ {id:'eagleeye',p:30,det:'gott',name:'Eagle’s Eye',k:'enh',req:[CU,'CHARACTER'],t:'+1 W. Once per battle, per army: 3+ InSv ability when attacks are allocated (text partly illegible in the photo).'},
+ {id:'genal',p:30,det:'shadow',name:'Genalchemic Warding',k:'enh',req:[CU,'CHARACTER'],t:'Feel No Pain 5+.'},
+ {id:'unstop',p:25,det:'shadow',name:'Unstoppable Destroyer',k:'enh',req:[CU,'INFANTRY','CHARACTER'],t:'Pile-in/consolidation up to 4", any consolidation mode regardless of Before Moving restrictions.'},
+ {id:'sally',p:30,det:'solar',name:'Sally Forth',k:'enh',req:[CU,'SHIELD-CAPTAIN'],t:'Start of your Charge phase: one friendly ADEPTUS CUSTODES INFANTRY unit within 6" of this model; if it advanced this turn, that advance does not prevent it from declaring a charge.'},
+ {id:'eagle',p:15,det:'solar',name:'Auric Eagle',k:'upg',req:[CU],any:['INFANTRY','MOUNTED'],not:['TERMINATOR'],t:'Unit has +1 to advance rolls and charge rolls (INFANTRY/MOUNTED, not TERMINATOR).'},
+ {id:'pareldor',p:30,det:'aquilan',name:'Pareldor’s Caducatrix',k:'enh',req:[CU,'CHARACTER'],t:'Once per battle, per army, at the start of any phase: heals D3+3 wounds.'},
+ {id:'shell',p:10,det:'aquilan',name:'Not a Shell Wasted',k:'enh',req:[CU,'INFANTRY','CHARACTER'],t:'The unit’s ranged attacks have +1 A.'},
+ {id:'exemplar',p:15,det:'dread',name:'Auric Exemplar',k:'enh',req:[CU,'CHARACTER'],t:'Melee attacks have [CLEAVE 1].'},
+ {id:'bladework',p:15,det:'dread',name:'Flawless Bladework',k:'enh',req:[CU,'CHARACTER'],t:'Melee attacks have [SUSTAINED HITS 1].'},
+ {id:'orb',p:20,det:'emissaries',name:'Auriferous Orb',k:'enh',req:[CU,'CHARACTER'],t:'Gains Auriferous Orb: 12", A3, BS2+, S1, AP0, D1 [ANTI-non-MONSTER/VEHICLE 2+, BLINDING LIGHT, DEVASTATING WOUNDS].'},
+ {id:'edge',p:15,det:'emissaries',name:'Edge of the Blade',k:'enh',req:[CU,'CHARACTER'],t:'If the unit charged this turn: re-roll hit rolls and wound rolls of 1.'},
+ {id:'mantle',p:40,det:'chosen',name:'Radiant Mantle',k:'enh',req:[CU,'INFANTRY','CHARACTER'],t:'Attacks that target this unit have -1 to hit.'},
+ {id:'armouries',p:15,det:'chosen',name:'From the Hall of Armouries',k:'enh',req:[CU,'CHARACTER'],t:'Melee attacks have [DEVASTATING WOUNDS].'},
+ {id:'shroud',p:20,det:'auric',name:'Shroud of the Hidden Blade',k:'enh',req:[CU,'CHARACTER'],t:'Stealth and Lone Operative.'},
+ {id:'inspir',p:10,det:'auric',name:'Inspirational Exemplar',k:'enh',req:[CU,'INFANTRY','CHARACTER'],t:'Once per battle round, per army: a battle-shocked friendly unit within 9" is no longer battle-shocked.'},
+ {id:'superior',p:30,det:'auric',name:'Superior Creation',k:'enh',req:[CU,'INFANTRY','CHARACTER'],t:'When destroyed, roll D6: on 2+ set it back up unengaged with 3 wounds remaining.'},
+ {id:'arae',p:20,det:'honoured',name:'Arae-Shrike',k:'enh',req:[CU,'INFANTRY','CHARACTER'],t:'Enemy units making an ingress move cannot be set up within 12" of this unit.'},
+ {id:'celer',p:15,det:'honoured',name:'Celeritous Sentries',k:'upg',req:['TRUSTED SENTINEL'],t:'Once per phase, per unit: target with Heroic Intervention at -1 CP without blocking other uses.'},
+ {id:'descent',p:20,det:'lions',name:'Lightning Descent',k:'enh',req:['SHIELD-CAPTAIN IN ALLARUS TERMINATOR ARMOUR'],t:'In your first Movement phase this unit can make an ingress move.'},
+ {id:'leonine',p:20,det:'lions',name:'Fierce Conqueror',k:'enh',req:['SHIELD-CAPTAIN IN ALLARUS TERMINATOR ARMOUR'],t:'Once per phase, per army: Rapid Ingress on this unit at -1 CP without blocking other uses.'},
+ {id:'memento',p:30,det:'moritoi',name:'Memento Moritoi',k:'upg',req:[CU,'DREADNOUGHT'],t:'One per army. Melee attacks have +1 A, +1 S and +1 D.'},
+ {id:'augury',p:30,det:'moritoi',name:'Augury Uplink',k:'upg',req:[CU,'DREADNOUGHT'],t:'One per army. Feel No Pain 5+.'},
+ {id:'combat',p:20,det:'grav',name:'Combat Deployment',k:'upg',req:['GRAV-ASSAULT','TRANSPORT'],t:'When a unit disembarks from this transport: it can re-roll charge rolls and cannot be targeted by snap shooting.'},
+ {id:'antigrav',p:15,det:'grav',name:'Anti-Gravitic Mobility',k:'upg',req:['GRAV-ASSAULT'],t:'A fall-back move does not prevent this unit from being eligible to shoot.'},
+ {id:'oblivion',p:15,det:'nmv',name:'Oblivion Knight',k:'enh',req:[AP,'CHARACTER'],t:'+1 to hit rolls, or +1 to hit and wound if it targets a PSYKER/battle-shocked unit.'},
+ {id:'huntress',p:10,det:'nmv',name:'Huntress’ Eye',k:'enh',req:[AP,'CHARACTER'],t:'Movement phase: one visible enemy within 12" makes a battle-shock roll with -1.'}
+];
+
+// Display categories
+const CATS = [['char','Characters'],['bl','Battleline'],['inf','Infantry'],['term','Terminators'],['mnt','Mounted'],['dread','Dreadnoughts'],['veh','Grav Vehicles'],['ana','Anathema Psykana']];
+
+// Units. p = points (null = not provided). r = to be confirmed. ups = surcharge from the nth copy.
+const U = [
+ {id:'trajann',name:'Trajann Valoris',cat:'char',kw:[CU,'INFANTRY','CHARACTER','EPIC HERO','IMPERIUM'],st:'8" · T7 · 2+ · W10 · OC2 · Inv 4+',opts:[{l:'1 model',p:265}]},
+ {id:'sc',name:'Shield-Captain',cat:'char',kw:[CU,'INFANTRY','CHARACTER','IMPERIUM','SHIELD-CAPTAIN'],st:'8" · T7 · 2+ · W8 · OC2 · Inv 4+',opts:[{l:'On foot',p:180}],ups:{2:20}},
+ {id:'scall',name:'Shield-Captain in Allarus Terminator Armour',cat:'char',kw:[CU,'INFANTRY','CHARACTER','IMPERIUM','SHIELD-CAPTAIN','TERMINATOR','SHIELD-CAPTAIN IN ALLARUS TERMINATOR ARMOUR'],st:'7" · T8 · 2+ · W9 · OC2 · Inv 4+',opts:[{l:'1 model',p:185}],ups:{2:20}},
+ {id:'scjet',name:'Shield-Captain on Dawneagle Jetbike',cat:'char',kw:[CU,'MOUNTED','CHARACTER','FLY','IMPERIUM','SHIELD-CAPTAIN'],st:'12" · T8 · 2+ · W10 · OC2 · Inv 4+',opts:[{l:'1 model',p:205}],ups:{2:20}},
+ {id:'blade',name:'Blade Champion',cat:'char',kw:[CU,'INFANTRY','CHARACTER','IMPERIUM'],st:'8" · T7 · 2+ · W7 · OC2 · Inv 4+',opts:[{l:'1 model',p:175}]},
+ {id:'kc',name:'Knight-Centura',cat:'ana',kw:[AP,'INFANTRY','CHARACTER','IMPERIUM'],st:'7" · T3 · 3+ · W4 · OC1 · Inv 5+',opts:[{l:'1 model',p:55}]},
+
+ {id:'sentinel',name:'Sentinel Guard Sodality',cat:'bl',kw:[CU,'INFANTRY','BATTLELINE','IMPERIUM','TRUSTED SENTINEL'],st:'8" · T7 · 2+ · W5 · OC3 · Inv 4+',opts:[{l:'3 models',p:240}],ups:{3:30}},
+ {id:'guard',name:'Custodian Guard',cat:'bl',kw:[CU,'INFANTRY','BATTLELINE','IMPERIUM','TRUSTED SENTINEL'],st:'8" · T7 · 2+ · W5 · OC3 · Inv 4+',opts:[{l:'3 models',p:240}],ups:{3:30}},
+
+ {id:'wardens',name:'Custodian Wardens',cat:'inf',kw:[CU,'INFANTRY','IMPERIUM','TRUSTED SENTINEL'],st:'8" · T7 · 2+ · W6 · OC2 · Inv 4+',opts:[{l:'2 models',p:200},{l:'3 models',p:295}],ups:{2:30}},
+ {id:'venk',name:'Venatari Custodians — Kinetic Destroyers',cat:'inf',kw:[CU,'INFANTRY','EXPLOSIVES','FLY','JUMP PACK','IMPERIUM'],st:'12" · T7 · 2+ · W5 · OC2 · Inv 4+',opts:[{l:'3 models',p:255}],ups:{3:25}},
+ {id:'venl',name:'Venatari Custodians — Verutum Lances',cat:'inf',kw:[CU,'INFANTRY','EXPLOSIVES','FLY','JUMP PACK','IMPERIUM'],st:'12" · T7 · 2+ · W5 · OC2 · Inv 4+',opts:[{l:'3 models',p:270}],ups:{3:30},flag:'Source says "about 300" from the 3rd unit, sentence cut off: +30 assumed.'},
+
+ {id:'allarus',name:'Allarus Custodians',cat:'term',kw:[CU,'INFANTRY','IMPERIUM','TERMINATOR'],st:'7" · T8 · 2+ · W6 · OC2 · Inv 4+',opts:[{l:'2 models',p:180},{l:'3 models',p:270}],ups:{3:30}},
+ {id:'aquilon',name:'Aquilon Custodians',cat:'term',kw:[CU,'INFANTRY','IMPERIUM','TERMINATOR'],st:'7" · T8 · 2+ · W6 · OC2 · Inv 4+',opts:[{l:'Solarite Power Gauntlets · 3 models',p:285},{l:'Solarite Power Talons · 3 models',p:275}]},
+
+ {id:'vertus',name:'Vertus Praetors',cat:'mnt',kw:[CU,'MOUNTED','FLY','IMPERIUM'],st:'12" · T8 · 2+ · W7 · OC2 · Inv 4+',opts:[{l:'2 models',p:220},{l:'3 models',p:330}],ups:{2:20}},
+ {id:'gyrfalcon',name:'Gyrfalcon Jetbike Sodality',cat:'mnt',kw:[CU,'MOUNTED','FLY','IMPERIUM'],st:'12" · T8 · 2+ · W9 · OC2 · Inv 4+',opts:[{l:'2 models',p:260}]},
+
+ {id:'galatus',name:'Contemptor-Galatus Dreadnought',cat:'dread',kw:[CU,'VEHICLE','DREADNOUGHT','IMPERIUM','WALKER'],st:'9" · T10 · 2+ · W12 · OC3 · Inv 4+',opts:[{l:'Estimate 220',p:220,r:true},{l:'Estimate 230',p:230,r:true}],flag:'The transcript contradicts itself: 220 or 230.'},
+ {id:'achillus',name:'Contemptor-Achillus Dreadnought',cat:'dread',kw:[CU,'VEHICLE','DREADNOUGHT','IMPERIUM','WALKER'],st:'9" · T10 · 2+ · W12 · OC3 · Inv 5+',opts:[{l:'1 model',p:220}]},
+ {id:'telemon',name:'Telemon Heavy Dreadnought',cat:'dread',kw:[CU,'VEHICLE','DREADNOUGHT','IMPERIUM','WALKER'],st:'10" · T11 · 2+ · W14 · OC4 · Inv 4+',opts:[{l:'1 model',p:280}],ups:{2:30}},
+
+ {id:'pallas',name:'Pallas Grav-Attack',cat:'veh',kw:[CU,'VEHICLE','FLY','FRAME','GRAV-ASSAULT','IMPERIUM'],st:'12" · T9 · 2+ · W10 · OC2 · Inv 5+',opts:[{l:'1 model',p:135}]},
+ {id:'caladius',name:'Caladius Grav-Tank',cat:'veh',kw:[CU,'VEHICLE','CALADIUS','FLY','FRAME','GRAV-ASSAULT','IMPERIUM'],st:'10" · T11 · 2+ · W14 · OC4 · Inv 5+',opts:[{l:'1 model',p:230}],ups:{3:30}},
+ {id:'annihilator',name:'Caladius Annihilator Grav-Tank',cat:'veh',kw:[CU,'VEHICLE','CALADIUS','FLY','FRAME','GRAV-ASSAULT','IMPERIUM'],st:'10" · T11 · 2+ · W14 · OC4 · Inv 5+',opts:[{l:'1 model',p:250}],ups:{3:30}},
+ {id:'coronus',name:'Coronus Grav-Carrier',cat:'veh',kw:[CU,'VEHICLE','FLY','FRAME','GRAV-ASSAULT','IMPERIUM','TRANSPORT'],st:'12" · T12 · 2+ · W16 · OC5 · Inv 5+ · Transport 12',opts:[{l:'1 model',p:225}],ups:{3:20}},
+
+ {id:'prosec',name:'Prosecutor Squad',cat:'ana',kw:[AP,'INFANTRY','IMPERIUM','PROSECUTOR SQUAD'],st:'7" · T3 · 3+ · W1 · OC2 · 4 to 10 models',opts:[{l:'4 models',p:45},{l:'5 models (+5)',p:50,r:true}],flag:'The 5-model price comes from the previous version and is missing from the latest. Other sizes: not listed.'},
+ {id:'witch',name:'Witchseeker Squad',cat:'ana',kw:[AP,'INFANTRY','IMPERIUM','WITCHSEEKER SQUAD'],st:'7" · T3 · 3+ · W1 · OC1 · 4 to 10 models',opts:[{l:'4 models',p:55},{l:'10 models',p:110}],flag:'Sizes from 5 to 9 models: not listed.'},
+ {id:'vigil',name:'Vigilator Squad',cat:'ana',kw:[AP,'INFANTRY','IMPERIUM','VIGILATOR SQUAD'],st:'7" · T3 · 3+ · W1 · OC1 · 4 to 10 models',opts:[{l:'4 models',p:50},{l:'10 models',p:100}],flag:'Sizes from 5 to 9 models: not listed.'},
+ {id:'rhino',name:'Anathema Psykana Rhino',cat:'ana',kw:[AP,'VEHICLE','DEDICATED TRANSPORT','FRAME','IMPERIUM','SMOKE','TRANSPORT'],st:'12" · T9 · 3+ · W10 · OC2 · Transport 12',opts:[{l:'1 model',p:null}]}
+];
+
+// Wargear options (codex datasheets). k: 'one' = pick one loadout (c[0] = default), 'tog' = optional add-on (0/1),
+// 'each' = each model may swap f (default weapon) for one of c; counts per alternative, total up to the model count.
+// None of these options has a points cost in the datasheets. opt = only for that unit option index.
+const WG = {
+ sc:[{id:'m',k:'one',t:'Melee weapon and shield',c:['Pyrithite Spear + Praesidium Shield','Eternity-pattern Paragon Blade (replaces the Pyrithite Spear)','Castellan Axe (replaces spear and shield)','Guardian Spear (replaces spear and shield)']}],
+ scall:[{id:'m',k:'one',t:'Melee weapon',c:['Guardian Spear','Castellan Axe']}],
+ scjet:[{id:'r',k:'one',t:'Ranged weapon',c:['Salvo Launcher','Hurricane Bolter']}],
+ sentinel:[{id:'v',k:'tog',t:'Standard bearer',c:['Vexilla (1 model)']}],
+ guard:[{id:'v',k:'tog',t:'Standard bearer',c:['Vexilla (1 model)']}],
+ wardens:[{id:'a',k:'each',t:'Melee weapons',f:'Guardian Spear',c:['Castellan Axe']},{id:'v',k:'tog',t:'Standard bearer',c:['Vexilla (1 model)']}],
+ allarus:[{id:'a',k:'each',t:'Melee weapons',f:'Guardian Spear',c:['Castellan Axe']},{id:'v',k:'tog',t:'Standard bearer',c:['Vexilla (1 model)']}],
+ aquilon:[{id:'r',k:'each',t:'Ranged weapons',f:'Lastrum Storm Bolter',c:['Infernus Firepike'],opt:1}],
+ achillus:[{id:'r',k:'one',t:'Lastrum Storm Bolters (2)',c:['2 Lastrum Storm Bolters','2 Adrathic Combi-destructors','2 Twin Infernus Incinerators']}],
+ vertus:[{id:'r',k:'each',t:'Ranged weapons',f:'Salvo Launcher',c:['Hurricane Bolter']}],
+ gyrfalcon:[{id:'r',k:'each',t:'Ranged weapons',f:'Lastrum Bolt Cannon',c:['Adrathic Devastator','Arachnus Volley Cannon','Twin Corvae Las-pulser']}],
+ telemon:[{id:'l',k:'one',t:'Heavy weapons',c:['Dual Caestus Fists + 2 Twin Neutronium Cascade Projectors','Adrathic Desolator + Caestus Fist + Twin Neutronium Cascade Projectors','Arachnus Storm Cannon + Caestus Fist + Twin Neutronium Cascade Projectors','Caestus Fist + Iliastus Accelerator Culverin + Twin Neutronium Cascade Projectors']}],
+ pallas:[{id:'r',k:'one',t:'Main weapon',c:['Twin Arachnus Blaze Cannon','Twin Iliastus Accelerator Fusil']}],
+ coronus:[{id:'r',k:'one',t:'Secondary weapon',c:['Twin Lastrum Bolt Cannon','Twin Neutronium Cascade Projectors']}],
+ caladius:[{id:'r',k:'one',t:'Secondary weapon',c:['Twin Lastrum Bolt Cannon','Twin Neutronium Cascade Projectors']}],
+ annihilator:[{id:'r',k:'one',t:'Secondary weapon',c:['Twin Lastrum Bolt Cannon','Twin Neutronium Cascade Projectors'],flag:true}],
+ kc:[{id:'m',k:'one',t:'Weapon',c:['Executioner Greatblade','Master-crafted Boltgun + Gun Stock','Master-crafted Flamer + Gun Stock']}],
+ rhino:[{id:'h',k:'tog',t:'Equipment',c:['Hunter-killer Missile']}]
+};
+const UM = Object.fromEntries(U.map(u=>[u.id,u]));
+const DM = Object.fromEntries(DETS.map(d=>[d.id,d]));
+const EM = Object.fromEntries(ENH.map(e=>[e.id,e]));
+const DP_COST = {gott:3}; // tous les autres : 1
+DETS.forEach(d=>d.dp = DP_COST[d.id]||1);
+const DP_DEFAULT = 3;
+
+/* ============ STATE ============ */
+const KEY = 'custodes11-list-v3';
+let S = {limit:2000, dpMax:DP_DEFAULT, dets:[], list:[], warlord:null, tab:'cat', name:'My roster', currentId:null, savedSig:null};
+let uidSeq = 1;
+
+function load(){
+  try{
+    const raw = localStorage.getItem(KEY);
+    if(!raw) return;
+    const o = JSON.parse(raw);
+    if(typeof o.limit==='number' && o.limit>0) S.limit=o.limit;
+    if(typeof o.dpMax==='number' && o.dpMax>0) S.dpMax=o.dpMax;
+    if(Array.isArray(o.dets)) S.dets=o.dets.filter(id=>DM[id]);
+    if(Array.isArray(o.list)) S.list=o.list.filter(it=>UM[it.id]).map(it=>({uid:uidSeq++,id:it.id,opt:Math.min(it.opt|0,UM[it.id].opts.length-1),custom:+it.custom||0,enh:it.enh||null,upg:it.upg||null,wg:it.wg||{},_w:!!it.w}));
+    const w=S.list.find(i=>i._w); S.warlord = w?w.uid:null; S.list.forEach(i=>delete i._w);
+    if(['cat','roster','notes','codex','ds','kt','aow','meta'].includes(o.tab)) S.tab=o.tab;
+    if(typeof o.name==='string' && o.name) S.name=o.name.slice(0,40);
+    if(typeof o.currentId==='string') S.currentId=o.currentId;
+    if(typeof o.savedSig==='string') S.savedSig=o.savedSig;
+  }catch(e){}
+}
+function save(){
+  try{
+    localStorage.setItem(KEY, JSON.stringify({currentId:S.currentId,savedSig:S.savedSig,name:S.name,limit:S.limit,dpMax:S.dpMax,dets:S.dets,tab:S.tab,
+      list:S.list.map(i=>({id:i.id,opt:i.opt,custom:i.custom,enh:i.enh,upg:i.upg,wg:i.wg||{},w:i.uid===S.warlord}))}));
+  }catch(e){}
+}
+
+/* ============ RULES ============ */
+const basePts = it => { const o=UM[it.id].opts[it.opt]; return o.p!=null ? o.p : (it.custom||0); };
+// Later copies cost more: u.ups = {n: surcharge from the nth copy of the datasheet}
+const copyIdx = it => { let n=0; for(const i of S.list){ if(i.id===it.id){ n++; if(i===it) return n; } } return n; };
+const surcharge = it => { const u=UM[it.id]; if(!u.ups) return 0; const n=copyIdx(it); let s=0; Object.keys(u.ups).map(Number).sort((a,b)=>a-b).forEach(k=>{ if(n>=k) s=u.ups[k]; }); return s; };
+const enhPts = it => (it.enh?EM[it.enh].p:0) + (it.upg?EM[it.upg].p:0);
+const pts = it => basePts(it) + surcharge(it) + enhPts(it);
+const dpUsed = () => S.dets.reduce((a,id)=>a+DM[id].dp,0);
+const optLabel = o => o.l + (o.r?' (to be confirmed)':'');
+const priced = it => UM[it.id].opts[it.opt].p!=null || it.custom>0;
+const total = () => S.list.reduce((a,i)=>a+pts(i),0);
+const uniqueSel = () => S.dets.find(id=>DM[id].unique);
+
+function eligible(u,e){
+  const k=new Set(u.kw);
+  if(e.k==='enh' && k.has('EPIC HERO')) return false;
+  if(e.req && !e.req.every(x=>k.has(x))) return false;
+  if(e.any && !e.any.some(x=>k.has(x))) return false;
+  if(e.not && e.not.some(x=>k.has(x))) return false;
+  return true;
+}
+function detLock(id){
+  if(S.dets.includes(id)) return null;
+  if(dpUsed()+DM[id].dp>S.dpMax) return 'Not enough detachment points: '+dpUsed()+'/'+S.dpMax+' used, this detachment costs '+DM[id].dp+'.';
+  if(DM[id].unique){ const u=uniqueSel(); if(u) return 'Only one Unique Shield Host allowed: '+DM[u].name+' is already selected.'; }
+  return null;
+}
+function canWarlord(it){
+  const u=UM[it.id];
+  if(!u.kw.includes('CHARACTER')) return false;
+  if(u.kw.includes(CU)) return true;
+  return u.kw.includes(AP) && S.dets.includes('nmv');
+}
+function usedEnh(exceptUid){
+  const s=new Set(); S.list.forEach(i=>{ if(i.uid!==exceptUid){ if(i.enh) s.add(i.enh); if(i.upg) s.add(i.upg);} }); return s;
+}
+function availEnh(it,k){
+  const u=UM[it.id], used=usedEnh(it.uid);
+  return ENH.filter(e=>e.k===k && S.dets.includes(e.det) && eligible(u,e) && !used.has(e.id));
+}
+
+// ---- wargear helpers ----
+const nModels = it => { const m=/(\d+) models?/.exec(UM[it.id].opts[it.opt].l); return m?+m[1]:1; };
+const wgGroups = it => (WG[it.id]||[]).filter(g=>g.opt==null||g.opt===it.opt);
+function wgClean(it){
+  const out={};
+  wgGroups(it).forEach(g=>{
+    const v=it.wg&&it.wg[g.id];
+    if(g.k==='one'){ const n=v|0; if(n>0&&n<g.c.length) out[g.id]=n; }
+    else if(g.k==='tog'){ if(v) out[g.id]=1; }
+    else { let left=nModels(it); const a=g.c.map((_,i)=>{ const n=Math.max(0,Math.min(left,(Array.isArray(v)?v[i]:0)|0)); left-=n; return n; }); if(a.some(x=>x>0)) out[g.id]=a; }
+  });
+  it.wg=out;
+}
+function wgDesc(it){
+  const L=[];
+  wgGroups(it).forEach(g=>{
+    const v=it.wg&&it.wg[g.id];
+    if(g.k==='one'){ if(v>0) L.push(g.c[v].replace(/ \(replaces.*\)$/,'')); }
+    else if(g.k==='tog'){ if(v) L.push(g.c[0]); }
+    else if(Array.isArray(v)) v.forEach((n,i)=>{ if(n>0) L.push(n+'× '+g.c[i]); });
+  });
+  return L;
+}
+
+// Restore a valid state after every change
+function normalize(){
+  const notes=[];
+  // detachments: within the DP budget, one unique only
+  const keep=[]; let uniq=false, dp=0;
+  S.dets.forEach(id=>{ if(!DM[id]||keep.includes(id)) return; if(dp+DM[id].dp>S.dpMax) return; if(DM[id].unique){ if(uniq) return; uniq=true; } dp+=DM[id].dp; keep.push(id); });
+  S.dets=keep;
+  const seen=new Set();
+  S.list.forEach(it=>{
+    ['enh','upg'].forEach(k=>{
+      const id=it[k]; if(!id) return;
+      const e=EM[id];
+      let bad = !e || e.k!==k || !S.dets.includes(e.det) || !eligible(UM[it.id],e) || seen.has(id);
+      if(bad){ if(e) notes.push(e.name+' removed from '+UM[it.id].name+'.'); it[k]=null; } else seen.add(id);
+    });
+  });
+  S.list.forEach(wgClean);
+  // warlord
+  const hasT = S.list.find(i=>i.id==='trajann');
+  if(hasT) S.warlord = hasT.uid;
+  const w = S.list.find(i=>i.uid===S.warlord);
+  if(!w || !canWarlord(w)){ if(w) notes.push('Warlord removed: '+UM[w.id].name+' is no longer eligible.'); S.warlord=null; }
+  if(notes.length) UI.msg=notes.join(' ');
+}
+
+function issues(){
+  const out=[]; const t=total();
+  if(t>S.limit) out.push(['err','Over the '+S.limit+' pts limit by '+(t-S.limit)+' pts.']);
+  if(!S.dets.length) out.push(['warn','No detachment selected.']);
+  if(S.list.length){
+    if(!S.warlord){
+      const any=S.list.some(canWarlord);
+      out.push(['warn', any?'No Warlord selected.':'No Character eligible as Warlord. Add an ADEPTUS CUSTODES Character.']);
+    }
+  }
+  const np=S.list.filter(i=>!priced(i));
+  if(np.length) out.push(['warn',np.length+' unit(s) without listed points: counted at '+(np.every(i=>!i.custom)?'0':'your value')+'.']);
+  if(S.list.some(i=>i.id==='trajann')) out.push(['info','Trajann Valoris: Supreme Commander, he must be your Warlord.']);
+  if(S.list.some(i=>UM[i.id].kw.includes(AP)) ) out.push(['info','Anathema Psykana: units allowed in the army, never Warlord except with Null Maiden Vigil.']);
+  if(S.list.some(i=>i.id==='prosec') && !S.dets.includes('nmv')) out.push(['info','Prosecutor Squad: Battleline only with Null Maiden Vigil.']);
+  const tbc=S.list.filter(i=>UM[i.id].opts[i.opt].r);
+  if(tbc.length) out.push(['info','Prices to confirm: '+[...new Set(tbc.map(i=>UM[i.id].name))].join(', ')+'.']);
+  const sur=S.list.filter(i=>surcharge(i)>0);
+  if(sur.length) out.push(['info','Later copies cost more: '+sur.map(i=>UM[i.id].name+' +'+surcharge(i)).join(', ')+'.']);
+  if(!out.some(o=>o[0]==='err'||o[0]==='warn') && S.list.length) out.unshift(['ok','List is valid according to the provided rules.']);
+  return out;
+}
+
+/* ============ RENDER ============ */
+const $ = s => document.querySelector(s);
+const esc = s => String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const IC = {
+ plus:'<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg>',
+ eye:'<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg>',
+ copy:'<svg viewBox="0 0 24 24" aria-hidden="true"><rect x="9" y="9" width="11" height="11" rx="1.5"/><path d="M5 15V5a1 1 0 0 1 1-1h10"/></svg>',
+ trash:'<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16M10 11v6M14 11v6M6 7l1 13h10l1-13M9 7V4h6v3"/></svg>',
+ gear:'<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3M4.9 4.9l2.1 2.1M17 17l2.1 2.1M4.9 19.1L7 17M17 7l2.1-2.1"/></svg>',
+ down:'<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 4v15M6 13l6 6 6-6"/></svg>',
+ helm:'<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 20v-9a6 6 0 0 1 12 0v9M9 20v-5h6v5M12 5V2"/></svg>',
+ tank:'<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 15l3-6h9l3 4h3v2zM6 18h12"/></svg>'
+};
+const SIZES = {500:'Combat Patrol',1000:'Incursion',2000:'Strike Force',3000:'Onslaught'};
+let UI = {open:{}, msg:'', manual:{}, q:'', showNo:true, eye:{}, exp:{}, closed:{}, panel:null, confirm:false, pending:null};
+
+const ibtn = (act,attrs,icon,label,cls='',dis=false)=>'<button class="ib '+cls+'" data-act="'+act+'" '+attrs+' aria-label="'+esc(label)+'" title="'+esc(label)+'"'+(dis?' disabled':'')+'>'+icon+'</button>';
+const unitIcon = u => u.kw.includes('VEHICLE') ? IC.tank : IC.helm;
+
+function renderTop(){
+  const t=total(), d=t-S.limit;
+  $('#pts').innerHTML = t+' / '+S.limit+' pts <span class="'+(d>0?'bad':'')+'">('+(d>0?'+':'')+d+')</span>'+(S.currentId&&isDirty()?' · <span style="color:#ffd27a">modified</span>':'');
+  const m=$('#meter'); m.className='meter'+(t>S.limit?' over':''); m.firstElementChild.style.width=Math.min(100,t/S.limit*100)+'%';
+  const rn=$('#rname'); if(document.activeElement!==rn) rn.value=S.name;
+  $('#mt-roster').textContent='Roster ('+S.list.length+')';
+}
+
+/* ---- left: catalogue ---- */
+function secHead(id,label,tot){
+  const closed=!!UI.closed[id];
+  return '<h2 class="sh" data-closed="'+(closed?1:0)+'"><button data-act="sec" data-id="'+id+'" aria-expanded="'+(!closed)+'">'+IC.down+'<span>'+esc(label)+'</span>'+(tot?'<span class="tot">'+tot+'</span>':'')+'</button></h2>';
+}
+function rulesHtml(d){
+  const enhs=ENH.filter(e=>e.det===d.id).map(e=>'<p class="it"><b>'+esc(e.name)+(e.k==='upg'?' <span class="tg">upgrade</span>':'')+'<span class="cpb">'+e.p+' pts</span></b>'+esc(e.t)+'</p>').join('');
+  const strats=d.strats.map(s=>'<p class="it"><b>'+esc(s[0])+'<span class="cpb">'+s[1]+' CP</span></b><i>'+esc(s[2])+'.</i> '+esc(s[3])+'</p>').join('');
+  return '<h4>Detachment rule</h4><p class="it"><b>'+esc(d.rule.n)+'</b>'+esc(d.rule.t)+'</p>'
+   +(d.ka?'<h4>Favoured Ka’tah</h4><p class="it"><b>'+esc(d.ka.n)+'</b>'+esc(d.ka.t)+'</p>':'')
+   +'<h4>Enhancements</h4>'+enhs+'<h4>Stratagems</h4>'+strats;
+}
+function detRow(d){
+  const sel=S.dets.includes(d.id), lock=detLock(d.id), open=!!UI.eye['d:'+d.id];
+  return '<div class="cr'+(sel?' has':'')+(lock?' locked':'')+'"><div class="cr-main"><span class="cr-pts">'+d.dp+' DP</span><span class="cr-name">'+esc(d.name)+'</span><span class="cr-cnt">('+(sel?1:0)+'/1)</span></div>'
+   +'<div class="cr-act">'+ibtn('eyeD','data-id="'+d.id+'"',IC.eye,'View rules of '+d.name)
+   +(sel?ibtn('det','data-id="'+d.id+'"',IC.trash,'Remove '+d.name,''):ibtn('det','data-id="'+d.id+'"',IC.plus,lock?lock:'Add '+d.name,'pl',!!lock))+'</div></div>'
+   +(open?'<div class="cr-x"><p>'+esc(d.gist)+'</p>'+(lock?'<p class="warnl">'+esc(lock)+'</p>':'')+rulesHtml(d)+'</div>':'');
+}
+function unitRows(u){
+  const q=UI.q.trim().toLowerCase();
+  const allNo=u.opts.every(o=>o.p==null);
+  if(allNo && !UI.showNo) return '';
+  let out='';
+  u.opts.forEach((o,i)=>{
+    const label=u.name+(u.opts.length>1?' — '+optLabel(o):'');
+    const hay=(label+' '+u.kw.join(' ')+' '+(o.p!=null?o.p+' pts':'')+' '+u.cat).toLowerCase();
+    if(q && !hay.includes(q)) return;
+    const key=u.id+':'+i, cnt=S.list.filter(x=>x.id===u.id&&x.opt===i).length, open=!!UI.eye[key];
+    const man=UI.manual[u.id]||0;
+    const addOk = o.p!=null || man>0;
+    out+='<div class="cr'+(cnt?' has':'')+'"><div class="cr-main"><span class="cr-pts">'+(o.p!=null?o.p+' pts':'? pts')+'</span><span class="cr-name">'+esc(label)+'</span><span class="cr-cnt">('+cnt+')</span></div>'
+      +'<div class="cr-act">'+(o.p==null?'<input class="mini" type="number" min="0" step="5" data-act="manual" data-id="'+u.id+'" value="'+(man||'')+'" placeholder="pts" aria-label="Points for '+esc(u.name)+'">':'')
+      +ibtn('eyeU','data-key="'+key+'"',IC.eye,'Details of '+label)
+      +ibtn('add','data-id="'+u.id+'" data-opt="'+i+'"',IC.plus,addOk?'Add '+label:'Enter points to add','pl',!addOk)+'</div></div>'
+      +(open?'<div class="cr-x"><p><b>'+esc(u.st)+'</b></p><p>'+esc(u.kw.filter(k=>k!==CU&&k!==AP&&k!=='IMPERIUM').join(' · '))+'</p>'+(u.ups?'<p class="warnl">'+esc('Later copies cost more: '+Object.keys(u.ups).map(k=>'from copy '+k+': +'+u.ups[k]+' pts').join(', ')+'.')+'</p>':'')+(u.flag?'<p class="warnl">'+esc(u.flag)+'</p>':'')+(o.p==null?'<p class="warnl">Points not provided: enter a value.</p>':'')+'</div>':'');
+  });
+  return out;
+}
+function renderLeft(){
+  $('#lp-head').innerHTML='<b>Imperium — Adeptus Custodes</b><span>'+total()+' / '+S.limit+' pts · '+dpUsed()+' / '+S.dpMax+' detachment points</span>';
+  const uniq=DETS.filter(d=>d.unique), oth=DETS.filter(d=>!d.unique);
+  const q=UI.q.trim().toLowerCase();
+  const dmatch=d=>!q||(d.name+' '+d.dp+' dp detachement shield host').toLowerCase().includes(q);
+  let html='';
+  const du=uniq.filter(dmatch), dd=oth.filter(dmatch);
+  if(du.length||dd.length){
+    html+=secHead('s-det','Detachments',dpUsed()+'/'+S.dpMax+' DP');
+    if(!UI.closed['s-det']) html+=du.map(detRow).join('')+dd.map(detRow).join('');
+  }
+  CATS.forEach(([cid,label])=>{
+    const rows=U.filter(u=>u.cat===cid).map(unitRows).join('');
+    if(!rows) return;
+    html+=secHead('c-'+cid,label);
+    if(!UI.closed['c-'+cid]) html+=rows;
+  });
+  $('#lp-body').innerHTML = html || '<div class="empty">No results.</div>';
+  $('#toggleNo').setAttribute('aria-pressed',String(UI.showNo));
+}
+
+/* ---- right: roster ---- */
+function optsHtml(it){
+  const u=UM[it.id], o=u.opts[it.opt], isW=S.warlord===it.uid;
+    const optSel=u.opts.length>1?'<label>Option<select data-act="opt" data-uid="'+it.uid+'">'+u.opts.map((x,i)=>'<option value="'+i+'"'+(i===it.opt?' selected':'')+'>'+esc(optLabel(x))+(x.p!=null?' — '+x.p+' pts':'')+'</option>').join('')+'</select></label>':'';
+    const custom=o.p==null?'<label>Points (not provided)<input type="number" min="0" step="5" data-act="custom" data-uid="'+it.uid+'" value="'+(it.custom||'')+'" placeholder="0"></label>':'';
+    const lockedW=S.list.some(i=>i.id==='trajann')&&it.id!=='trajann';
+    const CK='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5 9-10"/></svg>';
+    const row=(chk,dis,act,attrs,label,ptsTxt,cntTxt,eyeKey,desc)=>{
+      const open=eyeKey&&UI.eye[eyeKey];
+      return '<div class="cr'+(chk?' has':'')+'"><button class="cbx" role="checkbox" aria-checked="'+chk+'" aria-label="'+esc(label)+'" data-act="'+act+'" '+attrs+(dis?' disabled':'')+'>'+CK+'</button>'
+       +'<div class="cr-main"><span class="cr-name">'+esc(label)+'</span>'+(ptsTxt?'<span class="cr-pts">'+ptsTxt+'</span>':'')+'<span class="cr-cnt">('+cntTxt+')</span></div>'
+       +(eyeKey?'<div class="cr-act">'+ibtn('eyeE','data-key="'+eyeKey+'"',IC.eye,'Details of '+label)+'</div>':'')+'</div>'
+       +(open?'<div class="cr-x"><p>'+esc(desc)+'</p></div>':'');
+    };
+    const sec=(id,label,cnt,body)=>'<div class="opt-sec"><h2 class="sh" data-closed="'+(UI.closed[id]?1:0)+'"><button data-act="sec" data-id="'+id+'" aria-expanded="'+!UI.closed[id]+'">'+IC.down+'<span>'+label+' <span class="cnt">('+cnt+')</span></span></button></h2>'+(UI.closed[id]?'':body)+'</div>';
+    const mkSec=(k,label)=>{
+      const av=availEnh(it,k), cur=it[k]?EM[it[k]]:null, list=cur?[cur,...av.filter(e=>e.id!==cur.id)]:av;
+      if(!list.length) return '';
+      const body=list.map(e=>row(!!(cur&&cur.id===e.id),false,'pick','data-k="'+k+'" data-uid="'+it.uid+'" data-id="'+e.id+'"',e.name,e.p+' pts',(cur&&cur.id===e.id?1:0)+'/1','e:'+it.uid+':'+e.id,'['+DM[e.det].name+'] '+e.t)).join('');
+      return sec('o-'+k+'-'+it.uid,label,(cur?1:0)+'/1',body);
+    };
+    const wlSec=canWarlord(it)?row(isW,lockedW||it.id==='trajann','wl','data-uid="'+it.uid+'"','Warlord','',(isW?1:0)+'/1',null,''):'';
+    const wgBody=g=>{
+      const v=(it.wg&&it.wg[g.id]), pre='<h4 class="wg-t">'+esc(g.t)+(g.f&&g.k==='each'?' <span>(default: '+esc(g.f)+')</span>':'')+'</h4>';
+      if(g.k==='one') return pre+g.c.map((c,i)=>row((v|0)===i,false,'wg1','data-uid="'+it.uid+'" data-g="'+g.id+'" data-c="'+i+'"',c,'',((v|0)===i?1:0)+'/1',null,'')).join('');
+      if(g.k==='tog') return pre+row(!!v,false,'wgt','data-uid="'+it.uid+'" data-g="'+g.id+'"',g.c[0],'',(v?1:0)+'/1',null,'');
+      const n=nModels(it), a=Array.isArray(v)?v:g.c.map(()=>0), used=a.reduce((x,y)=>x+y,0);
+      return pre+g.c.map((c,i)=>'<div class="cr'+(a[i]?' has':'')+'"><div class="cr-main"><span class="cr-name">'+esc(c)+'</span><span class="cr-cnt">('+a[i]+'/'+n+')</span></div><div class="cr-act"><button class="ib step" data-act="wgs" data-uid="'+it.uid+'" data-g="'+g.id+'" data-c="'+i+'" data-d="-1" aria-label="Fewer '+esc(c)+'"'+(a[i]<=0?' disabled':'')+'>−</button><button class="ib step" data-act="wgs" data-uid="'+it.uid+'" data-g="'+g.id+'" data-c="'+i+'" data-d="1" aria-label="More '+esc(c)+'"'+(used>=n?' disabled':'')+'>+</button></div></div>').join('');
+    };
+    const wgs=wgGroups(it), wgSec=wgs.length?sec('o-wg-'+it.uid,'Wargear',wgDesc(it).length?wgDesc(it).length+' changed':'default',wgs.map(wgBody).join('')+(wgs.some(g=>g.flag)?'<div class="cr-x"><p class="warnl">Part of this line is blurry in the photo; the swap is read from the visible fragments.</p></div>':'')+'<div class="cr-x"><p>Wargear options have no points cost in the datasheets.</p></div>'):'';
+    return '<div class="edit">'+optSel+custom+'<div class="full"><span>'+esc(u.st)+'</span></div></div>'+wlSec+mkSec('enh','Enhancements')+mkSec('upg','Upgrades')+wgSec;
+}
+const selUid=()=>{ if(S.list.some(i=>i.uid===UI.sel)) return UI.sel; if(UI.sel===null) return null; const l=S.list[S.list.length-1]; return l?l.uid:null; };
+function entryRow(it){
+  const u=UM[it.id], o=u.opts[it.opt], isW=S.warlord===it.uid, open=selUid()===it.uid;
+  const sub=[optLabel(o)]; if(it.enh) sub.push(EM[it.enh].name+' +'+EM[it.enh].p); if(it.upg) sub.push(EM[it.upg].name+' (upgrade) +'+EM[it.upg].p);
+  wgDesc(it).forEach(x=>sub.push(x));
+  if(surcharge(it)) sub.push('copy #'+copyIdx(it)+' : +'+surcharge(it)+' pts');
+  let h='<div class="er'+(isW?' wl':'')+(open?' sel':'')+'"><span class="ico">'+unitIcon(u)+'</span><div class="er-main" data-act="selu" data-uid="'+it.uid+'"><div class="er-t"><b>'+esc(u.name)+'</b><i>'+pts(it)+' pts</i>'+(isW?'<em>Warlord</em>':'')+'</div><div class="er-s">'+esc(sub.join(' · '))+'</div></div>'
+   +'<div class="er-act">'+ibtn('rexp','data-uid="'+it.uid+'"',IC.eye,open?'Hide options':'Show options')
+   +ibtn('dup','data-uid="'+it.uid+'"',IC.copy,'Duplicate')+ibtn('rm','data-uid="'+it.uid+'"',IC.trash,'Remove')+'</div></div>';
+  if(open) h+='<div class="inl">'+optsHtml(it)+'</div>';
+  return h;
+}
+function exportText(){
+  const L=[], t=total();
+  L.push(S.name+' — ADEPTUS CUSTODES — '+t+' / '+S.limit+' pts');
+  L.push('Detachments ('+dpUsed()+'/'+S.dpMax+' DP): '+(S.dets.length?S.dets.map(id=>DM[id].name+' ['+DM[id].fd+']'+(DM[id].unique?' (Unique Shield Host)':'')).join(', '):'none'));
+  const w=S.list.find(i=>i.uid===S.warlord); L.push('Warlord: '+(w?UM[w.id].name:'not selected')); L.push('');
+  CATS.forEach(([cid,label])=>{
+    const its=S.list.filter(i=>UM[i.id].cat===cid); if(!its.length) return;
+    L.push('['+label+']');
+    its.forEach(i=>{ const u=UM[i.id], o=u.opts[i.opt];
+      L.push(u.name+' — '+o.l+' ('+pts(i)+' pts)'+(i.uid===S.warlord?' [Warlord]':''));
+      if(i.enh) L.push('  + '+EM[i.enh].name+' ('+EM[i.enh].p+' pts)');
+      if(i.upg) L.push('  + '+EM[i.upg].name+' (upgrade, '+EM[i.upg].p+' pts)');
+      wgDesc(i).forEach(x=>L.push('  • '+x)); });
+    L.push('');
+  });
+  L.push('','Built with: https://orpheax.github.io/custobuilder/');
+  return L.join('\n').trim();
+}
+function renderRight(){
+  let h='';
+  if(UI.panel==='opts'){
+    h+='<div class="panelbox"><h3>List options</h3>'
+     +'<div><div class="muted">Battle size</div><div class="chips">'+Object.keys(SIZES).map(k=>'<button class="chip" data-act="size" data-v="'+k+'" aria-pressed="'+(S.limit===+k)+'">'+SIZES[k]+' · '+k+'</button>').join('')+'</div></div>'
+     +'<div class="row"><label class="muted" for="limitIn">Custom limit</label><input type="number" id="limitIn" min="50" step="50" value="'+S.limit+'"><label class="muted" for="dpMax">Max detachment points</label><input type="number" id="dpMax" min="1" max="12" value="'+S.dpMax+'"></div>'
+     +'<div class="row">'+(UI.confirm?'<button class="btn danger" data-act="reset-yes">Confirm: clear everything</button><button class="btn" data-act="reset-no">Cancel</button>':'<button class="btn danger" data-act="reset">Clear list</button>')+'</div></div>';
+  }
+  if(UI.panel==='lists') h+=listsHtml();
+  if(UI.panel==='export'){
+    h+='<div class="panelbox"><h3>Text export</h3><textarea id="exp" readonly>'+esc(exportText())+'</textarea><div class="row"><button class="btn pri" data-act="copy">Copy</button><span class="muted" id="copied"></span></div></div>';
+  }
+  const iss=issues();
+  h+='<div class="notice">'+(UI.msg?'<p class="warn">'+esc(UI.msg)+'</p>':'')+iss.map(x=>'<p class="'+x[0]+'">'+esc(x[1])+'</p>').join('')+(!iss.length&&!UI.msg?'<p class="info">No messages.</p>':'')+'</div>';
+  // Configuration
+  const sizeName=SIZES[S.limit]?SIZES[S.limit]+' ('+S.limit+' pts)':'Custom ('+S.limit+' pts)';
+  h+=secHead('r-conf','Configuration');
+  if(!UI.closed['r-conf']){
+    h+='<div class="er"><span class="ico">'+IC.gear+'</span><div class="er-main"><div class="er-t"><b>Battle size</b></div><div class="er-s">'+esc(sizeName)+'</div></div></div>';
+    h+='<div class="er"><span class="ico">'+IC.gear+'</span><div class="er-main"><div class="er-t"><b>Detachment points</b><i>'+dpUsed()+' / '+S.dpMax+' DP</i></div><div class="er-s">'+(S.dets.length?'':'No detachment selected. Add one from the catalogue.')+'</div></div></div>';
+    S.dets.forEach(id=>{ const d=DM[id], open=!!UI.eye['d:'+id];
+      h+='<div class="er"><span class="ico">'+IC.gear+'</span><div class="er-main"><div class="er-t"><b>'+esc(d.name)+'</b><i>'+d.dp+' DP</i>'+(d.unique?'<em>Unique Shield Host</em>':'')+'</div><div class="er-s">'+esc(d.fd)+' · '+esc(d.rule.n)+(d.ka?' · '+esc(d.ka.n):'')+'</div></div>'
+       +'<div class="er-act">'+ibtn('eyeD','data-id="'+id+'"',IC.eye,'Rules')+ibtn('det','data-id="'+id+'"',IC.trash,'Remove')+'</div></div>'
+       +(open?'<div class="cr-x"><p>'+esc(d.gist)+'</p>'+rulesHtml(d)+'</div>':'');
+    });
+  }
+  // categories
+  const any=S.list.length;
+  CATS.forEach(([cid,label])=>{
+    const its=S.list.filter(i=>UM[i.id].cat===cid); if(!its.length) return;
+    h+=secHead('r-'+cid,label,its.reduce((a,i)=>a+pts(i),0)+' pts');
+    if(!UI.closed['r-'+cid]) h+=its.map(entryRow).join('');
+  });
+  if(!any) h+='<div class="empty">Empty roster. Add units with the + button in the catalogue.</div>';
+  $('#rp').innerHTML=h;
+}
+
+const NOTES = [
+ ['fact','What comes from the sources you provided',['Datasheet points: the V2 table you provided. It replaces V1.','Detachment costs: Guardians of the Throne 3 DP, every other detachment 1 DP. A budget of 3 DP is confirmed: Guardians of the Throne is taken alone, otherwise up to 3 other detachments. Only one Unique Shield Host per army.','Later copies cost more (extra points): Shield-Captain on foot, Allarus and Jetbike +20 from the 2nd; Wardens +30 from the 2nd unit; Telemon +30 from the 2nd; Vertus Praetors +20 from the 2nd unit; Sentinel Guard, Custodian Guard, Allarus Custodians, Caladius and Annihilator +30 from the 3rd; Venatari Kinetic Destroyers +25 from the 3rd; Coronus +20 from the 3rd.','Enhancement and Upgrade points: the table you provided (29 items, e.g. Radiant Mantle 40, Huntress’ Eye 10). Leonine Ferocity is named Fierce Conqueror in your table (20 pts); I kept the rules text from the codex photo.','Detachments, rules, enhancements and stratagems: photos of the 11th edition codex (pages 91 to 105). Stats: datasheets.','Anathema Psykana (page 91): units are included without the ADEPTUS CUSTODES keyword and are never Warlord, except with Null Maiden Vigil.']],
+ ['assume','Assumptions made by the tool',['A later copy surcharge also applies to the copies after it (4th, 5th…). The sources say nothing beyond what is listed.','Each datasheet counts its own copies. Venatari with pistols and with lances are two separate datasheets, as are Caladius and Annihilator.','Venatari with lances: "then ~300, sentence cut off". I assumed +30 from the 3rd unit.','Contemptor-Galatus: the transcript contradicts itself between 220 and 230. Two options are offered, marked to be confirmed.','Prosecutors at 5 models (50) comes from V1 and is not repeated in V2: it is marked to be confirmed. The Gyrfalcon Jetbike Sodality is a 2-model unit only.','Wargear options (Wargear section of each unit) come from the datasheets, have no points cost, and are not otherwise restricted. Enhancements are limited to Characters, except Upgrades, which target units. Each can be taken once per army. The rule of 3 copies and any cap on the number of enhancements are not applied.']],
+ ['gap','Not provided, so not calculated',['Missing points: Anathema Psykana Rhino. A field lets you enter your own points.','Vigilators and Witchseekers: prices for 4 and 10 models only. Prosecutors: 4 models (and 5 in V1).','Points limits (Combat Patrol 500, Incursion 1000, Strike Force 2000, Onslaught 3000): the tool’s choice, adjustable by hand.','Not applied: rule of 3 copies, maximum number of enhancements, transport restrictions. Nothing in the pages provided.','Eagle’s Eye enhancement text: partly illegible in the photo.']]
+];
+function renderOpts(){
+  const uid=selUid(), it=S.list.find(i=>i.uid===uid), el=$('#op');
+  if(!it){ el.innerHTML='<div class="op-h"><b>Unit options</b></div><div class="empty">Select a unit in the roster to see its options, enhancements and upgrades.</div>'; return; }
+  el.innerHTML='<div class="op-h"><b>'+esc(UM[it.id].name)+'</b><span>'+pts(it)+' pts</span></div>'+optsHtml(it);
+}
+/* ---- codex page: every detachment ---- */
+function reqText(e){
+  const nice=k=>k.split(' ').map(w=>w.charAt(0)+w.slice(1).toLowerCase()).join(' ');
+  const parts=[]; if(e.req) parts.push(e.req.map(nice).join(' · '));
+  if(e.any) parts.push('one of: '+e.any.map(nice).join(' / ')); if(e.not) parts.push('not '+e.not.map(nice).join(' / '));
+  return parts.join(' — ');
+}
+function renderCodex(){
+  const f=UI.cxf||'all';
+  const list=DETS.filter(d=>f==='all'||(f==='unique'?d.unique:!d.unique));
+  let h='<div class="cx-top"><h1>Detachments</h1><div class="orn">&#10022;</div><p>Adeptus Custodes · 11th edition. '+DETS.length+' detachments: '+DETS.filter(d=>d.unique).length+' Unique Shield Hosts (only one per army) and '+DETS.filter(d=>!d.unique).length+' others. Budget: '+dpUsed()+' / '+S.dpMax+' DP used.</p>'
+   +'<div class="cx-nav">'+[['all','All'],['unique','Unique Shield Hosts'],['other','Other detachments']].map(x=>'<button data-act="cxf" data-f="'+x[0]+'" aria-pressed="'+(f===x[0])+'">'+x[1]+'</button>').join('')+'</div>'
+   +'<div class="cx-nav">'+list.map(d=>'<a href="#cx-'+d.id+'" data-act="cxgo" data-id="'+d.id+'">'+esc(d.name)+'</a>').join('')+'</div></div>';
+  list.forEach(d=>{
+    const sel=S.dets.includes(d.id), lock=detLock(d.id), enhs=ENH.filter(e=>e.det===d.id);
+    h+='<article class="cx-d" id="cx-'+d.id+'"><header class="cx-h"><h2>'+esc(d.name)+'</h2>'
+     +(d.unique?'<span class="cx-tag u">Unique Shield Host</span>':'<span class="cx-tag">Detachment</span>')+'<span class="cx-tag">'+d.dp+' DP</span>'+'<span class="cx-tag fd">Force disposition: '+esc(d.fd)+'</span>'+'</header>'
+     +'<p class="cx-gist">'+esc(d.gist)+'</p><div class="cx-body"><div>'
+     +'<h3>Detachment rule</h3><div class="cx-box"><b>'+esc(d.rule.n)+'</b><p>'+esc(d.rule.t)+'</p></div>'
+     +(d.ka?'<h3>Favoured Ka’tah</h3><div class="cx-box"><b>'+esc(d.ka.n)+'</b><p>'+esc(d.ka.t)+'</p></div>':'')
+     +'<h3>Enhancements &amp; upgrades</h3>'+enhs.map(e=>'<div class="cx-box"><span class="pp">'+e.p+' pts</span><b>'+esc(e.name)+(e.k==='upg'?' <span class="cx-tag">Upgrade</span>':'')+'</b><small>'+esc(reqText(e))+'</small><p>'+esc(e.t)+'</p></div>').join('')
+     +'</div><div><h3>Stratagems</h3>'+d.strats.map(x=>'<div class="cx-box cx-st"><span class="cp">'+x[1]+' CP</span><b>'+esc(x[0])+'</b><i>'+esc(x[2])+'</i><p>'+esc(x[3])+'</p></div>').join('')+'</div></div>'
+     +'<footer class="cx-foot">'+(sel?'<button class="btn" data-act="det" data-id="'+d.id+'">Remove from my list</button><span class="muted">In your list.</span>'
+       :'<button class="btn pri" data-act="det" data-id="'+d.id+'"'+(lock?' disabled':'')+'>Add to my list ('+d.dp+' DP)</button>'+(lock?'<span class="warnl">'+esc(lock)+'</span>':''))+'</footer></article>';
+  });
+  $('#cx').innerHTML=h;
+}
+/* ---- AOW commentary (paraphrased from the Art of War 40k video review; timestamps = position in the video) ---- */
+const AOW_SRC={title:'The New Adeptus Custodes Codex – Full Review and MFM Points',by:'Art of War 40k',url:'https://www.youtube.com/watch?v=eVh7D8gAtl4'};
+/* v: verdict key -> label/colour. Verdict is our one-word reading of the reviewers' tone, not a quote. */
+const AOW_V={top:['Top pick','g'],good:['Good','g'],sit:['Situational','y'],weak:['Weak','r'],skip:['Skip','r']};
+const AOW_DET={
+gott:{v:'good',t:'15:58',sum:'Presented as the plug-and-play 3 DP option and a good first detachment, with a well-balanced stratagem suite and no dead cards.',
+ pros:['Sustained + Lethal Hits detachment rule stacks well with the many reroll-ones sources; called the best damage buff in the book alongside standing next to Trajann.','Eagle’s Eye (extra wound + once-per-battle 3+ invulnerable at the moment of allocation) is singled out as the best enhancement; a Shield-Captain on foot with minus-1 damage, 9+ wounds and that invulnerable is very hard to kill.','Unlimited Endurance gives army-wide advance-and-shoot-and-charge, timed after the advance roll.','Swift is the Eagle (reactive D3+3 move, Trusted Sentinel units only) described as their favourite stratagem; superhuman focus re-readies units; Prime Target suits grav tanks.'],
+ cons:['Shield of Honor is dismissed: it only works if the enemy model splits its attacks, which a savvy opponent will never do.','Castellan’s Mark redeploy is nice but weaker than the old turn-order version.','Gives up a slot in a points-hungry army: at 3 DP it competes with building from several 1 DP detachments.'],
+ note:'Their advice: the best way to learn what the army does; the later 1 DP combinations are where theorycraft happens.'},
+solar:{v:'top',t:'1:01:43',sum:'The reviewer’s personal favourite and the one he plans to play first: speed turns a traditionally slow army into one of the fastest in the game.',
+ pros:['Fall back and still charge, army-wide (their comparison point: Emperor’s Children-style mobility).','Calistus favoured ka’tah (+2 Move and move through models) – the one ka’tah that really shines here.','Sally Forth (Shield-Captain only): point-and-click advance and charge for a unit within 6″, no CP and not limited to its own unit; worked example of an infantry unit reaching a 23″ charge.','Venatari with the speed upgrade can threaten a deployment zone on turn one.'],
+ cons:['The upgrade excludes Terminators and the stratagems are mostly minor (Inexorable and Gravimetric Grenade described as corner cases).','Wants a Shield-Captain slot, which competes with Trajann.'],
+ note:'Ranked first of the six Shield Hosts by one of the two reviewers; his motto is that speed wins games.'},
+shadow:{v:'top',t:'56:06',sum:'The classic anti-melee host: layers of small modifiers to blunt enemy damage, then turns aggressive when it wants to lock opponents down.',
+ pros:['Objective-linked minus 1 to wound against attacks with Strength above Toughness – effective because the dangerous attackers are the ones that would otherwise wound on 3s/4s.','Kaptaris favoured ka’tah (minus 1 to hit, plus a battle-shock test at minus 1 at start of the fight phase) called possibly the best ka’tah, and the timing denies the opponent offensive stratagems.','No Escape (2 CP) lets a unit charge after an enemy falls back; Indomitable Guardians gives a 1 CP counter-offensive.','Unstoppable Destroyer enhancement is described as a functional fall-back-and-act via objective consolidation.'],
+ cons:['The consolidate-to-leave trick is an enhancement, which is a heavy price for a niche play; lethal-hits stratagem only hits characters/monsters (they wish it said vehicles).'],
+ note:'Listed among the four Shield Hosts to start with; they joke that Shadowkeepers + Dread Host together would be the ultimate melee shutdown if only both were allowed.'},
+chosen:{v:'top',t:'51:15',sum:'Described as competing for best Shield Host: free reroll-one-hit/reroll-one-wound on everything, strong enhancements and two imported 3 DP stratagems.',
+ pros:['Built-in rerolls make grav tanks (low shot count, high quality shots) work – their key reason to field Caladius Annihilators here.','Rendax favoured ka’tah adds mortal wounds when you fight monsters/vehicles with lethal hits.','Radiant Mantle (minus 1 to hit, all attacks) lets you spend ka’tah offensively; Hall of Armouries adds Devastating Wounds on melee.','Superhuman Focus, Armour of Contempt and Impenetrable Bastion (sticky objective) all come with it.'],
+ cons:['Radiant Mantle makes the second enhancement a hard choice; the other enhancement has to compete with it.'],
+ note:'The reviewer’s second favourite Shield Host; Annihilator tanks only really work with these double rerolls.'},
+dread:{v:'good',t:'39:48',sum:'Top-three Shield Host in their eyes: reroll charges across the army plus the best-regarded favourite ka’tah effect.',
+ pros:['Reroll charge rolls for every unit – a big consistency and CP-economy gain for a hyper-elite army where a failed charge can lose a third of your damage.','Dacatarai favoured ka’tah: enemy pile-ins/consolidations are cut by 2″, which freezes opponents who touch you; rated better than the +2 Move option.','A 1 CP advance-and-charge stratagem is included; the two enhancements add Cleave 1 or Sustained Hits 1 to a single character, which they call modest, solid upgrades.'],
+ cons:['Golden Light of the Moirai (2 CP, minus 1 to hit after ingress) is considered over-priced and effectively unusable; Lightning Wrath’s D3+3 pile-in rarely matters on 3-model units.'],
+ note:'Synergy flagged with Lions of the Emperor: rerolled 7″ charges from deep strike out of the up-down.'},
+emissaries:{v:'sit',t:'44:31',sum:'Lower half of the Shield Hosts: strong-sounding Fight First rule, but too many of the pieces buff what you are already doing.',
+ pros:['Fight First for all Custodes models is flagged as strong in melee matchups (though other sources of interrupt/heroic exist).','Edge of the Blade (reroll 1s on charge) is better than the other enhancement.','Slayers of Nightmares (plus 1 to wound vs higher Toughness) fixes the wound roll where Custodes need it – vehicles.'],
+ cons:['Conservai (favourite ka’tah) described as among the least impactful; the shooting/blinding-light enhancement is more of a joke than a threat.','Selfless Service (heroic-style charge for 1 CP) is only a modest CP discount; overall not very sauced up against the competition.'],
+ note:'The Shield Host slot is the most contested place in the book, and this one does not win it.'},
+aquilan:{v:'weak',t:'32:06',sum:'Their pick for the weakest Shield Host: a gun-focused host in an army whose guns are not its strength.',
+ pros:['Gilded Guardians gives minus 1 to wound against higher-Strength ranged attacks when on objectives – nice against shooters who must come close.','Salvus gets +6″ range, effectively +3″ on rapid fire.','Rapid Reactions (shoot a unit that falls back) and Tip of the Talon (+1 Strength within 9″) are fun.'],
+ cons:['Caduceus Tricks only heals one model; the melta-spear Shield-Captain idea is rejected (two melta shots for 100+ points).','Not as synergistic and gives no real upside, so it is the one they would rank last.'],
+ note:'Likely the worst of the six, in their view.'},
+auric:{v:'sit',t:'1:09:18',sum:'A character-support detachment: one Dreadful Foe token gives your characters +1 to wound, which only matters if you field 2–3 characters.',
+ pros:['Duty Unto Death (fight-on-death on 3+, 2+ for characters) is described as the real reason to take it – a source of melee control found nowhere else in the book.','Gilded Champion lets Trajann use Moment Shackle twice and resets the bike captain’s fight-and-fade.','Shroud of the Hidden Blade is a natural home for a solo bike Shield-Captain.'],
+ cons:['The other enhancements (Inspirational Exemplar, Superior Creation) lose out to stronger options in the book; character count in the army is naturally low.'],
+ note:'Picked up value with Trajann and the bike captain, not as a generic pick.'},
+honoured:{v:'top',t:'1:13:42',sum:'Called the most generically useful of the non-Host detachments: they expect it to see the most play and even say it could stand beside the Shield Hosts.',
+ pros:['Reroll 1s to wound for Trusted Sentinel units on objectives, in melee and shooting – incredibly consistent with the stack of other reroll-one-hit sources.','Swift is the Eagle again (8″ reactive move, D3+3) – the stratagem the opponent has to play around; combos with surge-style moves.','Avenge the Fallen (below starting strength, plus 2 attacks on non-characters) and Emperor’s Domain (objective consolidate) are useful; Solaritus Centuries makes heroic interventions cheaper.'],
+ cons:['Mostly valuable if you run lots of Custodian Guard / Wardens / Sentinel Guard; the stratagems do not help Terminators or vehicles.'],
+ note:'Gives access to Take and Hold.'},
+lions:{v:'sit',t:'1:18:36',sum:'The Terminator detachment: take it if you play two or more Terminator units, otherwise you can skip it.',
+ pros:['End-of-fight up-down for unengaged Terminators (they lost it from the datasheet).','Vigil Unending (2 CP, minus 1 damage vs shooting or melee for Terminators) is the big one – the reason to play the detachment.','Fury of the Emperor stacks with Dread Host reroll charges on deep-striking Terminators.'],
+ cons:['Lightning Descent and Leonine Ferocity are low-impact; Terminators are expensive at 90+ per model, so deep-striking them to do small tasks costs a lot.','They remember the old version as overvalued and clunky; unleash the lions has been oversold historically.'],
+ note:'Breakpoint they give: 1 unit – optional; 2 units – probably; 3+ – yes.'},
+moritoi:{v:'top',t:'1:25:55',sum:'The Dreadnought detachment, and the reviewer’s personal favourite: as soon as one Dreadnought is in the list you should take it.',
+ pros:['Plus 2 OC while at starting strength (OC4 Telemon / OC5 with the upgrade), reroll hit 1s below starting strength and reroll hit/wound 1s below half.','Auguries Uplink gives a Dreadnought a 5+ feel-no-pain; the first Telemon should take it (they call it almost a full Katan). Memento Moratoy (+1 attack/Strength/damage) is better on a Galatus than a Telemon.','Honoured Interred aura (reroll 1s to hit for friends within 6″), a stratagem that gives Dreadnoughts Assault and charging after an advance, and Unstoppable Momentum (Mobile). With Solar Watch’s +2 Move a Telemon is described as ~16″ on average and able to charge a Knight.'],
+ cons:['Only one of each upgrade per army, so the benefit tops out around 2–3 Dreadnoughts.'],
+ note:'Quoted prices: Telemon about 280, about 320 with the 5+ FNP upgrade.'},
+grav:{v:'sit',t:'1:33:41',sum:'A specialist detachment for the grav vehicles; a fine fourth 1 DP slot if you have no better use.',
+ pros:['4+ invulnerable against ranged attacks for Grav vehicles (including Coronus and Pallas).','Advanced Stabilizers (assault), Inevitable Annihilation (ignore hit modifiers) and the fall-back-and-shoot upgrade are all good for grav tanks.'],
+ cons:['Only worth taking if you are already playing several grav units; the Victory Before Death sticky-on-death trick is cute but unlikely.'],
+ note:'Their recommendation: pick a Shield Host, pair with Honoured Companions, then use the last 1 DP for the package that the list is built around (grav tanks, a Telemon or Terminators).'},
+nmv:{v:'skip',t:'1:36:40',sum:'The Sisters of Silence detachment, which they do not expect to take; the other pages are so full of good rules that this is easy to leave out.',
+ pros:['Oblivion enhancement is strong on paper, giving +1 to hit and (vs Psykers) +1 to wound on a skirmishing unit.','Chaff Volley (prosecutors, +1 AP for the army against the hit unit) is called legitimate.'],
+ cons:['Anathema Psykana units are not keyworded Adeptus Custodes, so some of the intended synergies (rerolls from Trajann, ka’tah) do not apply.','The detachment rule is at best moderately useful (battle-shock pressure on Psykers).'],
+ note:'You probably aren’t taking this detachment.'}
+};
+const AOW_DS={
+trajann:{v:'top',t:'1:41:07',pts:'265',sum:'Back in the lists and competing for the best character; a pile of stats with an army-wide consistency aura.',
+ pros:['Move 8, T7, 10 wounds, 5+ FNP, Leadership 5, OC2; 6″ aura of rerolls of 1 to hit/wound in shooting and melee.','Moment Shackle once per battle: 9 attacks with the Watcher’s Axe (Cleave, S12 AP3 D4), or a 3+ invulnerable.','Hits vehicles, which the army otherwise struggles to kill; hard to dig out of a unit, so he denies two enemy secondaries (Assassinate and Bring It Down).'],
+ cons:['Lost all sources of Damage 3; the only real reason to skip him is that his cost equals a unit slot.'],
+ take:'Play him in every list until a reason not to appears.'},
+sc:{v:'top',t:'1:46:02',pts:'205 (first), ~230 (second)',sum:'The most improved datasheet; one of only two characters they expect to see regularly.',
+ pros:['Praesidium Shield gives minus 1 damage permanently – never play him without it.','Readies a unit once per battle round, plus a Surge move of D6+2 after being shot.','Strong enhancement carrier; first copy borderline auto-include.'],
+ cons:['A 3-model guard unit with him exceeds 450 points; second copy is a real question once Trajann is in.'],
+ take:'Take with shield. Paragon Blade (precision, 6 attacks) is the alternative when you drop the shield.'},
+scall:{v:'weak',t:'1:50:29',pts:'185',sum:'A very expensive stat stick whose main perk (up-down once per battle) is niche.',
+ pros:['Move 7, T8; Guardian Spear has Cleave on characters; readies a unit once per battle round.'],
+ cons:['Only worth it if you play one Terminator unit with no Lions detachment and still want the up-down; axes (5 attacks, D4 AP2) lose to spears on attack count.'],
+ take:'Probably leave at home.'},
+scjet:{v:'good',t:'1:52:28',pts:'—',sum:'Finally has the same attacks as the other captains.',
+ pros:['8 attacks with Lance, 10 wounds; once per battle (twice with the stratagem) a free move at end of the fight phase; readies a unit.','Brick option if Trajann is not taken; best home for Shroud of the Hidden Blade.'],
+ cons:['No Cleave.'],
+ take:'Solid solo-skirmisher.'},
+blade:{v:'weak',t:'1:53:07',pts:'175',sum:'The opposite of the Shield-Captain: a drop-off for the points.',
+ pros:['Three melee profiles, 5 attacks at S10 with Devastating Wounds; rerolls advance and charge for his unit; +1 to wound vs a chosen enemy.'],
+ cons:['Five attacks is poor; he takes a whole unit slot of points and is not close to worth it.'],
+ take:'Skip.'},
+sentinel:{v:'good',t:'1:54:38',pts:'80 / model',sum:'The sword-and-board guard: the durable option and potentially the backbone of lists.',
+ pros:['5 wounds, OC3 (OC4 with Vexilla), Leadership-modifier immunity with the Vexilla.','Blade pistol: 4 shots at S5 AP1 D2 (12″) with Close Quarters, which lets them shoot out of combat.','Praesidium Shield: minus 1 to wound from higher Strength attackers.'],
+ cons:['5 attacks at S6 AP2 D2 is the worst melee profile in the army; lethal hits only on non-monster/vehicle objective cases (they wanted it against vehicles). Priced at 80 per model, which they suspect may be too much.'],
+ take:'Likely part of the core with Guard and Wardens.'},
+guard:{v:'good',t:'1:58:19',pts:'80 / model',sum:'The spear guard: stronger offence than Sentinel Guard.',
+ pros:['Guardian Spear: 2 shots S5 AP1 D2 at 24″ rapid fire and Assault; 6 attacks at S8 AP2 D2 in melee.','Sustained Hits vs non-monster/vehicle when the objective rule applies; Vexilla for OC4.'],
+ cons:['Cannot take axes (they would not anyway).'],
+ take:'Part of the same core three.'},
+wardens:{v:'sit',t:'1:59:48',pts:'295 first / 325 second (98 per model)',sum:'A very good datasheet at a very big premium.',
+ pros:['6 wounds each; Living Fortress gives minus 1 AP on all attacks against them.','Same guns as the Guard.'],
+ cons:['Compared to the Guard, only +1 wound for +18 points a model; the second unit costs 30 more and they would never play it. AP help does not stop the big shots, so the unit is black and white vs D6 damage.','Cannot stack with Armour of Contempt (excluded by the stratagem).'],
+ take:'Test one unit; perhaps zero. Two-man plus a character is the only configuration they like.'},
+allarus:{v:'good',t:'2:03:02',pts:'90 / model',sum:'Mid-cost and solid; they expect to like it.',
+ pros:['Move 7, T8 – a major breakpoint vs plasma/melta wounding on 4s – with 6 wounds; plus 1 to wound against higher Toughness.','Grenade launcher is now a flat 3 shots with Blast (S5 AP1); they describe the spear and axe profiles as good.','Multiple flavours of Terminator and a minus-1-damage stratagem make them strong with Lions of the Emperor.'],
+ cons:['At 90 a model they are mid-cost; the unit competes with Guard for a slot.'],
+ take:'Very happy with these; a Vexilla is an auto-include on any unit now.'},
+aquilon:{v:'weak',t:'2:05:51',pts:'285 gauntlets / 270 talons',sum:'The new Terminators compete poorly with Allarus.',
+ pros:['Gauntlets: 5 attacks at S10 AP2 D3 and plus 1 AP vs non-monster/vehicle; Talons: heavy flamers and Sustained Hits 2.'],
+ cons:['Damage 1 melee on Talons and no banner (OC2) on Gauntlets; the Allarus are simply a better package; cannot be taken as a 2-man.'],
+ take:'Skip in favour of Allarus.'},
+venk:{v:'weak',t:'2:08:36',pts:'255',sum:'Cool pistol design but all Damage 1.',
+ pros:['Move 12, T7, 2+/4++, 5 wounds; free up-down at the end of the opponent’s fight; Neutroneum cascade mine.'],
+ cons:['Every attack is Damage 1 – they say it would be a good skirmisher at Damage 2.'],
+ take:'Skip in favour of the Lance version.'},
+venl:{v:'top',t:'2:11:12',pts:'270',sum:'The most improved datasheet in their view and the one unit they would nearly auto-include as a one-of.',
+ pros:['Free recursive up-down; free rapid ingress (can double up); Lance in melee with precision; one 18″ S10 AP2 D3 shot.','Move 12 base, can reach deployment-zone charges with Solar Watch.'],
+ cons:['5 attacks a model is a bit light for the price (one reviewer would not call it auto).'],
+ take:'Play one.'},
+telemon:{v:'top',t:'2:12:45',pts:'280 / ~320 with FNP upgrade',sum:'The reviewer’s favourite unit in the book.',
+ pros:['Move 10, T11, 14 wounds, OC4; minus 1 damage against ranged attacks.','Spiculus Launcher 36″, 6 shots, Blast 2; double Caestus fists give 7 attacks at S14 AP3 D4 with twin-link and full rerolls, plus Neutronium Cascade flamers.','With the Moratoy upgrades it becomes a fast, near-unkillable monster killer; can even take down a Knight.'],
+ cons:['Multiple copies are taxed; the other guns (storm cannon, accelerator culverin) are inferior to the fists build.'],
+ take:'Always play the first one with fists; pair with Might of the Moritoi.'},
+galatus:{v:'good',t:'2:16:57',pts:'220',sum:'A solid skirmish piece.',
+ pros:['Move 9, T10, 12 wounds; Warblade gun is 4 shots S6 AP1 D2 twin-linked; melee 8 attacks at S10 AP2 D3; minus 1 wound against stronger attackers.'],
+ cons:['At this price they compare badly to similar units from other armies.'],
+ take:'Take with the Moratoy damage upgrade on the first copy.'},
+achillus:{v:'weak',t:'2:17:37',pts:'220',sum:'Same price as the Galatus and worse.',
+ pros:['Dread Spear (5 attacks, Lance) and a second gun option.'],
+ cons:['Competes poorly with the Galatus and does not take the damage upgrade as well.'],
+ take:'Prefer the Galatus; see Might of the Moritoi for the 2–2–1 pattern they mention.'},
+vertus:{v:'sit',t:'2:20:30',pts:'220 (110 / model)',sum:'Fine rules, too expensive to skirmish.',
+ pros:['T8 and 7 wounds; Sustained Hits on charge; Lance built in; Hurricane Bolter 6 shots (S5 AP1 D2) twin-linked.'],
+ cons:['Priced into don’t skirmish territory; the Salvo Launcher has no twin-link; huge models.'],
+ take:'Playable as a one-off with bolters.'},
+gyrfalcon:{v:'weak',t:'2:21:43',pts:'260 (130 / model)',sum:'Great profile but priced like a Land Raider.',
+ pros:['+1 AP on the charge, 5 attacks at S8 AP2 D3 with Lance, Deep Strike keyword.'],
+ cons:['Only two models per unit; at 130 a model they compete with Predators and Land Raiders; the models are huge.'],
+ take:'Rarely.'},
+pallas:{v:'weak',t:'2:25:02',pts:'135',sum:'All the right rules and none of the damage.',
+ pros:['Move 12, T9, 10 wounds; Mobile Hunter move; fire and fade.'],
+ cons:['Only two shots of S10 – the unit needs an 8-shot S6 gun; they will not field it.'],
+ take:'Leave at home.'},
+coronus:{v:'weak',t:'2:27:34',pts:'220 / 225 third',sum:'Faster, still poor.',
+ pros:['T12 with 16 wounds; reactive D6 move; a Bolt Cannon that is the only good weapon.'],
+ cons:['Advance then disembark – but they cannot charge; blaze cannon is bad.'],
+ take:'Pants before and still pants.'},
+caladius:{v:'sit',t:'2:29:24',pts:'230',sum:'The anti-infantry tank; reasonable.',
+ pros:['T11, 14 wounds, +1 AP on ranged non-monster/vehicle attacks; accelerator cannon with 4 shots; twin Bolt Cannon.'],
+ cons:['They wish the accelerator cannon were AP2 and had another rule.'],
+ take:'Okay for the price; they dislike the Annihilator comparison.'},
+annihilator:{v:'sit',t:'2:30:38',pts:'250',sum:'Works only when paired with reroll sources.',
+ pros:['Carronade: 4 shots S12 AP3 D6+2 with Lethal Hits; reroll 1 hit/wound/damage vs monsters and vehicles.','One of three datasheets that kill big vehicles consistently (the others: Trajann and Telemon).'],
+ cons:['Not twin-linked; without Emperor’s Chosen/Prime Target it misses too much to justify 250.'],
+ take:'Only with Emperor’s Chosen; maybe a Prime Target 3 DP.'},
+kc:{v:'sit',t:'2:33:04',pts:'—',sum:'Mostly the same; only quality-of-life changes.',
+ pros:['+2 Move for a unit and reroll advance/charge.'],
+ cons:['Melee weapon has Devastating Wounds only against Psykers and anti-Psyker 5+, a downgrade.'],
+ take:'Optional.'},
+prosec:{v:'top',t:'2:33:55',pts:'45 for 4 (+5 for a 5th)',sum:'Cheapest sister and an auto-include – two copies in every list.',
+ pros:['Move 7, OC2; Detect ability (+3 detection range); anti-Psyker 4+ rapid-fire gun, now S5 AP1 D1.'],
+ cons:['None called out; the break points at 4 / 5 models matter.'],
+ take:'Auto-include; 4-man squads.'},
+vigil:{v:'weak',t:'2:35:05',pts:'50 for 4',sum:'No longer dev wounds: never getting played.',
+ pros:['Minus 1 to hit in melee, 3 attacks at S5 AP2 D2.'],
+ cons:['Devastating Wounds only into Psykers; not Adeptus Custodes keyword.'],
+ take:'Skip.'},
+witch:{v:'top',t:'2:36:18',pts:'55 for 4 / 60 for 5',sum:'Another of the most improved models: your skirmisher into small stuff.',
+ pros:['Scout 7, Move 7; flamer 3 shots S4 AP1 torrent blast with anti-Psyker 4+; shooting forces battle-shock.','5-man for 60 is worth the five points; 35 shots into a 20-man squad.'],
+ cons:['None significant; no tax on sisters.'],
+ take:'Ideal: one 4-man Prosecutor and three 5-man Witchseekers, around 225 points.'},
+rhino:{v:'sit',t:'2:39:14',pts:'—',sum:'Same stats; a few small tweaks.',
+ pros:['Hunter-killer is D3+3 now; disembark after advance; daughters-of-the-abyss aura.'],
+ cons:['Doesn’t heal any more.'],
+ take:'Optional.'}
+};
+/* ---- Meta Custodes (AOW overall commentary). k: 'f' = rules fact stated in the video, 'o' = reviewer opinion ---- */
+const META=[
+{id:'big',title:'The big picture',items:[
+ {k:'o',ts:'2:39:56',t:'The reviewers’ overall verdict is very positive: dynamic, rules-rich and fun to play, a sharp contrast with the previous codex, which they describe as bland stats with little interaction.'},
+ {k:'o',ts:'2:40:24',t:'They expect the points to stop the army from being broken at release, consider that good for the game, and think some units could use cuts to become playable.'},
+ {k:'o',ts:'2:40:43',t:'There is a clear archetype and the interesting work will be finding the 1 DP detachment combinations and the builds that become meta. A bundle of ideas is already visible (Solar Watch, Dread Host, Might of the Moritoi, Lions, Honoured Companions).'},
+ {k:'o',ts:'1:49:13',t:'Release price level is described as high but justified by the number of rules; slightly above average is the most optimistic expectation, not broken.'}]},
+{id:'rules',title:'Army-wide rules (stated facts)',items:[
+ {k:'f',ts:'1:19',t:'Ka’tah: at the start of your command phase, units with the ability become Readied; spend the token to use one of six ka’tah abilities, each with its own timing (some at start of phase, some on activation).'},
+ {k:'f',ts:'12:36',t:'All Custodes models have a 5+ feel-no-pain against mortal wounds, permanently, with no Sister nearby needed.'},
+ {k:'f',ts:'13:02',t:'Aquila Commander: if your Warlord has the ability, gain 1 CP at the start of each battle round. Anathema Psykana units cannot be the Warlord, so a Custodes character usually leads.'},
+ {k:'f',ts:'13:46',t:'Sisters of Silence give a 3+ feel-no-pain against psychic attacks to their own units and a 5+ to Custodes in a 6″ aura.'},
+ {k:'f',ts:'15:03',t:'One transport can advance and still let its passengers disembark; the Rhino was confirmed to do this later in the video.'},
+ {k:'f',ts:'15:21',t:'Detachment system: one 3 DP detachment, or a mix of 1 DP detachments; six are unique Shield Hosts (only one per army) and the rest can be paired freely.'},
+ {k:'f',ts:'1:41:34',t:'Infantry baseline is up: Move +2, Toughness +1, Leadership 5 across the army.'}]},
+{id:'katah',title:'Ka’tah ranking',items:[
+ {k:'o',ts:'6:37',t:'Kaptaris (minus 1 to hit against your unit) is the best ka’tah, the best damage buff you can have; keeping a model alive in melee and then hitting back is the core idea.'},
+ {k:'o',ts:'8:09',t:'Rendax (Lethal Hits against monsters/vehicles) is second best: Custodes melee is flat and weak into vehicles without it, roughly +15–20% damage there.'},
+ {k:'o',ts:'5:19',t:'Dacatarai (reroll hit 1s into non-monster/vehicle) is a decent infantry damage buff, slightly worse than Sustained Hits used to be. Salvus (ignore modifiers in shooting) is good for reliability.'},
+ {k:'o',ts:'2:06',t:'Conservai and Calistus are utility: Conservai for acting while engaged, Calistus mostly for moving through models, and Calistus is best in Solar Watch.'},
+ {k:'o',ts:'9:36',t:'Budgeting ka’tah each command phase becomes a skill; call timing carefully because the opponent sees your choice before they pick interrupts.'}]},
+{id:'pillars',title:'The pillars a list needs',items:[
+ {k:'o',ts:'37:26',t:'They expect lists to include as many of these as possible: advance-and-charge access, fall back and act, a reactive move, anti-vehicle damage, and layered defences. Fall back and act is called the most mandatory because it is the only one that can lose you the game when an elite army is tied up by cheap screens.'},
+ {k:'o',ts:'43:49',t:'Advance and charge is a pillar; several detachments provide it (Guardians of the Throne, Dread Host, Might of the Moritoi, the Sally Forth enhancement).'},
+ {k:'o',ts:'29:02',t:'Reactive move (Swift is the Eagle, D3+3) is the stratagem opponents must play around; available in Guardians of the Throne and Honoured Companions.'},
+ {k:'o',ts:'2:32:43',t:'Killing big vehicles consistently is done by only three datasheets: Trajann, Telemon and the Annihilator tank. You cannot leave home without some of them.'},
+ {k:'o',ts:'1:22:13',t:'Minus 1 damage (Praesidium Shield, Telemon vs shooting, Vigil Unending) and AP/To-hit/To-wound modifiers are the defensive core: small stacked modifiers are what make the army hard to kill.'}]},
+{id:'hosts',title:'Shield Host ranking (reviewer view)',items:[
+ {k:'o',ts:'1:08:18',t:'Preference order from the discussion: Solar Watch first, then Shadowkeepers, Emperor’s Chosen and Dread Host as the other three they would start with. Emissaries Imperatus sits lower; Aquilan Shield is called the worst.'},
+ {k:'o',ts:'1:08:57',t:'Of the six 1 DP non-Hosts, Honoured Companions and Might of the Moritoi are the ones most likely to see play; Lions needs 2+ Terminator units; Grav-Assault Force and Auric Champions are specialist; Null Maiden Vigil is unlikely.'},
+ {k:'o',ts:'1:36:10',t:'Suggested template: one infantry Shield Host (with reactive move), then Honoured Companions or the detachment of whatever package the list is built around (grav tanks, Telemon, Terminators).'},
+ {k:'o',ts:'1:40:32',t:'A full 13-detachment tier list and several example builds were promised in a separate video, so this ordering is provisional.'}]},
+{id:'builds',title:'Build ideas floated in the video',items:[
+ {k:'o',ts:'1:01:43',t:'Solar Watch with fast infantry and a Shield-Captain using Sally Forth for deployment-zone charges.'},
+ {k:'o',ts:'1:25:15',t:'Dread Host + Lions of the Emperor: rerolled charges on Terminators deep-striking with the up-down.'},
+ {k:'o',ts:'1:29:07',t:'Might of the Moritoi with an upgraded Telemon first, then Galatus/Achillus: roughly a 2–2–1 pattern with infantry as grab-and-hold pieces.'},
+ {k:'o',ts:'2:31:37',t:'Emperor’s Chosen with Annihilator tanks and Prime Target for double rerolls.'},
+ {k:'o',ts:'2:38:43',t:'Skirmish package: one 4-man Prosecutor squad plus three 5-man Witchseeker squads, about 225 points.'}]},
+{id:'pts',title:'Points and unit economics',items:[
+ {k:'o',ts:'2:02:37',t:'Unit density matters: Custodes are priced so that skirmishing with small elite squads is not cheap; the plan is to build a game plan around a big setup turn rather than trade early.'},
+ {k:'o',ts:'1:48:56',t:'Characters are expensive (a Shield-Captain unit exceeds 450 points); you may have 20–40 points left over that does nothing.'},
+ {k:'o',ts:'2:21:15',t:'Several mid-priced units are judged poor value (Gyrfalcon, Pallas, Coronus, Aquilon, Blade Champion, Vigilators); the Wardens’ second unit is judged never worth playing.'},
+ {k:'o',ts:'2:19:09',t:'Comparing datasheets point-for-point with other armies is not going to make you happy; these are best read against the other Custodes options.'},
+ {k:'o',ts:'1:55:23',t:'Infantry at 80 points a model is called very high but unavoidable since the Guard are the cheapest infantry.'}]},
+{id:'risk',title:'Weaknesses and risks',items:[
+ {k:'o',ts:'2:01:05',t:'Biggest fear: the army is black and white against big damage – pass the saves and units survive, fail them and a unit evaporates (melta example). AP help does not stop D6 damage weapons.'},
+ {k:'o',ts:'17:52',t:'Few characters and few damage buffs; most of the book is utility and movement rather than raw damage multipliers, so game plans have to be built around timing.'},
+ {k:'o',ts:'36:36',t:'Very elite armies can be tied up by cheap screens; fall back and act and advance and charge are how you stay in control.'},
+ {k:'f',ts:'1:38:39',t:'Anathema Psykana units are not keyworded Adeptus Custodes, so some Custodes-targeted buffs do not reach them.'},
+ {k:'o',ts:'2:23:12',t:'Model size: the new jetbikes are very large and awkward to base and move.'}]},
+{id:'best',title:'Best and worst datasheets (reviewer view)',items:[
+ {k:'o',ts:'',t:'Best: Trajann Valoris, Shield-Captain with Praesidium Shield, Telemon, Venatari with Verutum Lances, Allarus Custodians, Witchseekers and Prosecutors.'},
+ {k:'o',ts:'',t:'Core: Sentinel Guard, Custodian Guard and (in small numbers) Wardens form the backbone of every list.'},
+ {k:'o',ts:'',t:'Weak: Blade Champion, Aquilon Terminators, Venatari with Kinetic Destroyers, Pallas, Coronus, Gyrfalcon, Vigilators, a second Wardens unit.'},
+ {k:'o',ts:'2:40:36',t:'Expect points cuts on several of these in later updates.'}]}
+];
+
+/* ---- AOW + Meta tabs ---- */
+const tsSec=t=>t.split(':').reduce((a,x)=>a*60+(+x),0);
+const tsLink=t=>'<a class="aw-ts" target="_blank" rel="noopener" href="'+AOW_SRC.url+'&t='+tsSec(t)+'s">▶ '+esc(t)+'</a>';
+const vChip=v=>'<span class="aw-v aw-'+AOW_V[v][1]+'">'+AOW_V[v][0]+'</span>';
+function awCard(id,name,tags,o,extra){
+  return '<article class="cx-d" id="aw-'+id+'"><header class="cx-h"><h2>'+esc(name)+'</h2>'+tags+vChip(o.v)+' '+tsLink(o.t)+'</header>'
+   +'<p class="cx-gist">'+esc(o.sum)+'</p><div class="cx-body"><div><h3>What they liked</h3>'
+   +o.pros.map(x=>'<div class="cx-box aw-pro"><p>'+esc(x)+'</p></div>').join('')+'</div><div><h3>Concerns</h3>'
+   +o.cons.map(x=>'<div class="cx-box aw-con"><p>'+esc(x)+'</p></div>').join('')+'</div></div>'
+   +'<footer class="cx-foot"><span><b>'+(o.take!==undefined?'Their take':'Note')+':</b> '+esc(o.take!==undefined?o.take:o.note)+'</span>'+(extra||'')+'</footer></article>';
+}
+function renderAow(){
+  const f=UI.awf||'all';
+  const dl=f==='ds'?[]:DETS, ul=f==='det'?[]:U.filter(u=>AOW_DS[u.id]);
+  let h='<div class="cx-top"><h1>AOW Commentary</h1><div class="orn">&#10022;</div><p>Paraphrased reviewer opinions from the <a target="_blank" rel="noopener" href="'+AOW_SRC.url+'">'+esc(AOW_SRC.by)+' video “'+esc(AOW_SRC.title)+'”</a>. Verdict chips are our one-word reading of their tone, not their words. Points are as quoted in the video and may differ from this tool’s data. Timestamps open the video at that moment.</p>'
+   +'<div class="cx-nav">'+[['all','All'],['det','Detachments ('+DETS.length+')'],['ds','Datasheets ('+U.filter(u=>AOW_DS[u.id]).length+')']].map(x=>'<button data-act="awf" data-f="'+x[0]+'" aria-pressed="'+(f===x[0])+'">'+x[1]+'</button>').join('')+'</div>'
+   +'<div class="cx-nav">'+dl.map(d=>'<a href="#aw-d-'+d.id+'" data-act="awgo" data-id="d-'+d.id+'">'+esc(d.name)+'</a>').join('')+ul.map(u=>'<a href="#aw-'+u.id+'" data-act="awgo" data-id="'+u.id+'">'+esc(u.id==='venk'?'Venatari (Kinetic)':u.id==='venl'?'Venatari (Lances)':u.name.replace(/ (Sodality|Squad|Dreadnought|Custodians)$/,''))+'</a>').join('')+'</div></div>';
+  if(dl.length) h+='<h2 class="aw-sec">Detachments</h2>'+dl.filter(d=>AOW_DET[d.id]).map(d=>awCard('d-'+d.id,d.name,(d.unique?'<span class="cx-tag u">Unique Shield Host</span>':'<span class="cx-tag">Detachment</span>')+'<span class="cx-tag">'+d.dp+' DP</span>',AOW_DET[d.id])).join('');
+  if(ul.length) h+='<h2 class="aw-sec">Datasheets</h2>'+ul.map(u=>awCard(u.id,u.name,'<span class="cx-tag">'+esc(u.cat)+'</span>'+(AOW_DS[u.id].pts&&AOW_DS[u.id].pts!=='—'?'<span class="cx-tag u">'+esc(AOW_DS[u.id].pts)+' pts</span>':''),AOW_DS[u.id])).join('');
+  $('#aw').innerHTML=h;
+}
+/* ---- Ka'tah tab (base effects: Warhammer Community preview; favoured effects: codex) ---- */
+const KT=[
+ {n:'Dacatarai',d:'dread',w:'Start of the Fight phase.',tg:'One friendly <b>readied</b> unit.',e:'Your unit’s melee attacks that target an enemy unit (excluding <code>MONSTER/VEHICLE</code> units) can <b>re-roll hit rolls</b> of 1.',f:'When an enemy unit engaged with your unit makes a pile-in/consolidation move, -2" from that pile-in/consolidation move.'},
+ {n:'Kaptaris',d:'shadow',w:'Start of the Fight phase.',tg:'One friendly <b>readied</b> unit.',e:'Melee attacks that target your unit have -1 to <b>hit rolls</b>.',f:'You can select one enemy unit engaged with your unit. That enemy unit must make a battle-shock roll, with -1 to that battle-shock roll. You cannot select the same enemy unit for this effect more than once per phase.'},
+ {n:'Rendax',d:'chosen',w:'Fight phase, when a friendly <b>readied</b> unit is <b>selected to fight</b>.',tg:'One friendly <b>readied</b> unit.',e:'Your unit’s melee attacks have <b><code>[LETHAL HITS: MONSTER/VEHICLE]</code></b>.',f:'You can select one enemy MONSTER/VEHICLE unit engaged with your unit and roll one D6: on a 1-2, that enemy unit suffers 1 mortal wound; on a 3-5, D3 mortal wounds; on a 6, 3 mortal wounds.'},
+ {n:'Conservai',d:'emissaries',w:'Your Command phase.',tg:'One friendly <b>readied</b> unit.',e:'Until the end of the turn:',l:['Being <b>engaged/battle-shocked</b> does not prevent your unit from being <b>eligible to start an action</b>.','Starting an <b>action</b> does not prevent your unit from being <b>eligible to shoot</b>.'],f:'Until the end of the turn, being selected to make an advance/fall-back move does not prevent your unit from being eligible to start an action.'},
+ {n:'Calistus',d:'solar',w:'Your Movement phase, when a friendly <b>readied</b> unit is <b>selected to move</b>.',tg:'That <b>readied</b> unit.',e:'When your unit makes a <b>normal/advance/fall-back move</b>, your unit can move through all types of model.',f:'Your unit has +2" M.'},
+ {n:'Salvus',d:'aquilan',w:'Your Shooting phase, when a friendly <b>readied</b> unit is <b>selected to shoot</b>.',tg:'That <b>readied</b> unit.',e:'Your unit can ignore modifiers to your unit’s:',l:['BS.','<b>Hit rolls</b> and <b>wound rolls</b>.'],f:'Your unit’s ranged attacks have +6" R.'}];
+function renderKt(){
+  let h='<div class="cx-top"><h1>Ka’tah</h1><div class="orn">&#10022;</div><p>Custodian units become <b>readied</b> at the start of the Command phase. A readied unit can use one ka’tah when its trigger occurs, then it is no longer readied. Card text follows the <a target="_blank" rel="noopener" href="https://www.warhammer-community.com/en-gb/articles/vygelghy/new-army-rules-from-codex-adeptus-custodes/">Warhammer Community preview</a>; the Favoured line is the Additional Effect printed in the codex for the six Unique Shield Hosts.</p></div>'
+   +'<div class="kt-g">'+KT.map(k=>{ const d=DM[k.d]; const on=S.dets.includes(k.d);
+     return '<div class="kt-w"><article class="kt-c"><h3>'+esc(k.n)+'</h3><div class="kt-band">KA’TAH ABILITY</div>'
+      +'<div class="kt-r"><b>WHEN:</b> '+k.w+'</div><div class="kt-r"><b>TARGET:</b> '+k.tg+'</div>'
+      +'<div class="kt-r"><b>EFFECT:</b> '+k.e+(k.l?'<ul>'+k.l.map(x=>'<li>'+x+'</li>').join('')+'</ul>':'')+'</div></article>'
+      +'<p class="kt-fv"><b>Favoured by '+esc(d.name)+'</b> ('+esc(d.fd)+(on?', in your list':'')+'): '+esc(k.f)+'</p></div>'; }).join('')+'</div>';
+  $('#kt').innerHTML=h;
+}
+function renderMeta(){
+  let h='<div class="cx-top"><h1>Meta Custodes</h1><div class="orn">&#10022;</div><p>Overall strategy and meta commentary from the <a target="_blank" rel="noopener" href="'+AOW_SRC.url+'">'+esc(AOW_SRC.by)+' review</a>, paraphrased. <b>Fact</b> = rule text stated in the video; <b>Opinion</b> = reviewer judgement (early impressions at release, before wide testing). Several of their ideas were explicitly flagged as untested.</p>'
+   +'<div class="cx-nav">'+META.map(m=>'<a href="#mt-'+m.id+'" data-act="mtgo" data-id="'+m.id+'">'+esc(m.title)+'</a>').join('')+'</div></div>';
+  META.forEach(m=>{
+    h+='<article class="cx-d" id="mt-'+m.id+'"><header class="cx-h"><h2>'+esc(m.title)+'</h2></header><div class="mt-body">'
+     +m.items.map(i=>'<div class="cx-box mt-'+i.k+'"><span class="mt-k">'+(i.k==='f'?'Fact':'Opinion')+'</span>'+(i.ts?tsLink(i.ts):'')+'<p>'+esc(i.t)+'</p></div>').join('')+'</div></article>';
+  });
+  $('#mt').innerHTML=h;
+}
+
+const DSD={"trajann":{"name":"Trajann Valoris","stats":{"M":"8\"","T":"7","Sv":"2+","W":"10","Ld":"5+","OC":"2","Inv":"4+"},"ranged":[{"name":"Eagle's Scream","kw":["ASSAULT","RAPID FIRE 2"],"range":"24\"","A":"2","BS":"2+","S":"6","AP":"-2","D":"2"}],"melee":[{"name":"Watcher's Axe","kw":["CLEAVE 1"],"range":"Melee","A":"6","WS":"2+","S":"12","AP":"-3","D":"4"}],"core":["Deep Strike","Feel No Pain 5+","Leader"],"army":["Aegis of the Emperor","Aquila Commander","Martial Ka'tah"],"abilities":[{"name":"Captain-General (Aura)","text":"Friendly ADEPTUS CUSTODES units (excluding MONSTER/VEHICLE units) within 6\" of this model can\n- Re-roll hit rolls of 1\n- Re-roll wound rolls of 1"},{"name":"Moment Shackle (Once per battle, per army)","text":"At the start of any phase, you can select one of the following to take effect until the end of the phase\n- This model's Watcher's Axe weapon has +3 A\n- This model has 3+ InSv"},{"name":"Supreme Commander","text":"If this model is in your army, it must be your WARLORD"}],"wargear":[],"composition":"1 Trajann Valoris model","equipped":"This model is equipped with: 1 Eagle's Scream, 1 Watcher's Axe","keywords":["INFANTRY","CHARACTER","EPIC HERO","IMPERIUM"],"faction":["ADEPTUS CUSTODES"]},"sc":{"name":"Shield-Captain","stats":{"M":"8\"","T":"7","Sv":"2+","W":"8","Ld":"5+","OC":"2","Inv":"4+"},"ranged":[{"name":"Castellan Axe","kw":["ASSAULT","RAPID FIRE 2"],"range":"24\"","A":"2","BS":"2+","S":"5","AP":"-1","D":"2"},{"name":"Guardian Spear","kw":["ASSAULT","RAPID FIRE 2"],"range":"24\"","A":"2","BS":"2+","S":"5","AP":"-1","D":"2"},{"name":"Pyrithite Spear","kw":["ASSAULT","MELTA 2"],"range":"12\"","A":"1","BS":"2+","S":"10","AP":"-3","D":"D3+2"}],"melee":[{"name":"Castellan Axe","kw":[],"range":"Melee","A":"5","WS":"2+","S":"10","AP":"-2","D":"4"},{"name":"Eternity-pattern Paragon Blade","kw":["PRECISION"],"range":"Melee","A":"6","WS":"2+","S":"10","AP":"-3","D":"3"},{"name":"Guardian Spear","kw":["CLEAVE 1"],"range":"Melee","A":"8","WS":"2+","S":"8","AP":"-2","D":"2"},{"name":"Pyrithite Spear","kw":["CLEAVE 1"],"range":"Melee","A":"8","WS":"2+","S":"8","AP":"-2","D":"2"}],"core":["Deep Strike","Leader"],"army":["Aegis of the Emperor","Aquila Commander","Martial Ka'tah"],"abilities":[{"name":"Master of Ka'tahs (Once per battle round, per unit)","text":"If this unit is not readied, you can use this ability. If you do, this unit is readied"},{"name":"Vengeful Surge (Once per battle, per unit)","text":"In your opponent's Shooting phase, when an enemy unit has shot, if a model in this unit lost a wound as a result of those attacks, this unit can make a surge move of up to D6+2\"."},{"name":"Praesidium Shield","text":"Attacks allocated to this model have -1 D."}],"wargear":["This model's Pyrithite Spear can be replaced with 1 Eternity-pattern Paragon Blade","This model's Pyrithite Spear and Praesidium Shield can be replaced with one of the following:\n- Castellan Axe\n- Guardian Spear"],"composition":"1 Shield-Captain model","equipped":"This model is equipped with: 1 Praesidium Shield, 1 Pyrithite Spear","keywords":["INFANTRY","CHARACTER","IMPERIUM","SHIELD-CAPTAIN"],"faction":["ADEPTUS CUSTODES"]},"scall":{"name":"Shield-Captain in Allarus Terminator Armour","stats":{"M":"7\"","T":"8","Sv":"2+","W":"9","Ld":"5+","OC":"2","Inv":"4+"},"ranged":[{"name":"Balistus Grenade Launcher","kw":["ASSAULT","BLAST 1"],"range":"18\"","A":"3","BS":"2+","S":"5","AP":"-1","D":"1"},{"name":"Castellan Axe","kw":["ASSAULT","RAPID FIRE 2"],"range":"24\"","A":"2","BS":"2+","S":"5","AP":"-1","D":"2"},{"name":"Guardian Spear","kw":["ASSAULT","RAPID FIRE 2"],"range":"24\"","A":"2","BS":"2+","S":"5","AP":"-1","D":"2"}],"melee":[{"name":"Castellan Axe","kw":[],"range":"Melee","A":"5","WS":"2+","S":"10","AP":"-2","D":"4"},{"name":"Guardian Spear","kw":["CLEAVE 1"],"range":"Melee","A":"8","WS":"2+","S":"8","AP":"-2","D":"2"}],"core":["Deep Strike","Leader"],"army":["Aegis of the Emperor","Aquila Commander","Martial Ka'tah"],"abilities":[{"name":"Master of Ka'tahs (Once per battle round, per unit)","text":"If this unit is not readied, you can use this ability. If you do, this unit is readied"},{"name":"Archeotech Teleport-shunter (Once per battle, per unit)","text":"In your Movement phase, if this unit is unengaged and has not been selected to move this phase, you can use this ability. If you do, place this unit in strategic reserves and this unit must make an ingress move this phase."}],"wargear":["This model's Guardian Spear can be replaced with 1 Castellan Axe"],"composition":"1 Shield-Captain in Allarus Terminator Armour model","equipped":"This model is equipped with: 1 Balistus Grenade Launcher; 1 Guardian Spear","keywords":["INFANTRY","CHARACTER","IMPERIUM","SHIELD-CAPTAIN","TERMINATOR"],"faction":["ADEPTUS CUSTODES"]},"scjet":{"name":"Shield-Captain on Dawneagle Jetbike","stats":{"M":"12\"","T":"8","Sv":"2+","W":"10","Ld":"5+","OC":"2","Inv":"4+"},"ranged":[{"name":"Hurricane Bolter","kw":["RAPID FIRE 3","TWIN-LINKED"],"range":"18\"","A":"3","BS":"2+","S":"5","AP":"-1","D":"2"},{"name":"Salvo Launcher","kw":[],"range":"24\"","A":"2","BS":"2+","S":"10","AP":"-2","D":"D3+2"}],"melee":[{"name":"Interceptor Lance","kw":["LANCE"],"range":"Melee","A":"8","WS":"2+","S":"8","AP":"-2","D":"2"}],"core":["Deep Strike"],"army":["Aegis of the Emperor","Aquila Commander","Martial Ka'tah"],"abilities":[{"name":"Master of Ka'tahs (Once per battle round, per unit)","text":"If this unit is not readied, you can use this ability. If you do, this unit is readied"},{"name":"Sweeping Advance (Once per battle, per unit)","text":"At the end of the Fight phase, if this unit was eligible to fight this phase:\n- If this unit is unengaged, this unit can make a normal move.\n- Or: If this unit is engaged, this unit can make a fall-back move."}],"wargear":["This model's Salvo Launcher can be replaced with 1 Hurricane Bolter"],"composition":"1 Shield-Captain on Dawneagle Jetbike model","equipped":"This model is equipped with: 1 Interceptor Lance, 1 Salvo Launcher","keywords":["MOUNTED","CHARACTER","FLY","IMPERIUM","SHIELD-CAPTAIN"],"faction":["ADEPTUS CUSTODES"]},"blade":{"name":"Blade Champion","stats":{"M":"8\"","T":"7","Sv":"2+","W":"7","Ld":"5+","OC":"2","Inv":"4+"},"ranged":[],"melee":[{"name":"Vaultswords – Behemor","kw":["DEVASTATING WOUNDS"],"range":"Melee","A":"5","WS":"2+","S":"10","AP":"-3","D":"3"},{"name":"Vaultswords – Hurricanis","kw":["CLEAVE 1","SUSTAINED HITS 1"],"range":"Melee","A":"10","WS":"2+","S":"6","AP":"-2","D":"1"},{"name":"Vaultswords – Victus","kw":["PRECISION"],"range":"Melee","A":"8","WS":"2+","S":"8","AP":"-3","D":"2"}],"core":["Deep Strike","Leader"],"army":["Aegis of the Emperor","Martial Ka'tah"],"abilities":[{"name":"Swift Onslaught","text":"This unit can:\n- Re-roll advance rolls\n- Re-roll charge rolls"},{"name":"Sword of the Throne","text":"At the start of the first battle round, select one enemy unit to be this model's mark.\n- This model's attacks that target this model's mark have +1 to wound rolls\n- Each time this model's mark is destroyed, select one enemy unit to be this model's mark."}],"wargear":[],"composition":"1 Blade Champion model","equipped":"This model is equipped with: 1 Vaultswords","keywords":["INFANTRY","CHARACTER","IMPERIUM"],"faction":["ADEPTUS CUSTODES"]},"sentinel":{"name":"Sentinel Guard Sodality","stats":{"M":"8\"","T":"7","Sv":"2+","W":"5","Ld":"5+","OC":"3","Inv":"4+"},"ranged":[{"name":"Sentinel Blade","kw":["ASSAULT","CLOSE-QUARTERS"],"range":"12\"","A":"4","BS":"2+","S":"5","AP":"-1","D":"2"}],"melee":[{"name":"Sentinel Blade","kw":[],"range":"Melee","A":"5","WS":"2+","S":"6","AP":"-2","D":"2"}],"core":["Deep Strike"],"army":["Aegis of the Emperor","Martial Ka'tah"],"abilities":[{"name":"Stand Vigil","text":"This unit's attacks have [LETHAL HITS: non-MONSTER/VEHICLE] if any of the following apply:\n- This unit is within range of an objective\n- The target of those attacks is within range of an objective"},{"name":"Praesidium Shield","text":"Attacks that target this unit with a S greater than this unit's T have -1 to wound rolls."},{"name":"Vexilla","text":"This unit has +1 OC\nThis unit can ignore modifiers to this unit's Ld"}],"wargear":["1 model can be equipped with 1 Vexilla"],"composition":"3 Sentinel Guard models","equipped":"Every model is equipped with: 1 Praesidium Shield, 1 Sentinel Blade","keywords":["INFANTRY","BATTLELINE","IMPERIUM","TRUSTED SENTINEL"],"faction":["ADEPTUS CUSTODES"]},"guard":{"name":"Custodian Guard Sodality","stats":{"M":"8\"","T":"7","Sv":"2+","W":"5","Ld":"5+","OC":"3","Inv":"4+"},"ranged":[{"name":"Guardian Spear","kw":["ASSAULT","RAPID FIRE 2"],"range":"24\"","A":"2","BS":"2+","S":"5","AP":"-1","D":"2"}],"melee":[{"name":"Guardian Spear","kw":[],"range":"Melee","A":"6","WS":"2+","S":"8","AP":"-2","D":"2"}],"core":["Deep Strike"],"army":["Aegis of the Emperor","Martial Ka'tah"],"abilities":[{"name":"Impenetrable Defence","text":"This unit's attacks have [SUSTAINED HITS 1: non-MONSTER/VEHICLE] if any of the following apply:\n- This unit is within range of an objective\n- The target of those attacks is within range of an objective"},{"name":"Vexilla","text":"This unit has +1 OC\nThis unit can ignore modifiers to this unit's Ld"}],"wargear":["1 model can be equipped with 1 Vexilla"],"composition":"3 Custodian Guard models","equipped":"Every model is equipped with: 1 Guardian Spear","keywords":["INFANTRY","BATTLELINE","IMPERIUM","TRUSTED SENTINEL"],"faction":["ADEPTUS CUSTODES"]},"wardens":{"name":"Custodian Wardens","stats":{"M":"8\"","T":"7","Sv":"2+","W":"6","Ld":"5+","OC":"2","Inv":"4+"},"ranged":[{"name":"Castellan Axe","kw":["ASSAULT","RAPID FIRE 2"],"range":"24\"","A":"2","BS":"2+","S":"5","AP":"-1","D":"2"},{"name":"Guardian Spear","kw":["ASSAULT","RAPID FIRE 2"],"range":"24\"","A":"2","BS":"2+","S":"5","AP":"-1","D":"2"}],"melee":[{"name":"Castellan Axe","kw":[],"range":"Melee","A":"3","WS":"2+","S":"10","AP":"-2","D":"4"},{"name":"Guardian Spear","kw":[],"range":"Melee","A":"6","WS":"2+","S":"8","AP":"-2","D":"2"}],"core":["Deep Strike"],"army":["Aegis of the Emperor","Martial Ka'tah"],"abilities":[{"name":"Living Fortress","text":"Attacks that target this unit have -1 AP."},{"name":"Vexilla","text":"This unit has +1 OC\nThis unit can ignore modifiers to this unit's Ld"}],"wargear":["All models in this unit can each have their Guardian Spear replaced with 1 Castellan Axe","1 model can be equipped with 1 Vexilla"],"composition":"2-3 Custodian Warden models","equipped":"Every model is equipped with: 1 Guardian Spear","keywords":["INFANTRY","IMPERIUM","TRUSTED SENTINEL"],"faction":["ADEPTUS CUSTODES"]},"allarus":{"name":"Allarus Custodians","stats":{"M":"7\"","T":"8","Sv":"2+","W":"6","Ld":"5+","OC":"2","Inv":"4+"},"ranged":[{"name":"Balistus Grenade Launcher","kw":["ASSAULT","BLAST 1"],"range":"18\"","A":"3","BS":"2+","S":"5","AP":"-1","D":"1"},{"name":"Castellan Axe","kw":["ASSAULT","RAPID FIRE 2"],"range":"24\"","A":"2","BS":"2+","S":"5","AP":"-1","D":"2"},{"name":"Guardian Spear","kw":["ASSAULT","RAPID FIRE 2"],"range":"24\"","A":"2","BS":"2+","S":"5","AP":"-1","D":"2"}],"melee":[{"name":"Castellan Axe","kw":[],"range":"Melee","A":"3","WS":"2+","S":"10","AP":"-2","D":"4"},{"name":"Guardian Spear","kw":[],"range":"Melee","A":"6","WS":"2+","S":"8","AP":"-2","D":"2"}],"core":["Deep Strike"],"army":["Aegis of the Emperor","Martial Ka'tah"],"abilities":[{"name":"Slayer of Tyrants","text":"This unit's melee attacks that target a unit with a T greater than this unit's T have +1 to wound rolls."},{"name":"Vexilla","text":"This unit has +1 OC\nThis unit can ignore modifiers to this unit's Ld"}],"wargear":["1 model can be equipped with 1 Vexilla","All models in this unit can each have their Guardian Spear replaced with 1 Castellan Axe"],"composition":"2-3 Allarus Custodian models","equipped":"Every model is equipped with: 1 Balistus Grenade Launcher; 1 Guardian Spear","keywords":["INFANTRY","IMPERIUM","TERMINATOR"],"faction":["ADEPTUS CUSTODES"]},"aquilon_g":{"name":"Aquilon Terminators with Solarite Power Gauntlets","stats":{"M":"7\"","T":"8","Sv":"2+","W":"6","Ld":"5+","OC":"2","Inv":"4+"},"ranged":[{"name":"Adrathic Combi-destructor","kw":[],"range":"12\"","A":"2","BS":"2+","S":"5","AP":"-2","D":"3"}],"melee":[{"name":"Solarite Power Gauntlet","kw":[],"range":"Melee","A":"5","WS":"2+","S":"10","AP":"-2","D":"3"}],"core":["Deep Strike"],"army":["Aegis of the Emperor","Martial Ka'tah"],"abilities":[{"name":"Dread Foe","text":"This unit's melee attacks that target a unit (excluding MONSTER/VEHICLE units) have +1 AP"}],"wargear":[],"composition":"3 Aquilon Terminator models","equipped":"Every model is equipped with: 1 Adrathic Combi-destructor, 1 Solarite Power Gauntlet","keywords":["INFANTRY","IMPERIUM","TERMINATOR"],"faction":["ADEPTUS CUSTODES"]},"aquilon_t":{"name":"Aquilon Terminators with Solarite Power Talons","stats":{"M":"7\"","T":"8","Sv":"2+","W":"6","Ld":"5+","OC":"2","Inv":"4+"},"ranged":[{"name":"Infernus Firepike","kw":["BLAST 2","TORRENT"],"range":"12\"","A":"3","BS":"-","S":"5","AP":"-1","D":"1"},{"name":"Lastrum Storm Bolter","kw":["RAPID FIRE 3"],"range":"24\"","A":"3","BS":"2+","S":"5","AP":"-1","D":"1"}],"melee":[{"name":"Solarite Power Talon","kw":["SUSTAINED HITS 2"],"range":"Melee","A":"6","WS":"2+","S":"6","AP":"-2","D":"1"}],"core":["Deep Strike"],"army":["Aegis of the Emperor","Martial Ka'tah"],"abilities":[{"name":"Reap a Terrible Tally","text":"This unit's attacks that target an INFANTRY unit can: Re-roll hit rolls of 1. Re-roll wound rolls of 1."}],"wargear":["All models in this unit can each have their Lastrum Storm Bolter replaced with 1 Infernus Firepike."],"composition":"3 Aquilon Terminator models","equipped":"Every model is equipped with: 1 Lastrum Storm Bolter, 1 Solarite Power Talon","keywords":["INFANTRY","IMPERIUM","TERMINATOR"],"faction":["ADEPTUS CUSTODES"]},"galatus":{"name":"Contemptor-Galatus Dreadnought","stats":{"M":"9\"","T":"10","Sv":"2+","W":"12","Ld":"5+","OC":"3","Inv":"4+"},"ranged":[{"name":"Warblade","kw":["BLAST 2","TORRENT","TWIN-LINKED"],"range":"12\"","A":"4","BS":"-","S":"6","AP":"-1","D":"2"}],"melee":[{"name":"Warblade","kw":["CLEAVE 1","SUSTAINED HITS 1: non-MONSTER/VEHICLE"],"range":"Melee","A":"8","WS":"2+","S":"10","AP":"-2","D":"3"}],"core":["Damaged 4","Deadly Demise D3"],"army":["Aegis of the Emperor","Martial Ka'tah"],"abilities":[{"name":"Unyielding Ancient","text":"Attacks that target this unit with a S greater than this unit's T have -1 to wound rolls."}],"wargear":[],"composition":"1 Contemptor-Galatus Dreadnought model","equipped":"This model is equipped with: 1 Warblade","keywords":["VEHICLE","DREADNOUGHT","IMPERIUM","WALKER"],"faction":["ADEPTUS CUSTODES"]},"achillus":{"name":"Contemptor-Achillus Dreadnought","stats":{"M":"9\"","T":"10","Sv":"2+","W":"12","Ld":"5+","OC":"3","Inv":"5+"},"ranged":[{"name":"Adrathic Combi-destructor","kw":[],"range":"12\"","A":"2","BS":"2+","S":"5","AP":"-2","D":"3"},{"name":"Dreadspear","kw":[],"range":"18\"","A":"2","BS":"2+","S":"10","AP":"-3","D":"D3+2"},{"name":"Lastrum Storm Bolter","kw":["RAPID FIRE 3"],"range":"24\"","A":"3","BS":"2+","S":"5","AP":"-1","D":"1"},{"name":"Twin Infernus Incinerator","kw":["BLAST 2","TORRENT","TWIN-LINKED"],"range":"12\"","A":"3","BS":"-","S":"6","AP":"-1","D":"1"}],"melee":[{"name":"Dreadspear","kw":["LANCE"],"range":"Melee","A":"5","WS":"2+","S":"12","AP":"-3","D":"D3+3"}],"core":["Damaged 4","Deadly Demise D3"],"army":["Aegis of the Emperor","Martial Ka'tah"],"abilities":[{"name":"Unyielding Ancient","text":"Attacks that target this unit with a S greater than this unit's T have -1 to wound rolls."}],"wargear":["This model's 2 Lastrum Storm Bolter can be replaced with one of the following:","2 Adrathic Combi-destructor","2 Twin Infernus Incinerator"],"composition":"1 Contemptor-Achillus Dreadnought model","equipped":"This model is equipped with: 1 Dreadspear; 2 Lastrum Storm Bolter","keywords":["VEHICLE","DREADNOUGHT","IMPERIUM","WALKER"],"faction":["ADEPTUS CUSTODES"]},"vertus":{"name":"Vertus Praetors","stats":{"M":"12\"","T":"8","Sv":"2+","W":"7","Ld":"5+","OC":"2","Inv":"4+"},"ranged":[{"name":"Hurricane Bolter","kw":["RAPID FIRE 3","TWIN-LINKED"],"range":"18\"","A":"3","BS":"2+","S":"5","AP":"-1","D":"2"},{"name":"Salvo Launcher","kw":[],"range":"24\"","A":"2","BS":"2+","S":"10","AP":"-2","D":"D3+2"}],"melee":[{"name":"Interceptor Lance","kw":["LANCE"],"range":"Melee","A":"6","WS":"2+","S":"8","AP":"-2","D":"2"}],"core":["Deep Strike"],"army":["Aegis of the Emperor","Martial Ka'tah"],"abilities":[{"name":"Quicksilver Execution","text":"If this unit made a charge move this turn, this unit's melee attacks have [SUSTAINED HITS 1]"}],"wargear":["All models in this unit can each have their Salvo Launcher replaced with 1 Hurricane Bolter."],"composition":"2-3 Vertus Praetor models","equipped":"Every model is equipped with: 1 Interceptor Lance; 1 Salvo Launcher","keywords":["MOUNTED","FLY","IMPERIUM"],"faction":["ADEPTUS CUSTODES"]},"gyrfalcon":{"name":"Gyrfalcon Jetbike Sodality","stats":{"M":"12\"","T":"8","Sv":"2+","W":"9","Ld":"5+","OC":"2","Inv":"4+"},"ranged":[{"name":"Adrathic Devastator","kw":[],"range":"18\"","A":"3","BS":"2+","S":"8","AP":"-2","D":"3"},{"name":"Arachnus Volley Cannon","kw":["DEVASTATING WOUNDS","SUSTAINED HITS 1"],"range":"24\"","A":"8","BS":"2+","S":"5","AP":"-1","D":"1"},{"name":"Lastrum Bolt Cannon","kw":["SUSTAINED HITS 1"],"range":"36\"","A":"3","BS":"2+","S":"6","AP":"-2","D":"2"},{"name":"Twin Corvae Las-pulser","kw":["TWIN-LINKED"],"range":"18\"","A":"1","BS":"2+","S":"10","AP":"-3","D":"D3+2"}],"melee":[{"name":"Solarite Power Lance","kw":["LANCE"],"range":"Melee","A":"5","WS":"2+","S":"8","AP":"-2","D":"3"}],"core":["Deep Strike"],"army":["Aegis of the Emperor","Martial Ka'tah"],"abilities":[{"name":"Death Blow","text":"If this unit made a charge move this turn, this unit's melee attacks have +1 AP."}],"wargear":["All models in this unit can each have their Lastrum Bolt Cannon replaced with one of the following:","1 Adrathic Devastator","1 Arachnus Volley Cannon","1 Twin Corvae Las-pulser"],"composition":"2 Gyrfalcon jetbiker models","equipped":"Every model is equipped with: 1 Lastrum Bolt Cannon, 1 Solarite Power Lance","keywords":["MOUNTED","FLY","IMPERIUM"],"faction":["ADEPTUS CUSTODES"]},"venk":{"name":"Venatari with Kinetic Destroyers","stats":{"M":"12\"","T":"7","Sv":"2+","W":"5","Ld":"5+","OC":"2","Inv":"4+"},"ranged":[{"name":"Kinetic Destroyer","kw":["ASSAULT","CLOSE-QUARTERS","SUSTAINED HITS 1"],"range":"18\"","A":"4","BS":"2+","S":"6","AP":"-2","D":"1"}],"melee":[{"name":"Tarsus Buckler","kw":["SUSTAINED HITS 1"],"range":"Melee","A":"5","WS":"2+","S":"6","AP":"-2","D":"1"}],"core":["Deep Strike"],"army":["Aegis of the Emperor","Martial Ka'tah"],"abilities":[{"name":"Take Wing","text":"At the end of your opponent's Fight phase, if this unit is unengaged, you can place this unit in strategic reserves."},{"name":"Neutronium Cascade Mine (Once per battle, per unit)","text":"At the start of any phase, you can select one enemy unit within 3\" of this unit and roll one D6. On a 2+: That enemy unit suffers D3 mortal wounds. Or: If that enemy unit is a VEHICLE/MONSTER unit, that enemy unit suffers 2D3 mortal wounds."},{"name":"Strike from the Skies","text":"In your Shooting phase, if this unit made an ingress move this turn, this unit's ranged attacks can re-roll hit rolls."}],"wargear":[],"composition":"3 Venatari models","equipped":"Every model is equipped with: 1 Kinetic Destroyer; 1 Tarsus Buckler","keywords":["INFANTRY","EXPLOSIVES","FLY","IMPERIUM","JUMP PACK"],"faction":["ADEPTUS CUSTODES"]},"venl":{"name":"Venatari with Verutum Lances","stats":{"M":"12\"","T":"7","Sv":"2+","W":"5","Ld":"5+","OC":"2","Inv":"4+"},"ranged":[{"name":"Verutum Lance","kw":["ASSAULT"],"range":"18\"","A":"1","BS":"2+","S":"10","AP":"-2","D":"3"}],"melee":[{"name":"Verutum Lance","kw":["LANCE","PRECISION"],"range":"Melee","A":"5","WS":"2+","S":"7","AP":"-2","D":"2"}],"core":["Deep Strike"],"army":["Aegis of the Emperor","Martial Ka'tah"],"abilities":[{"name":"Take Wing","text":"At the end of your opponent's Fight phase, if this unit is unengaged, you can place this unit in strategic reserves."},{"name":"Neutronium Cascade Mine (Once per battle, per unit)","text":"At the start of any phase, you can select one enemy unit within 3\" of this unit and roll one D6. On a 2+: That enemy unit suffers D3 mortal wounds. Or: If that enemy unit is a VEHICLE/MONSTER unit, that enemy unit suffers 2D3 mortal wounds."},{"name":"Swift Ruin (Once per phase, per army)","text":"You can target this unit with the Rapid Ingress stratagem, regardless of any other uses of that stratagem this phase. If you do: That use is -1 CP. That use does not prevent any uses of that stratagem on other units this phase."}],"wargear":[],"composition":"3 Venatari models","equipped":"Every model is equipped with: 1 Verutum Lance","keywords":["INFANTRY","EXPLOSIVES","FLY","IMPERIUM","JUMP PACK"],"faction":["ADEPTUS CUSTODES"]},"telemon":{"name":"Telemon Heavy Dreadnought","stats":{"M":"10\"","T":"11","Sv":"2+","W":"14","Ld":"5+","OC":"4","Inv":"4+"},"ranged":[{"name":"Adrathic Desolator","kw":[],"range":"24\"","A":"4","BS":"2+","S":"10","AP":"-2","D":"4"},{"name":"Arachnus Storm Cannon","kw":["DEVASTATING WOUNDS","SUSTAINED HITS 1"],"range":"24\"","A":"12","BS":"2+","S":"6","AP":"-1","D":"1"},{"name":"Iliastus Accelerator Culverin","kw":["RAPID FIRE 3"],"range":"48\"","A":"3","BS":"2+","S":"10","AP":"-1","D":"3"},{"name":"Spiculus Bolt Launcher","kw":["BLAST 2"],"range":"36\"","A":"6","BS":"2+","S":"5","AP":"-1","D":"1"},{"name":"Twin Neutronium Cascade Projectors","kw":["BLAST 1","TORRENT","TWIN-LINKED"],"range":"12\"","A":"3","BS":"-","S":"7","AP":"-2","D":"1"}],"melee":[{"name":"Caestus Fist","kw":[],"range":"Melee","A":"5","WS":"2+","S":"14","AP":"-3","D":"4"},{"name":"Dual Caestus Fists","kw":["TWIN-LINKED"],"range":"Melee","A":"7","WS":"2+","S":"14","AP":"-3","D":"4"}],"core":["Damaged 5","Deadly Demise D3"],"army":["Aegis of the Emperor","Martial Ka'tah"],"abilities":[{"name":"Guardian Eternal","text":"Ranged attacks that target this unit have -1 D."}],"wargear":["This model's Dual Caestus Fists and 2 Twin Neutronium Cascade Projectors can be replaced with one of the following:","1 Adrathic Desolator, 1 Caestus Fist and 1 Twin Neutronium Cascade Projectors","1 Arachnus Storm Cannon, 1 Caestus Fist and 1 Twin Neutronium Cascade Projectors","1 Caestus Fist, 1 Iliastus Accelerator Culverin and 1 Twin Neutronium Cascade Projectors"],"composition":"1 Telemon Heavy Dreadnought model","equipped":"This model is equipped with: 1 Dual Caestus Fists; 1 Spiculus Bolt Launcher; 2 Twin Neutronium Cascade Projectors","keywords":["VEHICLE","DREADNOUGHT","IMPERIUM","WALKER"],"faction":["ADEPTUS CUSTODES"]},"pallas":{"name":"Pallas Grav-Attack","stats":{"M":"12\"","T":"9","Sv":"2+","W":"10","Ld":"5+","OC":"2","Inv":"5+"},"ranged":[{"name":"Twin Arachnus Blaze Cannon","kw":["TWIN-LINKED"],"range":"24\"","A":"2","BS":"2+","S":"10","AP":"-3","D":"D3+2"},{"name":"Twin Iliastus Accelerator Fusil","kw":["RAPID FIRE 2","TWIN-LINKED"],"range":"48\"","A":"2","BS":"2+","S":"10","AP":"-1","D":"3"}],"melee":[{"name":"Armoured Hull","kw":[],"range":"Melee","A":"3","WS":"4+","S":"6","AP":"0","D":"1"}],"core":["Deadly Demise 1","Deep Strike"],"army":["Aegis of the Emperor"],"abilities":[{"name":"Mobile Hunter","text":"In your Shooting phase, when this unit has shot, you can use this ability. If you do: This unit can make a normal move of up to D6\". This unit is not eligible to declare a charge until the end of the turn."}],"wargear":["This model's Twin Arachnus Blaze Cannon can be replaced with 1 Twin Iliastus Accelerator Fusil."],"composition":"1 Pallas Grav-attack model","equipped":"This model is equipped with: 1 Armoured Hull, 1 Twin Arachnus Blaze Cannon.","keywords":["VEHICLE","FLY","FRAME","GRAV-ASSAULT","IMPERIUM"],"faction":["ADEPTUS CUSTODES"]},"coronus":{"name":"Coronus Grav-Carrier","stats":{"M":"12\"","T":"12","Sv":"2+","W":"16","Ld":"5+","OC":"5","Inv":"5+"},"ranged":[{"name":"Twin Arachnus Blaze Cannon","kw":["TWIN-LINKED"],"range":"24\"","A":"2","BS":"2+","S":"10","AP":"-3","D":"D3+2"},{"name":"Twin Lastrum Bolt Cannon","kw":["SUSTAINED HITS 1","TWIN-LINKED"],"range":"36\"","A":"3","BS":"2+","S":"6","AP":"-2","D":"2"},{"name":"Twin Neutronium Cascade Projectors","kw":["BLAST 1","TORRENT","TWIN-LINKED"],"range":"12\"","A":"3","BS":"-","S":"7","AP":"-2","D":"1"}],"melee":[{"name":"Armoured Hull","kw":[],"range":"Melee","A":"6","WS":"4+","S":"8","AP":"0","D":"1"}],"core":["Damaged 6","Deadly Demise D6","Deep Strike"],"army":["Aegis of the Emperor"],"abilities":[{"name":"Repulsor Suspensor Technology (Once per phase, per unit)","text":"In your opponent's Shooting phase, when an enemy unit has shot, if this unit lost a wound as a result of those attacks and is unengaged, this unit can make a normal move of up to D6\"."},{"name":"Assault Vehicle","text":"In your Movement phase, when this unit ends an advance move, units embarked within this unit can make a shock disembark move (pg 91)."},{"name":"Transport","text":"This model has a transport capacity of ? ADEPTUS CUSTODES INFANTRY models. It cannot transport ? ? models."}],"wargear":["This model's Twin Lastrum Bolt Cannon can be replaced with 1 Twin Neutronium Cascade Projectors."],"composition":"1 Coronus Grav-carrier model","equipped":"This model is equipped with: 1 Armoured Hull; 1 Twin Arachnus Blaze Cannon; 1 Twin Lastrum Bolt Cannon.","keywords":["VEHICLE","FLY","FRAME","GRAV-ASSAULT","IMPERIUM","TRANSPORT"],"faction":["ADEPTUS CUSTODES"]},"caladius":{"name":"Caladius Grav-Tank","stats":{"M":"10\"","T":"11","Sv":"2+","W":"14","Ld":"5+","OC":"4","Inv":"5+"},"ranged":[{"name":"Iliastus Accelerator Cannon","kw":["RAPID FIRE 4","SUSTAINED HITS 1: non-MONSTER/VEHICLE"],"range":"48\"","A":"4","BS":"2+","S":"10","AP":"-1","D":"3"},{"name":"Twin Lastrum Bolt Cannon","kw":["SUSTAINED HITS 1","TWIN-LINKED"],"range":"36\"","A":"3","BS":"2+","S":"6","AP":"-2","D":"2"},{"name":"Twin Neutronium Cascade Projectors","kw":["BLAST 1","TORRENT","TWIN-LINKED"],"range":"12\"","A":"3","BS":"-","S":"7","AP":"-2","D":"1"}],"melee":[{"name":"Armoured Hull","kw":[],"range":"Melee","A":"4","WS":"4+","S":"6","AP":"0","D":"1"}],"core":["Damaged 5","Deadly Demise D3","Deep Strike"],"army":["Aegis of the Emperor"],"abilities":[{"name":"Destructor Optics","text":"This unit's ranged attacks that target a unit (excluding MONSTER/VEHICLE units) have +1 AP."}],"wargear":["This model's Twin Lastrum Bolt Cannon can be replaced with 1 Twin Neutronium Cascade Projectors."],"composition":"1 Caladius Grav-tank model","equipped":"This model is equipped with: 1 Armoured Hull, 1 Iliastus Accelerator Cannon, 1 Twin Lastrum Bolt Cannon.","keywords":["VEHICLE","CALADIUS","FLY","FRAME","GRAV-ASSAULT","IMPERIUM"],"faction":["ADEPTUS CUSTODES"]},"annihilator":{"name":"Caladius Annihilator Grav-Tank","stats":{"M":"10\"","T":"11","Sv":"2+","W":"14","Ld":"5+","OC":"4","Inv":"5+"},"ranged":[{"name":"Arachnus Blaze Carronade","kw":["LETHAL HITS: MONSTER/VEHICLE"],"range":"48\"","A":"4","BS":"2+","S":"12","AP":"-3","D":"D6+2"},{"name":"Twin Lastrum Bolt Cannon","kw":["SUSTAINED HITS 1","TWIN-LINKED"],"range":"36\"","A":"3","BS":"2+","S":"6","AP":"-2","D":"2"},{"name":"Twin Neutronium Cascade Projectors","kw":["BLAST 1","TORRENT","TWIN-LINKED"],"range":"12\"","A":"3","BS":"-","S":"7","AP":"-2","D":"1"}],"melee":[{"name":"Armoured Hull","kw":[],"range":"Melee","A":"4","WS":"4+","S":"6","AP":"0","D":"1"}],"core":["Damaged 5","Deadly Demise D3","Deep Strike"],"army":["Aegis of the Emperor"],"abilities":[{"name":"Advanced Firepower","text":"This unit's ranged attacks that target a MONSTER/VEHICLE unit can: Re-roll one hit roll. Re-roll one wound roll. Re-roll one damage roll."}],"wargear":["This model's Twin Lastrum Bolt Cannon can be replaced with 1 Twin Neutronium Cascade Projectors."],"composition":"1 Caladius Annihilator Grav-tank model","equipped":"This model is equipped with: 1 Arachnus Blaze Carronade, 1 Armoured Hull, 1 Twin Lastrum Bolt Cannon.","keywords":["VEHICLE","CALADIUS","FLY","FRAME","GRAV-ASSAULT","IMPERIUM"],"faction":["ADEPTUS CUSTODES"]},"kc":{"name":"Knight-Centura","stats":{"M":"7\"","T":"3","Sv":"3+","W":"4","Ld":"6+","OC":"1","Inv":"5+"},"ranged":[{"name":"Master-crafted Boltgun","kw":["ANTI-PSYKER 4+","ASSAULT","RAPID FIRE 1"],"range":"24\"","A":"2","BS":"2+","S":"5","AP":"-1","D":"2"},{"name":"Master-crafted Flamer","kw":["ANTI-PSYKER 4+","ASSAULT","BLAST 2","TORRENT"],"range":"12\"","A":"4","BS":"-","S":"4","AP":"-1","D":"1"}],"melee":[{"name":"Executioner Greatblade","kw":["ANTI-PSYKER 5+","CLEAVE 1","DEVASTATING WOUNDS: PSYKER"],"range":"Melee","A":"4","WS":"2+","S":"5","AP":"-2","D":"2"},{"name":"Gun Stock","kw":[],"range":"Melee","A":"3","WS":"2+","S":"3","AP":"0","D":"1"}],"core":["Scouts 7\"","Support"],"army":["Daughters of the Abyss"],"abilities":[{"name":"Seeker's Instincts","text":"This unit has +2\" M. This unit can re-roll advance rolls and charge rolls."},{"name":"Corner the Quarry","text":"When an enemy unit (excluding MONSTER/VEHICLE units) engaged with this unit makes a fall-back move, that enemy unit must use the desperate escape mode. If that enemy unit is battle-shocked, -1 from those hazard rolls."}],"wargear":["This model's Executioner Greatblade can be replaced with one of the following: 1 Master-crafted Boltgun and 1 Gun Stock; 1 Master-crafted Flamer and 1 Gun Stock"],"composition":"1 Knight-Centura model","equipped":"This model is equipped with: 1 Executioner Greatblade","keywords":["INFANTRY","ANATHEMA PSYKANA","CHARACTER","IMPERIUM"],"faction":["ANATHEMA PSYKANA"]},"prosec":{"name":"Prosecutor Squad","stats":{"M":"7\"","T":"3","Sv":"3+","W":"1","Ld":"6+","OC":"2","Inv":null},"ranged":[{"name":"Boltgun","kw":["ANTI-PSYKER 4+","ASSAULT","RAPID FIRE 1"],"range":"24\"","A":"1","BS":"3+","S":"5","AP":"-1","D":"1"}],"melee":[{"name":"Gun Stock","kw":[],"range":"Melee","A":"2","WS":"3+","S":"3","AP":"0","D":"1"}],"core":[],"army":["Daughters of the Abyss"],"abilities":[{"name":"Purity of Execution","text":"In your Shooting phase, you can select one visible enemy unit within 18\" of this unit. That unit is detected. While a unit is detected, that unit has +3\" detection range"}],"wargear":[],"composition":"4-10 Prosecutor models","equipped":"Every model is equipped with: 1 Boltgun; 1 Gun Stock","keywords":["INFANTRY","ANATHEMA PSYKANA","IMPERIUM"],"faction":["ANATHEMA PSYKANA"]},"vigil":{"name":"Vigilator Squad","stats":{"M":"7\"","T":"3","Sv":"3+","W":"1","Ld":"6+","OC":"1","Inv":null},"ranged":[],"melee":[{"name":"Executioner Greatblade","kw":["ANTI-PSYKER 5+","DEVASTATING WOUNDS: PSYKER"],"range":"Melee","A":"3","WS":"3+","S":"5","AP":"-2","D":"2"}],"core":[],"army":["Daughters of the Abyss"],"abilities":[{"name":"Deft Parry","text":"Melee attacks that target this unit have -1 to hit rolls."}],"wargear":[],"composition":"4-10 Vigilator models","equipped":"Every model is equipped with: 1 Executioner Greatblade","keywords":["INFANTRY","ANATHEMA PSYKANA","IMPERIUM"],"faction":["ANATHEMA PSYKANA"]},"witch":{"name":"Witchseeker Squad","stats":{"M":"7\"","T":"3","Sv":"3+","W":"1","Ld":"6+","OC":"1","Inv":null},"ranged":[{"name":"Flamer","kw":["ANTI-PSYKER 4+","ASSAULT","BLAST 1","TORRENT"],"range":"?","A":"3","BS":"-","S":"4","AP":"-1","D":"1"}],"melee":[{"name":"Gun Stock","kw":[],"range":"Melee","A":"2","WS":"3+","S":"3","AP":"0","D":"1"}],"core":["Scouts 7\""],"army":["Daughters of the Abyss"],"abilities":[{"name":"Sanctified Flames","text":"In your Shooting phase, when this unit has shot, you can select one enemy unit hit by those attacks. That enemy unit makes a battle-shock roll, with -1 to that battle-shock roll if that enemy unit is a PSYKER unit."}],"wargear":[],"composition":"4-10 Witchseeker models","equipped":"Every model is equipped with: 1 Flamer, 1 Gun Stock","keywords":["INFANTRY","ANATHEMA PSYKANA","IMPERIUM"],"faction":["ANATHEMA PSYKANA"]},"rhino":{"name":"Anathema Psykana Rhino","stats":{"M":"12\"","T":"9","Sv":"3+","W":"10","Ld":"6+","OC":"2","Inv":null},"ranged":[{"name":"Hunter-killer Missile","kw":["ONE SHOT"],"range":"48\"","A":"1","BS":"2+","S":"14","AP":"-3","D":"D3+3"},{"name":"Storm Bolter","kw":["RAPID FIRE 2"],"range":"24\"","A":"2","BS":"3+","S":"5","AP":"-1","D":"1"}],"melee":[{"name":"Armoured Tracks","kw":[],"range":"Melee","A":"3","WS":"4+","S":"6","AP":"0","D":"1"}],"core":["Deadly Demise D3","Firing Deck 2"],"army":["Daughters of the Abyss"],"abilities":[{"name":"Assault Vehicle","text":"In your Movement phase, when this unit ends an advance move, units embarked within this unit can make a shock disembark move (pg 91)."},{"name":"Transport","text":"This model has a transport capacity of 12 ANATHEMA PSYKANA INFANTRY models."}],"wargear":["This model can be equipped with 1 Hunter-killer Missile."],"composition":"1 Anathema Psykana Rhino model","equipped":"This model is equipped with: 1 Armoured Tracks, 1 Storm Bolter","keywords":["VEHICLE","ANATHEMA PSYKANA","DEDICATED TRANSPORT","FRAME","IMPERIUM","SMOKE","TRANSPORT"],"faction":["ANATHEMA PSYKANA"]}};
+/* ---- Datasheets tab (Wahapedia-style; transcribed from the codex PDF) ---- */
+const DS_SHEETS=u=>u.id==='aquilon'?['aquilon_g','aquilon_t']:[u.id];
+const dsTxt=t=>esc(t).replace(/\n- /g,'<br>• ').replace(/\n/g,'<br>').replace(/\?(?= (?:ADEPTUS|models|\?))/g,'<i>[illegible]</i>');
+const dsKw=a=>(a||[]).map(k=>'<span class="ds-kw">'+esc(k.replace(/^\[|\]$/g,''))+'</span>').join(' ');
+function dsWeapons(list,melee){
+  if(!list||!list.length) return '';
+  return '<table class="ds-wt"><thead><tr><th>'+(melee?'MELEE WEAPONS':'RANGED WEAPONS')+'</th><th>RANGE</th><th>A</th><th>'+(melee?'WS':'BS')+'</th><th>S</th><th>AP</th><th>D</th></tr></thead><tbody>'
+   +list.map(w=>'<tr><td class="ds-wn">'+esc(w.name)+(w.kw&&w.kw.length?'<div>'+dsKw(w.kw)+'</div>':'')+'</td><td>'+esc(w.range)+'</td><td>'+esc(w.A)+'</td><td>'+esc(melee?w.WS:w.BS)+'</td><td>'+esc(w.S)+'</td><td>'+esc(w.AP)+'</td><td>'+esc(w.D)+'</td></tr>').join('')+'</tbody></table>';
+}
+function dsSheet(u,k,first){
+  const d=DSD[k], s=d.stats, cnt=S.list.filter(i=>i.id===u.id).length;
+  const stat=(l,v)=>'<div class="ds-st"><small>'+l+'</small><b>'+esc(v)+'</b></div>';
+  const costs=first?u.opts.map((o,i)=>o.p==null?'':'<div class="ds-cost"><span>'+esc(o.l)+'</span><b>'+o.p+' pts</b><button class="btn pri" data-act="add" data-id="'+u.id+'" data-opt="'+i+'">Add to roster</button></div>').join(''):'';
+  return '<article class="cx-d ds-d" id="ds-'+k+'"><header class="ds-h"><h2>'+esc(d.name)+'</h2>'+(first&&cnt?'<span class="cx-tag u">'+cnt+' in roster</span>':'')
+   +'<div class="ds-stats">'+stat('M',s.M)+stat('T',s.T)+stat('SV',s.Sv)+stat('W',s.W)+stat('LD',s.Ld)+stat('OC',s.OC)+(s.Inv?'<div class="ds-inv"><small>INSV</small><b>'+esc(s.Inv)+'</b></div>':'')+'</div></header>'
+   +'<div class="ds-body"><div class="ds-l">'+dsWeapons(d.ranged,false)+dsWeapons(d.melee,true)
+   +(d.wargear&&d.wargear.length?'<div class="ds-sh">WARGEAR OPTIONS</div><ul class="ds-ul">'+d.wargear.map(x=>'<li>'+esc(x)+'</li>').join('')+'</ul>':'')+'</div>'
+   +'<div class="ds-r">'+((d.core&&d.core.length)||(d.army&&d.army.length)?'<div class="ds-ca">'+(d.core&&d.core.length?'<div><span>CORE ABILITIES</span><b>'+d.core.map(esc).join(', ')+'</b></div>':'')+(d.army&&d.army.length?'<div><span>ARMY RULES</span><b>'+d.army.map(esc).join(', ')+'</b></div>':'')+'</div>':'')
+   +(d.abilities&&d.abilities.length?'<div class="ds-sh">ABILITIES</div>'+d.abilities.map(a=>'<p class="ds-ab"><b>'+esc(a.name)+(a.text?':':'')+'</b> '+dsTxt(a.text||'')+'</p>').join(''):'')
+   +'<div class="ds-sh">UNIT COMPOSITION</div><p class="ds-ab">'+esc(d.composition||'')+'<br><b>'+esc((d.equipped||'').split(':')[0]+(d.equipped&&d.equipped.includes(':')?':':''))+'</b>'+esc((d.equipped||'').includes(':')?(d.equipped.split(':').slice(1).join(':')):'')+'</p>'
+   +(costs?'<div class="ds-sh">YOUR UNIT COSTS</div>'+costs:'')+'</div></div>'
+   +'<footer class="ds-f"><div><span class="ds-fl">KEYWORDS</span>'+(d.keywords||[]).map(k=>'<span class="ds-kw ds-uk">'+esc(k)+'</span>').join('')+'</div><div><span class="ds-fl">FACTION KEYWORDS</span>'+(d.faction||[]).map(k=>'<span class="ds-kw ds-fk">'+esc(k)+'</span>').join('')+'</div></footer></article>';
+}
+function renderDs(){
+  const f=UI.dsf||'all', cats=CATS.filter(c=>f==='all'||f===c[0]);
+  let h='<div class="cx-top"><h1>Datasheets</h1><div class="orn">&#10022;</div><p>Adeptus Custodes · 11th edition. Profiles, weapons, abilities and wargear options as printed in the codex. Points come from this tool’s data.</p>'
+   +'<div class="cx-nav">'+[['all','All']].concat(CATS).map(c=>'<button data-act="dsf" data-f="'+c[0]+'" aria-pressed="'+(f===c[0])+'">'+c[1]+'</button>').join('')+'</div>'
+   +'<div class="cx-nav">'+cats.flatMap(c=>U.filter(u=>u.cat===c[0])).map(u=>'<a href="#ds-'+DS_SHEETS(u)[0]+'" data-act="dsgo" data-id="'+DS_SHEETS(u)[0]+'">'+esc(u.name.replace(/ (Sodality|Squad|Dreadnought)$/,'').replace(' — ',' · '))+'</a>').join('')+'</div></div>';
+  cats.forEach(c=>{ const us=U.filter(u=>u.cat===c[0]&&DS_SHEETS(u).every(k=>DSD[k])); if(!us.length) return;
+    h+='<h2 class="aw-sec">'+esc(c[1])+'</h2>'+us.map(u=>DS_SHEETS(u).map((k,i)=>dsSheet(u,k,i===0)).join('')).join(''); });
+  $('#ds').innerHTML=h;
+}
+
+function renderNotes(){
+  $('#np').innerHTML='<div class="notes">'+NOTES.map(n=>'<article><h2>'+esc(n[1])+'</h2><ul>'+n[2].map(x=>'<li>'+esc(x)+'</li>').join('')+'</ul></article>').join('')+'</div>';
+}
+function renderTabs(){
+  document.body.dataset.tab=S.tab;
+  document.querySelectorAll('#mtabs button').forEach(b=>b.setAttribute('aria-selected',String(b.dataset.tab===S.tab)));
+}
+function renderAll(){ renderTop(); renderLeft(); renderRight(); renderOpts(); renderCodex(); renderDs(); renderKt(); renderAow(); renderMeta(); renderNotes(); renderTabs(); }
+function commit(){ normalize(); save(); renderAll(); }
+
+/* ============ SAVED LISTS ============ */
+const LS_SAVED='custodes11-saved-v1';
+const Saved={kind:'local',items:[],ready:false,msg:'',note:'',busy:false};
+let _db=null,_uid=null;
+const sigNow=()=>JSON.stringify([S.name,S.limit,S.dpMax,S.dets,S.list.map(i=>[i.id,i.opt,i.custom,i.enh,i.upg,i.wg||{},i.uid===S.warlord])]);
+const isDirty=()=>S.list.length>0 && sigNow()!==S.savedSig;
+function docNow(){
+  return {name:S.name,updatedAt:new Date().toISOString(),limit:S.limit,dpMax:S.dpMax,dets:S.dets.slice(),total:total(),count:S.list.length,
+    units:S.list.map(i=>({id:i.id,opt:i.opt,custom:i.custom,enh:i.enh,upg:i.upg,wg:i.wg||{},w:i.uid===S.warlord}))};
+}
+function localRead(){ try{ const o=JSON.parse(localStorage.getItem(LS_SAVED)||'{}'); return Object.keys(o).map(id=>Object.assign({id},o[id])); }catch(e){ return []; } }
+function localWrite(id,doc){ try{ const o=JSON.parse(localStorage.getItem(LS_SAVED)||'{}'); if(doc) o[id]=doc; else delete o[id]; localStorage.setItem(LS_SAVED,JSON.stringify(o)); return true; }catch(e){ return false; } }
+const cloudCol=()=>_db.collection('data/users/'+_uid);
+async function refreshSaved(){
+  try{
+    if(Saved.kind==='cloud'){ const snap=await cloudCol().get(); Saved.items=snap.docs.filter(d=>d.exists).map(d=>Object.assign({id:d.id},d.data())); }
+    else Saved.items=localRead();
+    Saved.items.sort((a,b)=>String(b.updatedAt||'').localeCompare(String(a.updatedAt||'')));
+  }catch(e){ Saved.items=[]; Saved.note='Could not read lists ('+((e&&e.code)||'error')+').'; }
+  Saved.ready=true; if(UI.panel==='lists') renderRight();
+}
+async function initStore(){
+  try{
+    const c=window.claude;
+    if(c&&c.use){
+      const db=await c.use('db'), user=await c.use('user');
+      const uid=user?await user.id():null;
+      if(db&&uid){ _db=db; _uid=uid; Saved.kind='cloud'; }
+    }
+  }catch(e){}
+  await refreshSaved();
+}
+async function storeSet(id,doc){
+  if(Saved.kind==='cloud'){
+    try{ await cloudCol().doc(id).set(doc); return true; }
+    catch(e){ Saved.kind='local'; Saved.note='Write refused on your account ('+((e&&e.code)||'error')+'): saved in this browser instead.'; }
+  }
+  return localWrite(id,doc);
+}
+async function storeDel(id){
+  if(Saved.kind==='cloud'){ try{ await cloudCol().doc(id).delete(); return true; }catch(e){ Saved.note='Deletion refused ('+((e&&e.code)||'error')+').'; return false; } }
+  return localWrite(id,null);
+}
+async function doSave(id){
+  if(Saved.busy) return; Saved.busy=true; Saved.note='';
+  const doc=docNow(), nid=id||('r_'+Date.now().toString(36)+Math.random().toString(36).slice(2,6));
+  const ok=await storeSet(nid,doc);
+  if(ok){ S.currentId=nid; S.savedSig=sigNow(); Saved.msg='List "'+doc.name+'" saved.'; save(); } else Saved.msg='Could not save: storage unavailable.';
+  Saved.busy=false; await refreshSaved(); renderTop(); renderRight();
+}
+async function doDelete(id){
+  if(Saved.busy) return; Saved.busy=true; Saved.note='';
+  const it=Saved.items.find(x=>x.id===id);
+  if(await storeDel(id)){ Saved.msg='List "'+(it?it.name:'')+'" deleted.'; if(S.currentId===id){ S.currentId=null; S.savedSig=null; save(); } }
+  Saved.busy=false; await refreshSaved(); renderTop(); renderRight();
+}
+function applyDoc(d,id){
+  const units=(Array.isArray(d.units)?d.units:[]).filter(u=>UM[u.id]);
+  S.name=(d.name||'My roster').slice(0,40);
+  S.limit=+d.limit>0?+d.limit:2000; S.dpMax=+d.dpMax>0?+d.dpMax:DP_DEFAULT;
+  S.dets=(Array.isArray(d.dets)?d.dets:[]).filter(x=>DM[x]);
+  S.list=units.map(u=>({uid:uidSeq++,id:u.id,opt:Math.min(u.opt|0,UM[u.id].opts.length-1),custom:+u.custom||0,enh:u.enh||null,upg:u.upg||null,wg:u.wg||{}}));
+  const wi=units.findIndex(u=>u.w); S.warlord=wi>=0?S.list[wi].uid:null;
+  S.currentId=id; UI.msg=''; normalize(); S.savedSig=sigNow(); Saved.msg='List "'+S.name+'" loaded.'; save(); renderAll();
+}
+function fmtDate(iso){ try{ return new Date(iso).toLocaleString('en-GB',{day:'numeric',month:'short',hour:'2-digit',minute:'2-digit'}); }catch(e){ return ''; } }
+function listsHtml(){
+  const cur=Saved.items.find(x=>x.id===S.currentId);
+  let h='<div class="panelbox"><h3>My lists</h3>';
+  h+='<p class="muted" style="margin:0">'+(Saved.kind==='cloud'?'Lists saved to your account, private to you. They stay available on your next visit and on your other devices.':'Lists saved in this browser only (account storage unavailable in this view).')+'</p>';
+  if(Saved.note) h+='<p class="muted" style="margin:0;color:var(--warn)">'+esc(Saved.note)+'</p>';
+  h+='<div class="row"><button class="btn pri" data-act="saveNew"'+(Saved.busy||!S.list.length?' disabled':'')+'>Save as new list</button>'
+   +(cur?'<button class="btn" data-act="saveCur"'+(Saved.busy||!S.list.length?' disabled':'')+'>Update "'+esc(cur.name)+'"</button>':'')+'</div>';
+  if(!S.list.length) h+='<p class="muted" style="margin:0">Add at least one unit to save.</p>';
+  if(Saved.msg) h+='<p class="muted" style="margin:0;color:var(--ok)">'+esc(Saved.msg)+'</p>';
+  h+='</div>';
+  if(!Saved.ready) return h+'<div class="empty">Loading lists…</div>';
+  if(!Saved.items.length) return h+'<div class="empty">No saved lists.</div>';
+  h+=secHead('r-saved','Saved lists',Saved.items.length+'');
+  if(!UI.closed['r-saved']) Saved.items.forEach(it=>{
+    const pend=UI.pending&&UI.pending.id===it.id?UI.pending.type:null, isCur=it.id===S.currentId;
+    h+='<div class="er'+(isCur?' wl':'')+'"><div class="er-main"><div class="er-t"><b>'+esc(it.name||'Untitled')+'</b><i>'+(it.total||0)+' / '+(it.limit||0)+' pts</i>'+(isCur?'<em>Loaded</em>':'')+'</div>'
+     +'<div class="er-s">'+(it.count||0)+' unit'+((it.count||0)>1?'s':'')+' · '+esc((it.dets||[]).map(x=>DM[x]?DM[x].name:x).join(', ')||'no detachment')+' · '+esc(fmtDate(it.updatedAt))+'</div>'
+     +(pend==='load'?'<div class="chips"><span class="muted">Replace the current unsaved list?</span><button class="btn pri" data-act="confirmLoad" data-id="'+it.id+'">Confirm</button><button class="btn" data-act="pendNo">Cancel</button></div>':'')
+     +(pend==='del'?'<div class="chips"><span class="muted">Delete this list?</span><button class="btn danger" data-act="confirmDel" data-id="'+it.id+'">Delete</button><button class="btn" data-act="pendNo">Cancel</button></div>':'')
+     +'</div><div class="er-act"><button class="btn" data-act="loadList" data-id="'+it.id+'" style="margin-right:4px">Load</button>'+ibtn('delList','data-id="'+it.id+'"',IC.trash,'Delete this list')+'</div></div>';
+  });
+  return h;
+}
+
+/* ============ EVENTS ============ */
+document.addEventListener('click',e=>{
+  const b=e.target.closest('[data-act]'); if(!b || b.disabled) return;
+  const a=b.dataset.act, id=b.dataset.id, uid=+b.dataset.uid;
+  if(a==='tab'){ let t=b.dataset.tab; if(t==='notesToggle') t=S.tab==='notes'?'roster':'notes'; if(t==='codexToggle') t=S.tab==='codex'?'roster':'codex'; if(t==='dsToggle') t=S.tab==='ds'?'roster':'ds'; if(t==='ktToggle') t=S.tab==='kt'?'roster':'kt'; if(t==='aowToggle') t=S.tab==='aow'?'roster':'aow'; if(t==='metaToggle') t=S.tab==='meta'?'roster':'meta'; S.tab=t; save(); renderTabs(); return; }
+  if(a==='panel'){ const p=b.dataset.p; UI.panel=UI.panel===p?null:p; UI.confirm=false; if(S.tab==='cat'&&window.innerWidth<1000) S.tab='roster'; if(['notes','codex','ds','kt','aow','meta'].includes(S.tab)) S.tab='roster'; renderRight(); renderTabs(); return; }
+  if(a==='sec'){ UI.closed[id]=!UI.closed[id]; renderLeft(); renderRight(); renderOpts(); return; }
+  if(a==='eyeD'){ UI.eye['d:'+id]=!UI.eye['d:'+id]; renderLeft(); renderRight(); return; }
+  if(a==='cxf'){ UI.cxf=b.dataset.f; renderCodex(); return; }
+  if(a==='dsf'){ UI.dsf=b.dataset.f; renderDs(); return; }
+  if(a==='dsgo'){ e.preventDefault(); const el=document.getElementById('ds-'+id); if(el) el.scrollIntoView({behavior:'smooth',block:'start'}); return; }
+  if(a==='awf'){ UI.awf=b.dataset.f; renderAow(); return; }
+  if(a==='awgo'){ e.preventDefault(); const el=document.getElementById('aw-'+id); if(el) el.scrollIntoView({behavior:'smooth',block:'start'}); return; }
+  if(a==='mtgo'){ e.preventDefault(); const el=document.getElementById('mt-'+id); if(el) el.scrollIntoView({behavior:'smooth',block:'start'}); return; }
+  if(a==='cxgo'){ e.preventDefault(); const el=document.getElementById('cx-'+id); if(el) el.scrollIntoView({behavior:'smooth',block:'start'}); return; }
+  if(a==='eyeE'){ UI.eye[b.dataset.key]=!UI.eye[b.dataset.key]; renderRight(); renderOpts(); return; }
+  if(a==='pick'){ const it=S.list.find(i=>i.uid===uid); if(!it) return; const k=b.dataset.k; it[k]=it[k]===id?null:id; UI.msg=''; commit(); return; }
+  if(a==='eyeU'){ UI.eye[b.dataset.key]=!UI.eye[b.dataset.key]; renderLeft(); return; }
+  if(a==='toggleNo'){ UI.showNo=!UI.showNo; renderLeft(); return; }
+  if(a==='size'){ S.limit=+b.dataset.v; UI.msg=''; commit(); return; }
+  if(a==='det'){ UI.msg=''; if(S.dets.includes(id)) S.dets=S.dets.filter(x=>x!==id); else if(!detLock(id)) S.dets.push(id); commit(); return; }
+  if(a==='add'){
+    UI.msg=''; const u=UM[id], opt=+b.dataset.opt;
+    S.list.push({uid:uidSeq++,id,opt,custom:u.opts[opt].p==null?(UI.manual[id]||0):0,enh:null,upg:null,wg:{}}); UI.sel=S.list[S.list.length-1].uid;
+    if(id==='trajann') S.warlord=S.list[S.list.length-1].uid;
+    commit(); return;
+  }
+  if(a==='saveNew'){ doSave(null); return; }
+  if(a==='saveCur'){ doSave(S.currentId); return; }
+  if(a==='loadList'){ const it=Saved.items.find(x=>x.id===id); if(!it) return; if(isDirty()){ UI.pending={type:'load',id}; renderRight(); } else applyDoc(it,id); return; }
+  if(a==='confirmLoad'){ const it=Saved.items.find(x=>x.id===id); UI.pending=null; if(it) applyDoc(it,id); return; }
+  if(a==='delList'){ UI.pending={type:'del',id}; renderRight(); return; }
+  if(a==='confirmDel'){ UI.pending=null; doDelete(id); return; }
+  if(a==='pendNo'){ UI.pending=null; renderRight(); return; }
+  if(a==='rexp'){ UI.sel=selUid()===uid?null:uid; renderRight(); renderOpts(); return; }
+  if(a==='selu'){ UI.sel=uid; renderRight(); renderOpts(); return; }
+  if(a==='rm'){ UI.msg=''; S.list=S.list.filter(i=>i.uid!==uid); if(S.warlord===uid) S.warlord=null; commit(); return; }
+  if(a==='dup'){
+    UI.msg=''; const it=S.list.find(i=>i.uid===uid); if(!it) return;
+    if(it.id==='trajann'){ UI.msg='Trajann Valoris is an Epic Hero: only one copy.'; renderRight(); return; }
+    S.list.push({uid:uidSeq++,id:it.id,opt:it.opt,custom:it.custom,enh:null,upg:null,wg:JSON.parse(JSON.stringify(it.wg||{}))}); UI.sel=S.list[S.list.length-1].uid; commit(); return;
+  }
+  if(a==='wg1'||a==='wgt'||a==='wgs'){
+    const it=S.list.find(i=>i.uid===uid); if(!it) return; const g=wgGroups(it).find(x=>x.id===b.dataset.g); if(!g) return; it.wg=it.wg||{};
+    if(a==='wg1'){ it.wg[g.id]=+b.dataset.c; }
+    else if(a==='wgt'){ it.wg[g.id]=it.wg[g.id]?0:1; }
+    else { const arr=Array.isArray(it.wg[g.id])?it.wg[g.id].slice():g.c.map(()=>0); const i=+b.dataset.c; arr[i]=Math.max(0,arr[i]+(+b.dataset.d)); it.wg[g.id]=arr; }
+    UI.msg=''; commit(); return;
+  }
+  if(a==='wl'){ UI.msg=''; S.warlord=S.warlord===uid?null:uid; commit(); return; }
+  if(a==='reset'){ UI.confirm=true; renderRight(); return; }
+  if(a==='reset-no'){ UI.confirm=false; renderRight(); return; }
+  if(a==='reset-yes'){ UI.confirm=false; UI.msg=''; S.list=[]; S.warlord=null; commit(); return; }
+  if(a==='copy'){
+    const ta=$('#exp'), done=m=>{ const c=$('#copied'); if(c) c.textContent=m; };
+    const fallback=()=>{ ta.focus(); ta.select(); done('Text selected: copy it with Ctrl+C.'); };
+    try{ navigator.clipboard.writeText(ta.value).then(()=>done('Copied.'),fallback); }catch(err){ fallback(); }
+  }
+});
+document.addEventListener('change',e=>{
+  const t=e.target, a=t.dataset&&t.dataset.act;
+  if(t.id==='rname'){ S.name=(t.value.trim()||'My roster').slice(0,40); t.value=S.name; save(); if(UI.panel==='export') renderRight(); return; }
+  if(t.id==='dpMax'){ const v=Math.round(+t.value); if(v>=1&&v<=12){ S.dpMax=v; UI.msg=''; commit(); } return; }
+  if(t.id==='limitIn'){ const v=Math.round(+t.value); if(v>=50){ S.limit=v; UI.msg=''; commit(); } return; }
+  if(!a) return;
+  const uid=+t.dataset.uid, it=S.list.find(i=>i.uid===uid);
+  if(a==='manual'){ UI.manual[t.dataset.id]=Math.max(0,Math.round(+t.value)||0); renderLeft(); return; }
+  if(a==='opt'&&it){ it.opt=+t.value; UI.msg=''; commit(); return; }
+  if(a==='custom'&&it){ it.custom=Math.max(0,Math.round(+t.value)||0); commit(); return; }
+  if(a==='enh'&&it){ it[t.dataset.k]=t.value||null; UI.msg=''; commit(); return; }
+});
+$('#q').addEventListener('input',e=>{ UI.q=e.target.value; renderLeft(); });
+
+/* ============ INIT ============ */
+load(); normalize();
+if(window.SITE_TAB){ if(Array.isArray(SITE_TAB)){ if(!SITE_TAB.includes(S.tab)) S.tab=SITE_TAB[0]; } else S.tab=SITE_TAB; }
+renderAll();
+initStore();
