@@ -349,17 +349,10 @@
    "st": "9\" · T10 · 2+ · W12 · OC3 · Inv 4+",
    "opts": [
     {
-     "l": "Estimate 220",
-     "p": 220,
-     "r": true
-    },
-    {
-     "l": "Estimate 230",
-     "p": 230,
-     "r": true
+     "l": "1 model",
+     "p": 220
     }
-   ],
-   "flag": "The transcript contradicts itself: 220 or 230."
+   ]
   },
   {
    "id": "achillus",

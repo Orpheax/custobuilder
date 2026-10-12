@@ -336,3 +336,10 @@ table.sortable thead th[data-s]{cursor:pointer}
 .dx-form{align-items:start}
 .dx-col>label{display:grid;gap:4px;font-size:.82rem;color:#cdbf9c}
 .dx-col>label select{background:#0d0907;color:var(--s-bone);border:1px solid #7a5a14;padding:10px;min-height:44px;font:inherit}
+.dx-ru{margin:4px 0;font-size:.86rem;color:#cdbf9c}.dx-ru i{font-style:normal;color:#a89c7e;margin-left:6px}.dx-ru.on i{color:#9fe0a0}.dx-ru.off{opacity:.65}
+.dx-ap{color:#cdbf9c;font-size:.9rem}#dx-rl,#dx-dl{display:grid;gap:4px}
+
+.sg-sec{margin-top:2rem}.sg-sec[hidden]{display:none}
+.sg-h{display:flex;flex-wrap:wrap;align-items:baseline;gap:.5rem 1rem;font-family:Oswald,sans-serif;letter-spacing:.06em;text-transform:uppercase;border-bottom:1px solid rgba(201,154,46,.35);padding-bottom:.4rem;margin:0 0 1rem}
+.sg-h a{color:#c99a2e;text-decoration:none}.sg-h small{font-size:.7em;opacity:.65}
+.sg-jump{display:flex;flex-wrap:wrap;gap:.4rem .8rem;margin:1rem 0}.sg-jump a{font-size:.85rem;color:#c99a2e;text-decoration:none;border-bottom:1px dotted currentColor}

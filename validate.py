@@ -62,6 +62,12 @@ for k in kt:
 for m in wr['matchups']:
     if m['wr'] is not None and not (0<=m['wr']<=100): err('winrate out of range: %s'%m['f'])
 if wr['overall']['games']<=0: err('winrates: no games')
+rl=L('datasheet_rules')['items']
+for k,rs in rl['units'].items():
+    if k not in dsd: err('rules: unknown datasheet %s'%k)
+    for r in rs:
+        o=r['fx'].get('only')
+        if o and o not in [w['name'] for w in dsd[k]['ranged']+dsd[k]['melee']]: err('rules: %s: weapon %s not found'%(k,o))
 if errs:
     print('FAIL: %d problem(s)'%len(errs)); [print(' -',e) for e in errs]; sys.exit(1)
 print('OK: %d detachments, %d enhancements, %d units, %d datasheets, %d files'%(len(dets),len(enh),len(units),len(dsd),len(env)))
