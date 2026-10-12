@@ -2,7 +2,7 @@
 /* ============ DATA ============ */
 const CU = 'ADEPTUS CUSTODES', AP = 'ANATHEMA PSYKANA';
 // Data lives in data/*.json (source of truth), bundled into data.js by mkdata.py
-const {DETS,ENH,CATS,U,WG,NOTES,AOW_SRC,AOW_V,AOW_DET,AOW_DS,META,KT,DSD} = window.DATA;
+const {DETS,ENH,CATS,U,WG,NOTES,WR,KT,DSD} = window.DATA;
 
 // Detachments (PDF pages 92-105)
 
@@ -42,7 +42,7 @@ function load(){
     if(Array.isArray(o.dets)) S.dets=o.dets.filter(id=>DM[id]);
     if(Array.isArray(o.list)) S.list=o.list.filter(it=>UM[it.id]).map(it=>({uid:uidSeq++,id:it.id,opt:Math.min(it.opt|0,UM[it.id].opts.length-1),custom:+it.custom||0,enh:it.enh||null,upg:it.upg||null,wg:it.wg||{},_w:!!it.w}));
     const w=S.list.find(i=>i._w); S.warlord = w?w.uid:null; S.list.forEach(i=>delete i._w);
-    if(['cat','roster','notes','codex','ds','kt','aow','meta'].includes(o.tab)) S.tab=o.tab;
+    if(['cat','roster','notes','codex','ds','kt','meta'].includes(o.tab)) S.tab=o.tab;
     if(typeof o.name==='string' && o.name) S.name=o.name.slice(0,40);
     if(typeof o.currentId==='string') S.currentId=o.currentId;
     if(typeof o.savedSig==='string') S.savedSig=o.savedSig;
@@ -388,36 +388,6 @@ function renderCodex(){
   });
   $('#cx').innerHTML=h;
 }
-/* ---- AOW commentary (paraphrased from the Art of War 40k video review; timestamps = position in the video) ---- */
-
-/* v: verdict key -> label/colour. Verdict is our one-word reading of the reviewers' tone, not a quote. */
-
-
-
-/* ---- Meta Custodes (AOW overall commentary). k: 'f' = rules fact stated in the video, 'o' = reviewer opinion ---- */
-
-
-/* ---- AOW + Meta tabs ---- */
-const tsSec=t=>t.split(':').reduce((a,x)=>a*60+(+x),0);
-const tsLink=t=>'<a class="aw-ts" target="_blank" rel="noopener" href="'+AOW_SRC.url+'&t='+tsSec(t)+'s">▶ '+esc(t)+'</a>';
-const vChip=v=>'<span class="aw-v aw-'+AOW_V[v][1]+'">'+AOW_V[v][0]+'</span>';
-function awCard(id,name,tags,o,extra){
-  return '<article class="cx-d" id="aw-'+id+'"><header class="cx-h"><h2>'+esc(name)+'</h2>'+tags+vChip(o.v)+' '+tsLink(o.t)+'</header>'
-   +'<p class="cx-gist">'+esc(o.sum)+'</p><div class="cx-body"><div><h3>What they liked</h3>'
-   +o.pros.map(x=>'<div class="cx-box aw-pro"><p>'+esc(x)+'</p></div>').join('')+'</div><div><h3>Concerns</h3>'
-   +o.cons.map(x=>'<div class="cx-box aw-con"><p>'+esc(x)+'</p></div>').join('')+'</div></div>'
-   +'<footer class="cx-foot"><span><b>'+(o.take!==undefined?'Their take':'Note')+':</b> '+esc(o.take!==undefined?o.take:o.note)+'</span>'+(extra||'')+'</footer></article>';
-}
-function renderAow(){
-  const f=UI.awf||'all';
-  const dl=f==='ds'?[]:DETS, ul=f==='det'?[]:U.filter(u=>AOW_DS[u.id]);
-  let h='<div class="cx-top"><h2 class="cx-t">AOW Commentary</h2><div class="orn">&#10022;</div><p>Paraphrased reviewer opinions from the <a target="_blank" rel="noopener" href="'+AOW_SRC.url+'">'+esc(AOW_SRC.by)+' video “'+esc(AOW_SRC.title)+'”</a>. Verdict chips are our one-word reading of their tone, not their words. Points are as quoted in the video and may differ from this tool’s data. Timestamps open the video at that moment.</p>'
-   +'<div class="cx-nav">'+[['all','All'],['det','Detachments ('+DETS.length+')'],['ds','Datasheets ('+U.filter(u=>AOW_DS[u.id]).length+')']].map(x=>'<button data-act="awf" data-f="'+x[0]+'" aria-pressed="'+(f===x[0])+'">'+x[1]+'</button>').join('')+'</div>'
-   +'<div class="cx-nav">'+dl.map(d=>'<a href="#aw-d-'+d.id+'" data-act="awgo" data-id="d-'+d.id+'">'+esc(d.name)+'</a>').join('')+ul.map(u=>'<a href="#aw-'+u.id+'" data-act="awgo" data-id="'+u.id+'">'+esc(u.id==='venk'?'Venatari (Kinetic)':u.id==='venl'?'Venatari (Lances)':u.name.replace(/ (Sodality|Squad|Dreadnought|Custodians)$/,''))+'</a>').join('')+'</div></div>';
-  if(dl.length) h+='<h2 class="aw-sec">Detachments</h2>'+dl.filter(d=>AOW_DET[d.id]).map(d=>awCard('d-'+d.id,d.name,(d.unique?'<span class="cx-tag u">Unique Shield Host</span>':'<span class="cx-tag">Detachment</span>')+'<span class="cx-tag">'+d.dp+' DP</span>',AOW_DET[d.id])).join('');
-  if(ul.length) h+='<h2 class="aw-sec">Datasheets</h2>'+ul.map(u=>awCard(u.id,u.name,'<span class="cx-tag">'+esc(u.cat)+'</span>'+(AOW_DS[u.id].pts&&AOW_DS[u.id].pts!=='—'?'<span class="cx-tag u">'+esc(AOW_DS[u.id].pts)+' pts</span>':''),AOW_DS[u.id])).join('');
-  $('#aw').innerHTML=h;
-}
 /* ---- Ka'tah tab (base effects: Warhammer Community preview; favoured effects: codex) ---- */
 
 function renderKt(){
@@ -429,13 +399,23 @@ function renderKt(){
       +'<p class="kt-fv"><b>Favoured by '+esc(d.name)+'</b> ('+esc(d.fd)+(on?', in your list':'')+'): '+esc(k.f)+'</p></div>'; }).join('')+'</div>';
   $('#kt').innerHTML=h;
 }
+/* ---- Win rates (Listhammer snapshot; Wilson 95% interval from games played) ---- */
+function wilson(p,n){ if(!n||p==null) return null; p/=100; const z=1.96,d=1+z*z/n,c=p+z*z/(2*n),m=z*Math.sqrt(p*(1-p)/n+z*z/(4*n*n)); return [Math.max(0,(c-m)/d)*100,Math.min(1,(c+m)/d)*100]; }
 function renderMeta(){
-  let h='<div class="cx-top"><h2 class="cx-t">Meta Custodes</h2><div class="orn">&#10022;</div><p>Overall strategy and meta commentary from the <a target="_blank" rel="noopener" href="'+AOW_SRC.url+'">'+esc(AOW_SRC.by)+' review</a>, paraphrased. <b>Fact</b> = rule text stated in the video; <b>Opinion</b> = reviewer judgement (early impressions at release, before wide testing). Several of their ideas were explicitly flagged as untested.</p>'
-   +'<div class="cx-nav">'+META.map(m=>'<a href="#mt-'+m.id+'" data-act="mtgo" data-id="'+m.id+'">'+esc(m.title)+'</a>').join('')+'</div></div>';
-  META.forEach(m=>{
-    h+='<article class="cx-d" id="mt-'+m.id+'"><header class="cx-h"><h2>'+esc(m.title)+'</h2></header><div class="mt-body">'
-     +m.items.map(i=>'<div class="cx-box mt-'+i.k+'"><span class="mt-k">'+(i.k==='f'?'Fact':'Opinion')+'</span>'+(i.ts?tsLink(i.ts):'')+'<p>'+esc(i.t)+'</p></div>').join('')+'</div></article>';
-  });
+  const o=WR.overall, src=WR.source;
+  const bar=(v,lo,hi,n)=>v==null?'<span class="muted">n/a</span>':'<span class="wr-bar" role="img" aria-label="'+v+'% win rate'+(lo!=null?', 95% interval '+lo.toFixed(0)+' to '+hi.toFixed(0):'')+'"><i style="left:'+lo+'%;width:'+(hi-lo)+'%"></i><b style="left:'+v+'%"></b><u></u></span>';
+  const row=m=>{ const w=wilson(m.wr,m.g); const low=m.g<30; return '<tr'+(low?' class="wr-low"':'')+'><th scope="row">'+esc(m.f)+'</th><td class="n">'+(m.wr==null?'—':m.wr.toFixed(1)+'%')+'</td><td>'+(m.wr==null?'':bar(m.wr,w[0],w[1]))+'</td><td class="n">'+(w?w[0].toFixed(0)+'–'+w[1].toFixed(0)+'%':'—')+'</td><td class="n">'+(m.diff==null?'—':(m.diff>0?'+':'')+m.diff)+'</td><td class="n">'+m.g+'</td></tr>'; };
+  const dm={}; DETS.forEach(d=>dm[d.name]=d.id);
+  const dl=n=>n.split(' + ').map(x=>dm[x]?'<a href="det-'+dm[x]+'.html">'+esc(x)+'</a>':esc(x)).join(' + ');
+  let h='<div class="cx-top"><h2 class="cx-t">Win rates</h2><div class="orn">&#10022;</div><p>Tournament results for Adeptus Custodes in 11th edition, <b>'+esc(src.period)+'</b>. Data compiled by <a target="_blank" rel="noopener" href="'+src.url+'">'+esc(src.name)+'</a>: '+esc(src.method)+'. Snapshot taken '+esc(src.fetched)+'. A win rate on a small sample means little, so the table shows the 95% Wilson interval; rows under 30 games are dimmed.</p>'
+   +'<div class="cx-nav"><a href="#mt-det" data-act="mtgo" data-id="det">Detachments</a><a href="#mt-mu" data-act="mtgo" data-id="mu">Matchups</a><a href="#mt-ds" data-act="mtgo" data-id="ds">Dispositions</a></div></div>';
+  h+='<div class="strip wr-strip"><div><b>'+o.wr+'%</b><span>Win rate</span></div><div><b>'+o.games+'</b><span>Games</span></div><div><b>'+o.players+'</b><span>Players</span></div><div><b>'+o.overrep+'×</b><span>Overrepresentation</span></div></div>';
+  h+='<article class="cx-d" id="mt-det"><header class="cx-h"><h2>Win rate by detachment</h2></header><div class="mt-body"><p class="muted">“Field” is the share of lists. The source gives no game count per detachment, so no interval is computed; treat everything under 5% of the field as noise. A dash means too few games to report. Names are as reported by the source.</p><div class="tbl-wrap"><table class="wr-t"><thead><tr><th scope="col">Detachment</th><th scope="col">Field</th><th scope="col">Win rate</th></tr></thead><tbody>'
+   +WR.detachments.map(d=>'<tr'+(d.field<5?' class="wr-low"':'')+'><th scope="row">'+dl(d.n)+'</th><td class="n">'+d.field+'%</td><td class="n">'+(d.wr==null?'—':d.wr+'%')+'</td></tr>').join('')+'</tbody></table></div></div></article>';
+  h+='<article class="cx-d" id="mt-mu"><header class="cx-h"><h2>Matchups by opposing faction</h2></header><div class="mt-body"><p class="muted">Sorted by win rate. “Diff” is the average score difference.</p><div class="tbl-wrap"><table class="wr-t"><thead><tr><th scope="col">Opponent</th><th scope="col">Win rate</th><th scope="col"><span class="sr">Interval chart</span></th><th scope="col">95% interval</th><th scope="col">Diff</th><th scope="col">Games</th></tr></thead><tbody>'
+   +WR.matchups.slice().sort((a,b)=>(a.wr==null)-(b.wr==null)||b.wr-a.wr).map(row).join('')+'</tbody></table></div></div></article>';
+  h+='<article class="cx-d" id="mt-ds"><header class="cx-h"><h2>Force dispositions played</h2></header><div class="mt-body"><div class="tbl-wrap"><table class="wr-t"><thead><tr><th scope="col">Disposition</th><th scope="col">Lists</th><th scope="col">Share</th></tr></thead><tbody>'
+   +WR.dispositions.map(d=>'<tr><th scope="row">'+esc(d.n)+'</th><td class="n">'+d.lists+'</td><td class="n">'+d.pct+'%</td></tr>').join('')+'</tbody></table></div></div></article>';
   $('#mt').innerHTML=h;
 }
 
@@ -500,7 +480,7 @@ function renderTabs(){
   document.body.dataset.tab=S.tab;
   document.querySelectorAll('#mtabs button').forEach(b=>b.setAttribute('aria-selected',String(b.dataset.tab===S.tab)));
 }
-function renderAll(){ renderTop(); renderLeft(); renderRight(); renderOpts(); renderCodex(); renderDs(); renderKt(); renderAow(); renderMeta(); renderNotes(); renderTabs(); }
+function renderAll(){ renderTop(); renderLeft(); renderRight(); renderOpts(); renderCodex(); renderDs(); renderKt(); renderMeta(); renderNotes(); renderTabs(); }
 function commit(){ normalize(); save(); renderAll(); }
 
 /* ============ SAVED LISTS ============ */
@@ -597,15 +577,13 @@ function listsHtml(){
 document.addEventListener('click',e=>{
   const b=e.target.closest('[data-act]'); if(!b || b.disabled) return;
   const a=b.dataset.act, id=b.dataset.id, uid=+b.dataset.uid;
-  if(a==='tab'){ let t=b.dataset.tab; if(t==='notesToggle') t=S.tab==='notes'?'roster':'notes'; if(t==='codexToggle') t=S.tab==='codex'?'roster':'codex'; if(t==='dsToggle') t=S.tab==='ds'?'roster':'ds'; if(t==='ktToggle') t=S.tab==='kt'?'roster':'kt'; if(t==='aowToggle') t=S.tab==='aow'?'roster':'aow'; if(t==='metaToggle') t=S.tab==='meta'?'roster':'meta'; S.tab=t; save(); renderTabs(); return; }
-  if(a==='panel'){ const p=b.dataset.p; UI.panel=UI.panel===p?null:p; UI.confirm=false; if(S.tab==='cat'&&window.innerWidth<1000) S.tab='roster'; if(['notes','codex','ds','kt','aow','meta'].includes(S.tab)) S.tab='roster'; renderRight(); renderTabs(); return; }
+  if(a==='tab'){ let t=b.dataset.tab; if(t==='notesToggle') t=S.tab==='notes'?'roster':'notes'; if(t==='codexToggle') t=S.tab==='codex'?'roster':'codex'; if(t==='dsToggle') t=S.tab==='ds'?'roster':'ds'; if(t==='ktToggle') t=S.tab==='kt'?'roster':'kt'; if(t==='metaToggle') t=S.tab==='meta'?'roster':'meta'; S.tab=t; save(); renderTabs(); return; }
+  if(a==='panel'){ const p=b.dataset.p; UI.panel=UI.panel===p?null:p; UI.confirm=false; if(S.tab==='cat'&&window.innerWidth<1000) S.tab='roster'; if(['notes','codex','ds','kt','meta'].includes(S.tab)) S.tab='roster'; renderRight(); renderTabs(); return; }
   if(a==='sec'){ UI.closed[id]=!UI.closed[id]; renderLeft(); renderRight(); renderOpts(); return; }
   if(a==='eyeD'){ UI.eye['d:'+id]=!UI.eye['d:'+id]; renderLeft(); renderRight(); return; }
   if(a==='cxf'){ UI.cxf=b.dataset.f; renderCodex(); return; }
   if(a==='dsf'){ UI.dsf=b.dataset.f; renderDs(); dsUrl(); return; }
   if(a==='dsgo'){ e.preventDefault(); const el=document.getElementById('ds-'+id); if(el) el.scrollIntoView({behavior:'smooth',block:'start'}); return; }
-  if(a==='awf'){ UI.awf=b.dataset.f; renderAow(); return; }
-  if(a==='awgo'){ e.preventDefault(); const el=document.getElementById('aw-'+id); if(el) el.scrollIntoView({behavior:'smooth',block:'start'}); return; }
   if(a==='mtgo'){ e.preventDefault(); const el=document.getElementById('mt-'+id); if(el) el.scrollIntoView({behavior:'smooth',block:'start'}); return; }
   if(a==='cxgo'){ e.preventDefault(); const el=document.getElementById('cx-'+id); if(el) el.scrollIntoView({behavior:'smooth',block:'start'}); return; }
   if(a==='eyeE'){ UI.eye[b.dataset.key]=!UI.eye[b.dataset.key]; renderRight(); renderOpts(); return; }

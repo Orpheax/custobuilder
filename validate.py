@@ -17,7 +17,7 @@ for fp in sorted(glob.glob('data/*.json')):
         if bad in txt: err('%s: forbidden wording "%s"'%(fp,bad))
 dets=L('detachments')['items']; enh=L('enhancements')['items']; units=L('units')['items']; cats=L('categories')['items']
 wg=L('wargear')['items']; kt=L('katah')['items']; dsd=L('datasheet_stats')['items']
-awd=L('aow_detachments')['items']; awu=L('aow_datasheets')['items']; awv=L('aow_verdicts')['items']
+wr=L('winrates')['items']
 def uniq(name,ids):
     seen=set()
     for i in ids:
@@ -59,11 +59,9 @@ for s in sheet_ids:
     if s not in uid and s not in('aquilon_g','aquilon_t'): err('datasheet %s has no unit'%s)
 for k in kt:
     if k['d'] not in did: err('ka’tah %s: unknown detachment %s'%(k['n'],k['d']))
-for k,v in awd.items():
-    if k not in did: err('aow detachment: unknown id %s'%k)
-for k,v in awu.items():
-    if k not in uid: err('aow datasheet: unknown unit %s'%k)
-    if v.get('v') not in awv: err('aow datasheet %s: unknown verdict %s'%(k,v.get('v')))
+for m in wr['matchups']:
+    if m['wr'] is not None and not (0<=m['wr']<=100): err('winrate out of range: %s'%m['f'])
+if wr['overall']['games']<=0: err('winrates: no games')
 if errs:
     print('FAIL: %d problem(s)'%len(errs)); [print(' -',e) for e in errs]; sys.exit(1)
 print('OK: %d detachments, %d enhancements, %d units, %d datasheets, %d files'%(len(dets),len(enh),len(units),len(dsd),len(env)))
