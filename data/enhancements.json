@@ -1,0 +1,365 @@
+{
+ "schema": "custodes-data/1",
+ "dataset": "ENH",
+ "edition": "11th",
+ "source": "Codex Adeptus Custodes, 11th edition + V2 points table",
+ "last_verified": "2026-10-09",
+ "items": [
+  {
+   "id": "bane",
+   "p": 20,
+   "det": "gott",
+   "name": "Bane of Abominations",
+   "k": "enh",
+   "req": [
+    "ADEPTUS CUSTODES",
+    "CHARACTER"
+   ],
+   "t": "Attacks that target an enemy CHARACTER/MONSTER/VEHICLE unit have +1 to wound."
+  },
+  {
+   "id": "light",
+   "p": 15,
+   "det": "gott",
+   "name": "Emperor’s Light",
+   "k": "enh",
+   "req": [
+    "ADEPTUS CUSTODES",
+    "CHARACTER"
+   ],
+   "t": "Gains Emperor’s Light [EXTRA ATTACKS]: Melee, A3, WS2+, S5, AP-2, D2."
+  },
+  {
+   "id": "castellan",
+   "p": 25,
+   "det": "gott",
+   "name": "Castellan’s Mark",
+   "k": "enh",
+   "req": [
+    "ADEPTUS CUSTODES",
+    "CHARACTER"
+   ],
+   "t": "After deployment: redeploy up to 3 friendly ADEPTUS CUSTODES units, possibly into strategic reserves."
+  },
+  {
+   "id": "eagleeye",
+   "p": 30,
+   "det": "gott",
+   "name": "Eagle’s Eye",
+   "k": "enh",
+   "req": [
+    "ADEPTUS CUSTODES",
+    "CHARACTER"
+   ],
+   "t": "+1 W. Once per battle, per army: 3+ InSv ability when attacks are allocated (wording to be checked against the codex)."
+  },
+  {
+   "id": "genal",
+   "p": 30,
+   "det": "shadow",
+   "name": "Genalchemic Warding",
+   "k": "enh",
+   "req": [
+    "ADEPTUS CUSTODES",
+    "CHARACTER"
+   ],
+   "t": "Feel No Pain 5+."
+  },
+  {
+   "id": "unstop",
+   "p": 25,
+   "det": "shadow",
+   "name": "Unstoppable Destroyer",
+   "k": "enh",
+   "req": [
+    "ADEPTUS CUSTODES",
+    "INFANTRY",
+    "CHARACTER"
+   ],
+   "t": "Pile-in/consolidation up to 4\", any consolidation mode regardless of Before Moving restrictions."
+  },
+  {
+   "id": "sally",
+   "p": 30,
+   "det": "solar",
+   "name": "Sally Forth",
+   "k": "enh",
+   "req": [
+    "ADEPTUS CUSTODES",
+    "SHIELD-CAPTAIN"
+   ],
+   "t": "Start of your Charge phase: one friendly ADEPTUS CUSTODES INFANTRY unit within 6\" of this model; if it advanced this turn, that advance does not prevent it from declaring a charge."
+  },
+  {
+   "id": "eagle",
+   "p": 15,
+   "det": "solar",
+   "name": "Auric Eagle",
+   "k": "upg",
+   "req": [
+    "ADEPTUS CUSTODES"
+   ],
+   "any": [
+    "INFANTRY",
+    "MOUNTED"
+   ],
+   "not": [
+    "TERMINATOR"
+   ],
+   "t": "Unit has +1 to advance rolls and charge rolls (INFANTRY/MOUNTED, not TERMINATOR)."
+  },
+  {
+   "id": "pareldor",
+   "p": 30,
+   "det": "aquilan",
+   "name": "Pareldor’s Caducatrix",
+   "k": "enh",
+   "req": [
+    "ADEPTUS CUSTODES",
+    "CHARACTER"
+   ],
+   "t": "Once per battle, per army, at the start of any phase: heals D3+3 wounds."
+  },
+  {
+   "id": "shell",
+   "p": 10,
+   "det": "aquilan",
+   "name": "Not a Shell Wasted",
+   "k": "enh",
+   "req": [
+    "ADEPTUS CUSTODES",
+    "INFANTRY",
+    "CHARACTER"
+   ],
+   "t": "The unit’s ranged attacks have +1 A."
+  },
+  {
+   "id": "exemplar",
+   "p": 15,
+   "det": "dread",
+   "name": "Auric Exemplar",
+   "k": "enh",
+   "req": [
+    "ADEPTUS CUSTODES",
+    "CHARACTER"
+   ],
+   "t": "Melee attacks have [CLEAVE 1]."
+  },
+  {
+   "id": "bladework",
+   "p": 15,
+   "det": "dread",
+   "name": "Flawless Bladework",
+   "k": "enh",
+   "req": [
+    "ADEPTUS CUSTODES",
+    "CHARACTER"
+   ],
+   "t": "Melee attacks have [SUSTAINED HITS 1]."
+  },
+  {
+   "id": "orb",
+   "p": 20,
+   "det": "emissaries",
+   "name": "Auriferous Orb",
+   "k": "enh",
+   "req": [
+    "ADEPTUS CUSTODES",
+    "CHARACTER"
+   ],
+   "t": "Gains Auriferous Orb: 12\", A3, BS2+, S1, AP0, D1 [ANTI-non-MONSTER/VEHICLE 2+, BLINDING LIGHT, DEVASTATING WOUNDS]."
+  },
+  {
+   "id": "edge",
+   "p": 15,
+   "det": "emissaries",
+   "name": "Edge of the Blade",
+   "k": "enh",
+   "req": [
+    "ADEPTUS CUSTODES",
+    "CHARACTER"
+   ],
+   "t": "If the unit charged this turn: re-roll hit rolls and wound rolls of 1."
+  },
+  {
+   "id": "mantle",
+   "p": 40,
+   "det": "chosen",
+   "name": "Radiant Mantle",
+   "k": "enh",
+   "req": [
+    "ADEPTUS CUSTODES",
+    "INFANTRY",
+    "CHARACTER"
+   ],
+   "t": "Attacks that target this unit have -1 to hit."
+  },
+  {
+   "id": "armouries",
+   "p": 15,
+   "det": "chosen",
+   "name": "From the Hall of Armouries",
+   "k": "enh",
+   "req": [
+    "ADEPTUS CUSTODES",
+    "CHARACTER"
+   ],
+   "t": "Melee attacks have [DEVASTATING WOUNDS]."
+  },
+  {
+   "id": "shroud",
+   "p": 20,
+   "det": "auric",
+   "name": "Shroud of the Hidden Blade",
+   "k": "enh",
+   "req": [
+    "ADEPTUS CUSTODES",
+    "CHARACTER"
+   ],
+   "t": "Stealth and Lone Operative."
+  },
+  {
+   "id": "inspir",
+   "p": 10,
+   "det": "auric",
+   "name": "Inspirational Exemplar",
+   "k": "enh",
+   "req": [
+    "ADEPTUS CUSTODES",
+    "INFANTRY",
+    "CHARACTER"
+   ],
+   "t": "Once per battle round, per army: a battle-shocked friendly unit within 9\" is no longer battle-shocked."
+  },
+  {
+   "id": "superior",
+   "p": 30,
+   "det": "auric",
+   "name": "Superior Creation",
+   "k": "enh",
+   "req": [
+    "ADEPTUS CUSTODES",
+    "INFANTRY",
+    "CHARACTER"
+   ],
+   "t": "When destroyed, roll D6: on 2+ set it back up unengaged with 3 wounds remaining."
+  },
+  {
+   "id": "arae",
+   "p": 20,
+   "det": "honoured",
+   "name": "Arae-Shrike",
+   "k": "enh",
+   "req": [
+    "ADEPTUS CUSTODES",
+    "INFANTRY",
+    "CHARACTER"
+   ],
+   "t": "Enemy units making an ingress move cannot be set up within 12\" of this unit."
+  },
+  {
+   "id": "celer",
+   "p": 15,
+   "det": "honoured",
+   "name": "Celeritous Sentries",
+   "k": "upg",
+   "req": [
+    "TRUSTED SENTINEL"
+   ],
+   "t": "Once per phase, per unit: target with Heroic Intervention at -1 CP without blocking other uses."
+  },
+  {
+   "id": "descent",
+   "p": 20,
+   "det": "lions",
+   "name": "Lightning Descent",
+   "k": "enh",
+   "req": [
+    "SHIELD-CAPTAIN IN ALLARUS TERMINATOR ARMOUR"
+   ],
+   "t": "In your first Movement phase this unit can make an ingress move."
+  },
+  {
+   "id": "leonine",
+   "p": 20,
+   "det": "lions",
+   "name": "Fierce Conqueror",
+   "k": "enh",
+   "req": [
+    "SHIELD-CAPTAIN IN ALLARUS TERMINATOR ARMOUR"
+   ],
+   "t": "Once per phase, per army: Rapid Ingress on this unit at -1 CP without blocking other uses."
+  },
+  {
+   "id": "memento",
+   "p": 30,
+   "det": "moritoi",
+   "name": "Memento Moritoi",
+   "k": "upg",
+   "req": [
+    "ADEPTUS CUSTODES",
+    "DREADNOUGHT"
+   ],
+   "t": "One per army. Melee attacks have +1 A, +1 S and +1 D."
+  },
+  {
+   "id": "augury",
+   "p": 30,
+   "det": "moritoi",
+   "name": "Augury Uplink",
+   "k": "upg",
+   "req": [
+    "ADEPTUS CUSTODES",
+    "DREADNOUGHT"
+   ],
+   "t": "One per army. Feel No Pain 5+."
+  },
+  {
+   "id": "combat",
+   "p": 20,
+   "det": "grav",
+   "name": "Combat Deployment",
+   "k": "upg",
+   "req": [
+    "GRAV-ASSAULT",
+    "TRANSPORT"
+   ],
+   "t": "When a unit disembarks from this transport: it can re-roll charge rolls and cannot be targeted by snap shooting."
+  },
+  {
+   "id": "antigrav",
+   "p": 15,
+   "det": "grav",
+   "name": "Anti-Gravitic Mobility",
+   "k": "upg",
+   "req": [
+    "GRAV-ASSAULT"
+   ],
+   "t": "A fall-back move does not prevent this unit from being eligible to shoot."
+  },
+  {
+   "id": "oblivion",
+   "p": 15,
+   "det": "nmv",
+   "name": "Oblivion Knight",
+   "k": "enh",
+   "req": [
+    "ANATHEMA PSYKANA",
+    "CHARACTER"
+   ],
+   "t": "+1 to hit rolls, or +1 to hit and wound if it targets a PSYKER/battle-shocked unit."
+  },
+  {
+   "id": "huntress",
+   "p": 10,
+   "det": "nmv",
+   "name": "Huntress’ Eye",
+   "k": "enh",
+   "req": [
+    "ANATHEMA PSYKANA",
+    "CHARACTER"
+   ],
+   "t": "Movement phase: one visible enemy within 12\" makes a battle-shock roll with -1."
+  }
+ ]
+}

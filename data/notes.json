@@ -1,0 +1,44 @@
+{
+ "schema": "custodes-data/1",
+ "dataset": "NOTES",
+ "edition": "11th",
+ "source": "Tool notes on sources and assumptions",
+ "last_verified": "2026-10-09",
+ "items": [
+  [
+   "fact",
+   "Sources used by this tool",
+   [
+    "Datasheet points: the official V2 points table. It replaces V1.",
+    "Detachment costs: Guardians of the Throne 3 DP, every other detachment 1 DP. A budget of 3 DP is confirmed: Guardians of the Throne is taken alone, otherwise up to 3 other detachments. Only one Unique Shield Host per army.",
+    "Later copies cost more (extra points): Shield-Captain on foot, Allarus and Jetbike +20 from the 2nd; Wardens +30 from the 2nd unit; Telemon +30 from the 2nd; Vertus Praetors +20 from the 2nd unit; Sentinel Guard, Custodian Guard, Allarus Custodians, Caladius and Annihilator +30 from the 3rd; Venatari Kinetic Destroyers +25 from the 3rd; Coronus +20 from the 3rd.",
+    "Enhancement and Upgrade points: the points table (29 items, e.g. Radiant Mantle 40, Huntress’ Eye 10). Leonine Ferocity is listed as Fierce Conqueror (20 pts) in the points table; the rules text follows the codex. Name to be harmonised.",
+    "Detachments, rules, enhancements and stratagems: the 11th edition codex (pages 91 to 105). Stats: datasheets.",
+    "Anathema Psykana (page 91): units are included without the ADEPTUS CUSTODES keyword and are never Warlord, except with Null Maiden Vigil."
+   ]
+  ],
+  [
+   "assume",
+   "Assumptions made by the tool",
+   [
+    "A later copy surcharge also applies to the copies after it (4th, 5th…). The sources say nothing beyond what is listed.",
+    "Each datasheet counts its own copies. Venatari with pistols and with lances are two separate datasheets, as are Caladius and Annihilator.",
+    "Venatari with lances: the source sentence is incomplete. Assumed +30 from the 3rd unit (to be confirmed).",
+    "Contemptor-Galatus: 220 or 230 points is still to be confirmed. Both options are offered, marked as estimates.",
+    "Prosecutors at 5 models (50) comes from V1 and is not repeated in V2: to be confirmed. The Gyrfalcon Jetbike Sodality is a 2-model unit only.",
+    "Wargear options (Wargear section of each unit) come from the datasheets, have no points cost, and are not otherwise restricted. Enhancements are limited to Characters, except Upgrades, which target units. Each can be taken once per army. The rule of 3 copies and any cap on the number of enhancements are not applied."
+   ]
+  ],
+  [
+   "gap",
+   "Not yet confirmed, so not calculated",
+   [
+    "Missing points: Anathema Psykana Rhino. A field lets you enter your own points.",
+    "Vigilators and Witchseekers: prices for 4 and 10 models only. Prosecutors: 4 models (and 5 in V1).",
+    "Points limits (Combat Patrol 500, Incursion 1000, Strike Force 2000, Onslaught 3000): the tool’s choice, adjustable by hand.",
+    "Not applied: rule of 3 copies, maximum number of enhancements, transport restrictions. Not covered by the sources used.",
+    "Eagle’s Eye enhancement wording: to be verified against the codex."
+   ]
+  ]
+ ]
+}

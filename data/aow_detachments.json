@@ -1,0 +1,200 @@
+{
+ "schema": "custodes-data/1",
+ "dataset": "AOW_DET",
+ "edition": "11th",
+ "source": "Art of War 40k review (third party, paraphrased)",
+ "last_verified": "2026-10-09",
+ "items": {
+  "gott": {
+   "v": "good",
+   "t": "15:58",
+   "sum": "Presented as the plug-and-play 3 DP option and a good first detachment, with a well-balanced stratagem suite and no dead cards.",
+   "pros": [
+    "Sustained + Lethal Hits detachment rule stacks well with the many reroll-ones sources; called the best damage buff in the book alongside standing next to Trajann.",
+    "Eagle’s Eye (extra wound + once-per-battle 3+ invulnerable at the moment of allocation) is singled out as the best enhancement; a Shield-Captain on foot with minus-1 damage, 9+ wounds and that invulnerable is very hard to kill.",
+    "Unlimited Endurance gives army-wide advance-and-shoot-and-charge, timed after the advance roll.",
+    "Swift is the Eagle (reactive D3+3 move, Trusted Sentinel units only) described as their favourite stratagem; superhuman focus re-readies units; Prime Target suits grav tanks."
+   ],
+   "cons": [
+    "Shield of Honor is dismissed: it only works if the enemy model splits its attacks, which a savvy opponent will never do.",
+    "Castellan’s Mark redeploy is nice but weaker than the old turn-order version.",
+    "Gives up a slot in a points-hungry army: at 3 DP it competes with building from several 1 DP detachments."
+   ],
+   "note": "Their advice: the best way to learn what the army does; the later 1 DP combinations are where theorycraft happens."
+  },
+  "solar": {
+   "v": "top",
+   "t": "1:01:43",
+   "sum": "The reviewer’s personal favourite and the one he plans to play first: speed turns a traditionally slow army into one of the fastest in the game.",
+   "pros": [
+    "Fall back and still charge, army-wide (their comparison point: Emperor’s Children-style mobility).",
+    "Calistus favoured ka’tah (+2 Move and move through models) – the one ka’tah that really shines here.",
+    "Sally Forth (Shield-Captain only): point-and-click advance and charge for a unit within 6″, no CP and not limited to its own unit; worked example of an infantry unit reaching a 23″ charge.",
+    "Venatari with the speed upgrade can threaten a deployment zone on turn one."
+   ],
+   "cons": [
+    "The upgrade excludes Terminators and the stratagems are mostly minor (Inexorable and Gravimetric Grenade described as corner cases).",
+    "Wants a Shield-Captain slot, which competes with Trajann."
+   ],
+   "note": "Ranked first of the six Shield Hosts by one of the two reviewers; his motto is that speed wins games."
+  },
+  "shadow": {
+   "v": "top",
+   "t": "56:06",
+   "sum": "The classic anti-melee host: layers of small modifiers to blunt enemy damage, then turns aggressive when it wants to lock opponents down.",
+   "pros": [
+    "Objective-linked minus 1 to wound against attacks with Strength above Toughness – effective because the dangerous attackers are the ones that would otherwise wound on 3s/4s.",
+    "Kaptaris favoured ka’tah (minus 1 to hit, plus a battle-shock test at minus 1 at start of the fight phase) called possibly the best ka’tah, and the timing denies the opponent offensive stratagems.",
+    "No Escape (2 CP) lets a unit charge after an enemy falls back; Indomitable Guardians gives a 1 CP counter-offensive.",
+    "Unstoppable Destroyer enhancement is described as a functional fall-back-and-act via objective consolidation."
+   ],
+   "cons": [
+    "The consolidate-to-leave trick is an enhancement, which is a heavy price for a niche play; lethal-hits stratagem only hits characters/monsters (they wish it said vehicles)."
+   ],
+   "note": "Listed among the four Shield Hosts to start with; they joke that Shadowkeepers + Dread Host together would be the ultimate melee shutdown if only both were allowed."
+  },
+  "chosen": {
+   "v": "top",
+   "t": "51:15",
+   "sum": "Described as competing for best Shield Host: free reroll-one-hit/reroll-one-wound on everything, strong enhancements and two imported 3 DP stratagems.",
+   "pros": [
+    "Built-in rerolls make grav tanks (low shot count, high quality shots) work – their key reason to field Caladius Annihilators here.",
+    "Rendax favoured ka’tah adds mortal wounds when you fight monsters/vehicles with lethal hits.",
+    "Radiant Mantle (minus 1 to hit, all attacks) lets you spend ka’tah offensively; Hall of Armouries adds Devastating Wounds on melee.",
+    "Superhuman Focus, Armour of Contempt and Impenetrable Bastion (sticky objective) all come with it."
+   ],
+   "cons": [
+    "Radiant Mantle makes the second enhancement a hard choice; the other enhancement has to compete with it."
+   ],
+   "note": "The reviewer’s second favourite Shield Host; Annihilator tanks only really work with these double rerolls."
+  },
+  "dread": {
+   "v": "good",
+   "t": "39:48",
+   "sum": "Top-three Shield Host in their eyes: reroll charges across the army plus the best-regarded favourite ka’tah effect.",
+   "pros": [
+    "Reroll charge rolls for every unit – a big consistency and CP-economy gain for a hyper-elite army where a failed charge can lose a third of your damage.",
+    "Dacatarai favoured ka’tah: enemy pile-ins/consolidations are cut by 2″, which freezes opponents who touch you; rated better than the +2 Move option.",
+    "A 1 CP advance-and-charge stratagem is included; the two enhancements add Cleave 1 or Sustained Hits 1 to a single character, which they call modest, solid upgrades."
+   ],
+   "cons": [
+    "Golden Light of the Moirai (2 CP, minus 1 to hit after ingress) is considered over-priced and effectively unusable; Lightning Wrath’s D3+3 pile-in rarely matters on 3-model units."
+   ],
+   "note": "Synergy flagged with Lions of the Emperor: rerolled 7″ charges from deep strike out of the up-down."
+  },
+  "emissaries": {
+   "v": "sit",
+   "t": "44:31",
+   "sum": "Lower half of the Shield Hosts: strong-sounding Fight First rule, but too many of the pieces buff what you are already doing.",
+   "pros": [
+    "Fight First for all Custodes models is flagged as strong in melee matchups (though other sources of interrupt/heroic exist).",
+    "Edge of the Blade (reroll 1s on charge) is better than the other enhancement.",
+    "Slayers of Nightmares (plus 1 to wound vs higher Toughness) fixes the wound roll where Custodes need it – vehicles."
+   ],
+   "cons": [
+    "Conservai (favourite ka’tah) described as among the least impactful; the shooting/blinding-light enhancement is more of a joke than a threat.",
+    "Selfless Service (heroic-style charge for 1 CP) is only a modest CP discount; overall not very sauced up against the competition."
+   ],
+   "note": "The Shield Host slot is the most contested place in the book, and this one does not win it."
+  },
+  "aquilan": {
+   "v": "weak",
+   "t": "32:06",
+   "sum": "Their pick for the weakest Shield Host: a gun-focused host in an army whose guns are not its strength.",
+   "pros": [
+    "Gilded Guardians gives minus 1 to wound against higher-Strength ranged attacks when on objectives – nice against shooters who must come close.",
+    "Salvus gets +6″ range, effectively +3″ on rapid fire.",
+    "Rapid Reactions (shoot a unit that falls back) and Tip of the Talon (+1 Strength within 9″) are fun."
+   ],
+   "cons": [
+    "Caduceus Tricks only heals one model; the melta-spear Shield-Captain idea is rejected (two melta shots for 100+ points).",
+    "Not as synergistic and gives no real upside, so it is the one they would rank last."
+   ],
+   "note": "Likely the worst of the six, in their view."
+  },
+  "auric": {
+   "v": "sit",
+   "t": "1:09:18",
+   "sum": "A character-support detachment: one Dreadful Foe token gives your characters +1 to wound, which only matters if you field 2–3 characters.",
+   "pros": [
+    "Duty Unto Death (fight-on-death on 3+, 2+ for characters) is described as the real reason to take it – a source of melee control found nowhere else in the book.",
+    "Gilded Champion lets Trajann use Moment Shackle twice and resets the bike captain’s fight-and-fade.",
+    "Shroud of the Hidden Blade is a natural home for a solo bike Shield-Captain."
+   ],
+   "cons": [
+    "The other enhancements (Inspirational Exemplar, Superior Creation) lose out to stronger options in the book; character count in the army is naturally low."
+   ],
+   "note": "Picked up value with Trajann and the bike captain, not as a generic pick."
+  },
+  "honoured": {
+   "v": "top",
+   "t": "1:13:42",
+   "sum": "Called the most generically useful of the non-Host detachments: they expect it to see the most play and even say it could stand beside the Shield Hosts.",
+   "pros": [
+    "Reroll 1s to wound for Trusted Sentinel units on objectives, in melee and shooting – incredibly consistent with the stack of other reroll-one-hit sources.",
+    "Swift is the Eagle again (8″ reactive move, D3+3) – the stratagem the opponent has to play around; combos with surge-style moves.",
+    "Avenge the Fallen (below starting strength, plus 2 attacks on non-characters) and Emperor’s Domain (objective consolidate) are useful; Solaritus Centuries makes heroic interventions cheaper."
+   ],
+   "cons": [
+    "Mostly valuable if you run lots of Custodian Guard / Wardens / Sentinel Guard; the stratagems do not help Terminators or vehicles."
+   ],
+   "note": "Gives access to Take and Hold."
+  },
+  "lions": {
+   "v": "sit",
+   "t": "1:18:36",
+   "sum": "The Terminator detachment: take it if you play two or more Terminator units, otherwise you can skip it.",
+   "pros": [
+    "End-of-fight up-down for unengaged Terminators (they lost it from the datasheet).",
+    "Vigil Unending (2 CP, minus 1 damage vs shooting or melee for Terminators) is the big one – the reason to play the detachment.",
+    "Fury of the Emperor stacks with Dread Host reroll charges on deep-striking Terminators."
+   ],
+   "cons": [
+    "Lightning Descent and Leonine Ferocity are low-impact; Terminators are expensive at 90+ per model, so deep-striking them to do small tasks costs a lot.",
+    "They remember the old version as overvalued and clunky; unleash the lions has been oversold historically."
+   ],
+   "note": "Breakpoint they give: 1 unit – optional; 2 units – probably; 3+ – yes."
+  },
+  "moritoi": {
+   "v": "top",
+   "t": "1:25:55",
+   "sum": "The Dreadnought detachment, and the reviewer’s personal favourite: as soon as one Dreadnought is in the list you should take it.",
+   "pros": [
+    "Plus 2 OC while at starting strength (OC4 Telemon / OC5 with the upgrade), reroll hit 1s below starting strength and reroll hit/wound 1s below half.",
+    "Auguries Uplink gives a Dreadnought a 5+ feel-no-pain; the first Telemon should take it (they call it almost a full Katan). Memento Moratoy (+1 attack/Strength/damage) is better on a Galatus than a Telemon.",
+    "Honoured Interred aura (reroll 1s to hit for friends within 6″), a stratagem that gives Dreadnoughts Assault and charging after an advance, and Unstoppable Momentum (Mobile). With Solar Watch’s +2 Move a Telemon is described as ~16″ on average and able to charge a Knight."
+   ],
+   "cons": [
+    "Only one of each upgrade per army, so the benefit tops out around 2–3 Dreadnoughts."
+   ],
+   "note": "Quoted prices: Telemon about 280, about 320 with the 5+ FNP upgrade."
+  },
+  "grav": {
+   "v": "sit",
+   "t": "1:33:41",
+   "sum": "A specialist detachment for the grav vehicles; a fine fourth 1 DP slot if you have no better use.",
+   "pros": [
+    "4+ invulnerable against ranged attacks for Grav vehicles (including Coronus and Pallas).",
+    "Advanced Stabilizers (assault), Inevitable Annihilation (ignore hit modifiers) and the fall-back-and-shoot upgrade are all good for grav tanks."
+   ],
+   "cons": [
+    "Only worth taking if you are already playing several grav units; the Victory Before Death sticky-on-death trick is cute but unlikely."
+   ],
+   "note": "Their recommendation: pick a Shield Host, pair with Honoured Companions, then use the last 1 DP for the package that the list is built around (grav tanks, a Telemon or Terminators)."
+  },
+  "nmv": {
+   "v": "skip",
+   "t": "1:36:40",
+   "sum": "The Sisters of Silence detachment, which they do not expect to take; the other pages are so full of good rules that this is easy to leave out.",
+   "pros": [
+    "Oblivion enhancement is strong on paper, giving +1 to hit and (vs Psykers) +1 to wound on a skirmishing unit.",
+    "Chaff Volley (prosecutors, +1 AP for the army against the hit unit) is called legitimate."
+   ],
+   "cons": [
+    "Anathema Psykana units are not keyworded Adeptus Custodes, so some of the intended synergies (rerolls from Trajann, ka’tah) do not apply.",
+    "The detachment rule is at best moderately useful (battle-shock pressure on Psykers)."
+   ],
+   "note": "You probably aren’t taking this detachment."
+  }
+ }
+}

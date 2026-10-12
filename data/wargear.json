@@ -1,0 +1,230 @@
+{
+ "schema": "custodes-data/1",
+ "dataset": "WG",
+ "edition": "11th",
+ "source": "Codex datasheets (wargear options)",
+ "last_verified": "2026-10-09",
+ "items": {
+  "sc": [
+   {
+    "id": "m",
+    "k": "one",
+    "t": "Melee weapon and shield",
+    "c": [
+     "Pyrithite Spear + Praesidium Shield",
+     "Eternity-pattern Paragon Blade (replaces the Pyrithite Spear)",
+     "Castellan Axe (replaces spear and shield)",
+     "Guardian Spear (replaces spear and shield)"
+    ]
+   }
+  ],
+  "scall": [
+   {
+    "id": "m",
+    "k": "one",
+    "t": "Melee weapon",
+    "c": [
+     "Guardian Spear",
+     "Castellan Axe"
+    ]
+   }
+  ],
+  "scjet": [
+   {
+    "id": "r",
+    "k": "one",
+    "t": "Ranged weapon",
+    "c": [
+     "Salvo Launcher",
+     "Hurricane Bolter"
+    ]
+   }
+  ],
+  "sentinel": [
+   {
+    "id": "v",
+    "k": "tog",
+    "t": "Standard bearer",
+    "c": [
+     "Vexilla (1 model)"
+    ]
+   }
+  ],
+  "guard": [
+   {
+    "id": "v",
+    "k": "tog",
+    "t": "Standard bearer",
+    "c": [
+     "Vexilla (1 model)"
+    ]
+   }
+  ],
+  "wardens": [
+   {
+    "id": "a",
+    "k": "each",
+    "t": "Melee weapons",
+    "f": "Guardian Spear",
+    "c": [
+     "Castellan Axe"
+    ]
+   },
+   {
+    "id": "v",
+    "k": "tog",
+    "t": "Standard bearer",
+    "c": [
+     "Vexilla (1 model)"
+    ]
+   }
+  ],
+  "allarus": [
+   {
+    "id": "a",
+    "k": "each",
+    "t": "Melee weapons",
+    "f": "Guardian Spear",
+    "c": [
+     "Castellan Axe"
+    ]
+   },
+   {
+    "id": "v",
+    "k": "tog",
+    "t": "Standard bearer",
+    "c": [
+     "Vexilla (1 model)"
+    ]
+   }
+  ],
+  "aquilon": [
+   {
+    "id": "r",
+    "k": "each",
+    "t": "Ranged weapons",
+    "f": "Lastrum Storm Bolter",
+    "c": [
+     "Infernus Firepike"
+    ],
+    "opt": 1
+   }
+  ],
+  "achillus": [
+   {
+    "id": "r",
+    "k": "one",
+    "t": "Lastrum Storm Bolters (2)",
+    "c": [
+     "2 Lastrum Storm Bolters",
+     "2 Adrathic Combi-destructors",
+     "2 Twin Infernus Incinerators"
+    ]
+   }
+  ],
+  "vertus": [
+   {
+    "id": "r",
+    "k": "each",
+    "t": "Ranged weapons",
+    "f": "Salvo Launcher",
+    "c": [
+     "Hurricane Bolter"
+    ]
+   }
+  ],
+  "gyrfalcon": [
+   {
+    "id": "r",
+    "k": "each",
+    "t": "Ranged weapons",
+    "f": "Lastrum Bolt Cannon",
+    "c": [
+     "Adrathic Devastator",
+     "Arachnus Volley Cannon",
+     "Twin Corvae Las-pulser"
+    ]
+   }
+  ],
+  "telemon": [
+   {
+    "id": "l",
+    "k": "one",
+    "t": "Heavy weapons",
+    "c": [
+     "Dual Caestus Fists + 2 Twin Neutronium Cascade Projectors",
+     "Adrathic Desolator + Caestus Fist + Twin Neutronium Cascade Projectors",
+     "Arachnus Storm Cannon + Caestus Fist + Twin Neutronium Cascade Projectors",
+     "Caestus Fist + Iliastus Accelerator Culverin + Twin Neutronium Cascade Projectors"
+    ]
+   }
+  ],
+  "pallas": [
+   {
+    "id": "r",
+    "k": "one",
+    "t": "Main weapon",
+    "c": [
+     "Twin Arachnus Blaze Cannon",
+     "Twin Iliastus Accelerator Fusil"
+    ]
+   }
+  ],
+  "coronus": [
+   {
+    "id": "r",
+    "k": "one",
+    "t": "Secondary weapon",
+    "c": [
+     "Twin Lastrum Bolt Cannon",
+     "Twin Neutronium Cascade Projectors"
+    ]
+   }
+  ],
+  "caladius": [
+   {
+    "id": "r",
+    "k": "one",
+    "t": "Secondary weapon",
+    "c": [
+     "Twin Lastrum Bolt Cannon",
+     "Twin Neutronium Cascade Projectors"
+    ]
+   }
+  ],
+  "annihilator": [
+   {
+    "id": "r",
+    "k": "one",
+    "t": "Secondary weapon",
+    "c": [
+     "Twin Lastrum Bolt Cannon",
+     "Twin Neutronium Cascade Projectors"
+    ],
+    "flag": true
+   }
+  ],
+  "kc": [
+   {
+    "id": "m",
+    "k": "one",
+    "t": "Weapon",
+    "c": [
+     "Executioner Greatblade",
+     "Master-crafted Boltgun + Gun Stock",
+     "Master-crafted Flamer + Gun Stock"
+    ]
+   }
+  ],
+  "rhino": [
+   {
+    "id": "h",
+    "k": "tog",
+    "t": "Equipment",
+    "c": [
+     "Hunter-killer Missile"
+    ]
+   }
+  ]
+ }
+}

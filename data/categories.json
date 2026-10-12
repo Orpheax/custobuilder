@@ -1,0 +1,41 @@
+{
+ "schema": "custodes-data/1",
+ "dataset": "CATS",
+ "edition": "11th",
+ "source": "Tool categories",
+ "last_verified": "2026-10-09",
+ "items": [
+  [
+   "char",
+   "Characters"
+  ],
+  [
+   "bl",
+   "Battleline"
+  ],
+  [
+   "inf",
+   "Infantry"
+  ],
+  [
+   "term",
+   "Terminators"
+  ],
+  [
+   "mnt",
+   "Mounted"
+  ],
+  [
+   "dread",
+   "Dreadnoughts"
+  ],
+  [
+   "veh",
+   "Grav Vehicles"
+  ],
+  [
+   "ana",
+   "Anathema Psykana"
+  ]
+ ]
+}
