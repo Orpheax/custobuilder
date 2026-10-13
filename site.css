@@ -343,3 +343,24 @@ table.sortable thead th[data-s]{cursor:pointer}
 .sg-h{display:flex;flex-wrap:wrap;align-items:baseline;gap:.5rem 1rem;font-family:Oswald,sans-serif;letter-spacing:.06em;text-transform:uppercase;border-bottom:1px solid rgba(201,154,46,.35);padding-bottom:.4rem;margin:0 0 1rem}
 .sg-h a{color:#c99a2e;text-decoration:none}.sg-h small{font-size:.7em;opacity:.65}
 .sg-jump{display:flex;flex-wrap:wrap;gap:.4rem .8rem;margin:1rem 0}.sg-jump a{font-size:.85rem;color:#c99a2e;text-decoration:none;border-bottom:1px dotted currentColor}
+/* game help */
+.gh-wrap{max-width:1180px;margin:0 auto;padding:0 16px 3rem}
+.gh-bar{display:flex;flex-wrap:wrap;gap:.75rem 1.25rem;align-items:end;margin:1rem 0}
+.gh-sel{display:grid;gap:4px;font-size:.82rem;color:#cdbf9c;min-width:min(100%,280px)}
+.gh-sel select{background:#0d0907;color:var(--s-bone,#e6dcc2);border:1px solid #7a5a14;padding:10px;min-height:44px;font:inherit;max-width:100%}
+.gh-sc{display:flex;flex-wrap:wrap;gap:.4rem}
+.gh-sum h2{margin:.5rem 0 .25rem;font-family:Oswald,sans-serif;letter-spacing:.05em;text-transform:uppercase}
+.gh-jump{position:sticky;top:0;z-index:5;background:rgba(10,7,6,.92);backdrop-filter:blur(4px);padding:.6rem 0;margin:.5rem 0;border-bottom:1px solid rgba(201,154,46,.25)}
+.gh-ph,.sg-sec[id^=gh-]{scroll-margin-top:3.2rem}
+.gh-kt{border-left-color:#c99a2e}
+.gh-un{margin:1rem 0;border:1px solid rgba(201,154,46,.25);padding:.5rem .75rem;background:rgba(0,0,0,.25)}
+.gh-un>summary{cursor:pointer;font-family:Oswald,sans-serif;letter-spacing:.05em;text-transform:uppercase;padding:.4rem 0}
+.gh-lines{margin:.25rem 0 1rem;padding-left:1.1rem;color:#cdbf9c}
+.gh-un .ds-d{margin-top:.75rem}
+#syncin,#synccode{width:100%;box-sizing:border-box;background:#0d0907;color:#e6dcc2;border:1px solid #7a5a14;padding:8px;font:12px/1.4 ui-monospace,monospace;margin-top:6px}
+.gh-wrap{position:relative;z-index:2}
+.gh-wrap .sg p b,.gh-wrap .sg i b{display:inline;font:inherit;font-weight:700;letter-spacing:0;text-transform:none;color:inherit}
+.gh-wrap .sg i b{text-transform:none}
+.gh-wrap .sg small .tv,.gh-wrap .sg small i{display:inline;border:0;padding:0}
+.gh-wrap .sg small a{color:#c99a2e}
+.gh-wrap .sg code{font-size:.85em}

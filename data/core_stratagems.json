@@ -1,0 +1,12 @@
+{
+ "schema": "custodes-data/1",
+ "dataset": "CORE",
+ "edition": "11th",
+ "source": "Third-party coverage of the 11th edition core rules (Wargamer). Partial: only the stratagems explicitly described as 11th edition are listed. Wording is paraphrased.",
+ "last_verified": "2026-10-13",
+ "items": [
+  {"n": "Crushing Impact", "cp": 1, "w": "Your Charge phase, after a MONSTER or VEHICLE of yours completes a charge move.", "t": "Replaces Tank Shock. Roll a number of D6 equal to the charging unit's Toughness; each 5+ is a mortal wound on an engaged enemy unit (up to six), and each 1 is a mortal wound on your own unit.", "s": "you", "ph": ["Charge"], "tv": true},
+  {"n": "Fire Overwatch", "cp": 1, "w": "End of your opponent's Movement phase.", "t": "One of your units within 24\" of an enemy unit that it can shoot fires at it using Snap Shooting: hits only on unmodified 6s, no re-rolls.", "s": "opp", "ph": ["Movement"], "tv": true},
+  {"n": "Heroic Intervention", "cp": 1, "w": "End of your opponent's Charge phase.", "t": "One of your unengaged units within 12\" of an enemy unit makes a charge move. By default it can only target enemy units that made a charge move this turn (Leap to Defend); for +1 CP it can target any enemy unit within 6\" with the charge roll capped at 6 (Into the Fray).", "s": "opp", "ph": ["Charge"], "tv": true}
+ ]
+}

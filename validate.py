@@ -68,6 +68,15 @@ for k,rs in rl['units'].items():
     for r in rs:
         o=r['fx'].get('only')
         if o and o not in [w['name'] for w in dsd[k]['ranged']+dsd[k]['melee']]: err('rules: %s: weapon %s not found'%(k,o))
+for c in L('core_stratagems')['items']:
+    for k in ('n','cp','w','t','s','ph'):
+        if k not in c: err('core stratagem %s: missing %s'%(c.get('n'),k))
+sc=L('damage_scoring'); 
+for k,r in sc['items'].items():
+    if k not in dsd: err('damage_scoring: unknown datasheet %s'%k)
+    for t,vals in r.items():
+        if len(vals)!=len(sc['profiles']): err('damage_scoring: %s %s has %d values'%(k,t,len(vals)))
+        if any((not isinstance(x,(int,float))) or x<0 for x in vals): err('damage_scoring: %s %s bad value'%(k,t))
 if errs:
     print('FAIL: %d problem(s)'%len(errs)); [print(' -',e) for e in errs]; sys.exit(1)
 print('OK: %d detachments, %d enhancements, %d units, %d datasheets, %d files'%(len(dets),len(enh),len(units),len(dsd),len(env)))

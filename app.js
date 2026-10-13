@@ -552,13 +552,14 @@ function fmtDate(iso){ try{ return new Date(iso).toLocaleString('en-GB',{day:'nu
 function listsHtml(){
   const cur=Saved.items.find(x=>x.id===S.currentId);
   let h='<div class="panelbox"><h3>My lists</h3>';
-  h+='<p class="muted" style="margin:0">'+(Saved.kind==='cloud'?'Lists saved to your account, private to you. They stay available on your next visit and on your other devices.':'Lists saved in this browser only (account storage unavailable in this view).')+'</p>';
+  h+='<p class="muted" style="margin:0">'+(Saved.kind==='cloud'?'Lists saved to your account, private to you. They stay available on your next visit and on your other devices.':'Lists are saved in this browser only. To use them on another device, make a code in the box below.')+'</p>';
   if(Saved.note) h+='<p class="muted" style="margin:0;color:var(--warn)">'+esc(Saved.note)+'</p>';
   h+='<div class="row"><button class="btn pri" data-act="saveNew"'+(Saved.busy||!S.list.length?' disabled':'')+'>Save as new list</button>'
    +(cur?'<button class="btn" data-act="saveCur"'+(Saved.busy||!S.list.length?' disabled':'')+'>Update "'+esc(cur.name)+'"</button>':'')+'</div>';
   if(!S.list.length) h+='<p class="muted" style="margin:0">Add at least one unit to save.</p>';
   if(Saved.msg) h+='<p class="muted" style="margin:0;color:var(--ok)">'+esc(Saved.msg)+'</p>';
   h+='</div>';
+  h+=syncHtml();
   if(!Saved.ready) return h+'<div class="empty">Loading lists…</div>';
   if(!Saved.items.length) return h+'<div class="empty">No saved lists.</div>';
   h+=secHead('r-saved','Saved lists',Saved.items.length+'');
@@ -572,6 +573,58 @@ function listsHtml(){
   });
   return h;
 }
+
+
+/* ============ SYNC BETWEEN DEVICES (no account: a code, a link or a file) ============ */
+const Sync={msg:'',code:''};
+async function zipB64(t){
+  if(window.CompressionStream){ try{ const cs=new CompressionStream('deflate-raw'); const w=cs.writable.getWriter(); w.write(new TextEncoder().encode(t)); w.close();
+    const buf=new Uint8Array(await new Response(cs.readable).arrayBuffer()); let b=''; buf.forEach(x=>b+=String.fromCharCode(x)); return 'CB2.'+btoa(b).replace(/\+/g,'-').replace(/\//g,'_').replace(/=+$/,''); }catch(e){} }
+  return 'CB1.'+b64u.enc(t);
+}
+async function unzipB64(c){
+  c=c.trim(); const m=/(?:CB[12]\.[A-Za-z0-9_-]+)/.exec(c); if(!m) throw new Error('bad'); c=m[0];
+  if(c.startsWith('CB1.')) return b64u.dec(c.slice(4));
+  if(!window.DecompressionStream) throw new Error('nodecomp');
+  const raw=atob(c.slice(4).replace(/-/g,'+').replace(/_/g,'/')), u=new Uint8Array(raw.length); for(let i=0;i<raw.length;i++) u[i]=raw.charCodeAt(i);
+  const ds=new DecompressionStream('deflate-raw'); const w=ds.writable.getWriter(); w.write(u); w.close();
+  return new TextDecoder().decode(await new Response(ds.readable).arrayBuffer());
+}
+async function syncPack_async(){ Sync.code=await zipB64(JSON.stringify(syncPack())); syncSay('Code ready: copy it, then paste it into the same panel on the other device.'); }
+function syncPack(){
+  const lists={}; localRead().forEach(x=>{ const id=x.id; const d=Object.assign({},x); delete d.id; lists[id]=d; });
+  return {v:1,app:'custodes-builder',at:new Date().toISOString(),lists,current:S.list.length?docNow():null};
+}
+async function syncMerge(pack){
+  if(!pack||typeof pack!=='object'||!pack.lists||typeof pack.lists!=='object') throw new Error('bad');
+  let added=0,updated=0,kept=0; const have=Object.fromEntries(localRead().map(x=>[x.id,x]));
+  Object.keys(pack.lists).forEach(id=>{ const d=pack.lists[id]; if(!d||!Array.isArray(d.units)) return;
+    const cur=have[id]; if(!cur){ localWrite(id,d); added++; }
+    else if(String(d.updatedAt||'')>String(cur.updatedAt||'')){ localWrite(id,d); updated++; } else kept++; });
+  if(pack.current&&Array.isArray(pack.current.units)&&pack.current.units.length&&!S.list.length){ applyDoc(pack.current,null); }
+  await refreshSaved();
+  return 'Import done: '+added+' new, '+updated+' updated, '+kept+' already up to date.';
+}
+async function syncImportText(t){
+  t=t.trim(); if(!t) throw new Error('empty');
+  let pack; if(t[0]==='{'){ pack=JSON.parse(t); if(Array.isArray(pack.units)){ applyDoc(pack,null); return 'List "'+S.name+'" loaded.'; } }
+  else pack=JSON.parse(await unzipB64(t));
+  return syncMerge(pack);
+}
+function syncHtml(){
+  const n=Saved.items.length;
+  return '<div class="panelbox"><h3>Use my lists on another device</h3>'
+   +'<p class="muted" style="margin:0">Lists live in this browser. There is no account, so nothing leaves it unless you send it. Make a code here, paste it into the same panel on your phone or another computer, and your '+n+' saved list'+(n==1?'':'s')+(S.list.length?' and the list being edited':'')+' follow. Importing merges: the most recent copy of each list wins, nothing is deleted.</p>'
+   +'<div class="row"><button class="btn pri" data-act="syncCode">Make a code</button><button class="btn" data-act="syncLink">Copy a link</button><button class="btn" data-act="syncFile">Download a backup file</button></div>'
+   +(Sync.code?'<textarea id="synccode" readonly rows="3" aria-label="Sync code">'+esc(Sync.code)+'</textarea><div class="row"><button class="btn" data-act="syncCopy">Copy the code</button></div>':'')
+   +'<label class="muted" for="syncin" style="margin-top:8px;display:block">Import: paste a code, a link or a backup text, or choose a file.</label>'
+   +'<textarea id="syncin" rows="3" placeholder="CB2.…" aria-label="Code to import"></textarea>'
+   +'<div class="row"><button class="btn pri" data-act="syncImport">Import</button><label class="btn" for="syncfile" style="cursor:pointer">Choose a file…</label><input id="syncfile" type="file" accept=".json,.txt,application/json,text/plain" hidden></div>'
+   +(Sync.msg?'<p class="muted" id="syncmsg" style="margin:0;color:var(--ok)" role="status">'+esc(Sync.msg)+'</p>':'')
+   +'</div>';
+}
+const syncSay=m=>{ Sync.msg=m; if(UI.panel==='lists') renderRight(); };
+const syncCopyText=async(t,ok)=>{ try{ await navigator.clipboard.writeText(t); syncSay(ok); }catch(e){ syncSay('Copy was refused: select the text and copy it by hand.'); } };
 
 /* ============ EVENTS ============ */
 document.addEventListener('click',e=>{
@@ -598,6 +651,11 @@ document.addEventListener('click',e=>{
     if(id==='trajann') S.warlord=S.list[S.list.length-1].uid;
     commit(); return;
   }
+  if(a==='syncCode'){ syncPack_async(); return; }
+  if(a==='syncLink'){ (async()=>{ const c=await zipB64(JSON.stringify(syncPack())); Sync.code=c; syncCopyText(location.origin+location.pathname.replace(/[^/]*$/,'builder.html')+'#sync='+c,'Link copied. Open it on the other device.'); })(); return; }
+  if(a==='syncCopy'){ syncCopyText(Sync.code,'Code copied.'); return; }
+  if(a==='syncFile'){ try{ const blob=new Blob([JSON.stringify(syncPack(),null,1)],{type:'application/json'}); const l=document.createElement('a'); l.href=URL.createObjectURL(blob); l.download='custodes-lists-'+new Date().toISOString().slice(0,10)+'.json'; document.body.appendChild(l); l.click(); setTimeout(()=>{ URL.revokeObjectURL(l.href); l.remove(); },500); syncSay('Backup file downloaded.'); }catch(x){ syncSay('Download refused: use "Make a code" instead.'); } return; }
+  if(a==='syncImport'){ const ta=$('#syncin'); syncImportText(ta?ta.value:'').then(syncSay,()=>syncSay('This is not a valid code, link or backup.')); return; }
   if(a==='saveNew'){ doSave(null); return; }
   if(a==='saveCur'){ doSave(S.currentId); return; }
   if(a==='loadList'){ const it=Saved.items.find(x=>x.id===id); if(!it) return; if(isDirty()){ UI.pending={type:'load',id}; renderRight(); } else applyDoc(it,id); return; }
@@ -631,6 +689,7 @@ document.addEventListener('click',e=>{
   }
 });
 document.addEventListener('change',e=>{
+  if(e.target.id==='syncfile'){ const f=e.target.files&&e.target.files[0]; if(f){ const r=new FileReader(); r.onload=()=>syncImportText(String(r.result)).then(syncSay,()=>syncSay('This file is not a valid backup.')); r.readAsText(f); } return; }
   const t=e.target, a=t.dataset&&t.dataset.act;
   if(t.id==='rname'){ S.name=(t.value.trim()||'My roster').slice(0,40); t.value=S.name; save(); if(UI.panel==='export') renderRight(); return; }
   if(t.id==='dpMax'){ const v=Math.round(+t.value); if(v>=1&&v<=12){ S.dpMax=v; UI.msg=''; commit(); } return; }
@@ -666,4 +725,5 @@ document.addEventListener('click',e=>{
   if(a==='copylink'){ const url=location.origin+location.pathname.replace(/[^/]*$/,'builder.html')+'#list='+b64u.enc(JSON.stringify(docNow())); const t=document.createElement('textarea'); t.value=url; document.body.appendChild(t); copy(t,'copiedj'); setTimeout(()=>t.remove(),1500); }
   if(a==='import'){ const ta=$('#impj'); try{ const d=JSON.parse(ta.value); if(!d||!Array.isArray(d.units)) throw new Error('bad'); applyDoc(d,null); UI.panel='export'; renderRight(); }catch(x){ done('impmsg','This is not a valid roster file.'); } }
 });
+(function loadSync(){ try{ const m=/[#&]sync=([^&]+)/.exec(location.hash); if(!m) return; history.replaceState(null,'',location.pathname+location.search); syncImportText(m[1]).then(r=>{ UI.panel='lists'; Sync.msg=r; renderRight(); },()=>{}); }catch(x){} })();
 (function loadShared(){ try{ const m=/[#&]list=([^&]+)/.exec(location.hash); if(!m) return; const d=JSON.parse(b64u.dec(m[1])); if(d&&Array.isArray(d.units)){ applyDoc(d,null); try{ history.replaceState(null,'',location.pathname+location.search); }catch(x){} } }catch(x){} })();
