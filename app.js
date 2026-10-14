@@ -58,7 +58,7 @@ function save(){
 /* ============ RULES ============ */
 const basePts = it => { const o=UM[it.id].opts[it.opt]; return o.p!=null ? o.p : (it.custom||0); };
 // Later copies cost more: u.ups = {n: surcharge from the nth copy of the datasheet}
-const copyIdx = it => { let n=0; for(const i of S.list){ if(i.id===it.id){ n++; if(i===it) return n; } } return n; };
+const copyIdx = it => { let n=0; const po=UM[it.id].po; for(const i of S.list){ if(i.id===it.id&&(!po||i.opt===it.opt)){ n++; if(i===it) return n; } } return n; };
 const surcharge = it => { const u=UM[it.id]; if(!u.ups) return 0; const n=copyIdx(it); let s=0; Object.keys(u.ups).map(Number).sort((a,b)=>a-b).forEach(k=>{ if(n>=k) s=u.ups[k]; }); return s; };
 const enhPts = it => (it.enh?EM[it.enh].p:0) + (it.upg?EM[it.upg].p:0);
 const pts = it => basePts(it) + surcharge(it) + enhPts(it);

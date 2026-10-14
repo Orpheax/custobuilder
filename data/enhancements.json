@@ -2,8 +2,8 @@
  "schema": "custodes-data/1",
  "dataset": "ENH",
  "edition": "11th",
- "source": "Codex Adeptus Custodes, 11th edition + V2 points table",
- "last_verified": "2026-10-09",
+ "source": "Codex Adeptus Custodes, 11th edition + Munitorum Field Manual v1.6 (14 October 2026)",
+ "last_verified": "2026-10-14",
  "items": [
   {
    "id": "bane",
@@ -283,7 +283,7 @@
    "id": "leonine",
    "p": 20,
    "det": "lions",
-   "name": "Fierce Conqueror",
+   "name": "Leonine Ferocity",
    "k": "enh",
    "req": [
     "SHIELD-CAPTAIN IN ALLARUS TERMINATOR ARMOUR"

@@ -2,8 +2,8 @@
  "schema": "custodes-data/1",
  "dataset": "U",
  "edition": "11th",
- "source": "V2 points table (undated) + codex datasheets",
- "last_verified": "2026-10-09",
+ "source": "Munitorum Field Manual v1.6 (extraction of 14 October 2026) + codex datasheets",
+ "last_verified": "2026-10-14",
  "items": [
   {
    "id": "trajann",
@@ -109,7 +109,10 @@
      "l": "1 model",
      "p": 175
     }
-   ]
+   ],
+   "ups": {
+    "3": 20
+   }
   },
   {
    "id": "kc",
@@ -148,7 +151,7 @@
     }
    ],
    "ups": {
-    "3": 30
+    "4": 30
    }
   },
   {
@@ -170,7 +173,7 @@
     }
    ],
    "ups": {
-    "3": 30
+    "4": 30
    }
   },
   {
@@ -242,8 +245,7 @@
    ],
    "ups": {
     "3": 30
-   },
-   "flag": "Source says \"about 300\" from the 3rd unit, sentence cut off: +30 assumed."
+   }
   },
   {
    "id": "allarus",
@@ -290,7 +292,11 @@
      "l": "Solarite Power Talons · 3 models",
      "p": 275
     }
-   ]
+   ],
+   "ups": {
+    "3": 30
+   },
+   "po": true
   },
   {
    "id": "vertus",
@@ -333,7 +339,10 @@
      "l": "2 models",
      "p": 260
     }
-   ]
+   ],
+   "ups": {
+    "2": 20
+   }
   },
   {
    "id": "galatus",
@@ -352,7 +361,10 @@
      "l": "1 model",
      "p": 220
     }
-   ]
+   ],
+   "ups": {
+    "3": 30
+   }
   },
   {
    "id": "achillus",
@@ -369,9 +381,12 @@
    "opts": [
     {
      "l": "1 model",
-     "p": 220
+     "p": 230
     }
-   ]
+   ],
+   "ups": {
+    "3": 30
+   }
   },
   {
    "id": "telemon",
@@ -504,12 +519,18 @@
      "p": 45
     },
     {
-     "l": "5 models (+5)",
-     "p": 50,
-     "r": true
+     "l": "5 models",
+     "p": 50
+    },
+    {
+     "l": "9 models",
+     "p": 80
+    },
+    {
+     "l": "10 models",
+     "p": 90
     }
-   ],
-   "flag": "The 5-model price comes from the previous version and is missing from the latest. Other sizes: not listed."
+   ]
   },
   {
    "id": "witch",
@@ -528,11 +549,18 @@
      "p": 55
     },
     {
+     "l": "5 models",
+     "p": 60
+    },
+    {
+     "l": "9 models",
+     "p": 100
+    },
+    {
      "l": "10 models",
      "p": 110
     }
-   ],
-   "flag": "Sizes from 5 to 9 models: not listed."
+   ]
   },
   {
    "id": "vigil",
@@ -551,11 +579,18 @@
      "p": 50
     },
     {
+     "l": "5 models",
+     "p": 55
+    },
+    {
+     "l": "9 models",
+     "p": 90
+    },
+    {
      "l": "10 models",
      "p": 100
     }
-   ],
-   "flag": "Sizes from 5 to 9 models: not listed."
+   ]
   },
   {
    "id": "rhino",
@@ -574,9 +609,56 @@
    "opts": [
     {
      "l": "1 model",
-     "p": null
+     "p": 70
     }
-   ]
+   ],
+   "ups": {
+    "4": 10
+   }
+  },
+  {
+   "id": "ares",
+   "name": "Ares Gunship",
+   "cat": "air",
+   "kw": [
+    "ADEPTUS CUSTODES",
+    "VEHICLE",
+    "IMPERIUM"
+   ],
+   "st": "Datasheet not in this site yet",
+   "opts": [
+    {
+     "l": "1 model",
+     "p": 580
+    }
+   ],
+   "ups": {
+    "2": 30
+   },
+   "nods": true,
+   "flag": "Points from the Munitorum Field Manual v1.6. The datasheet and keywords are not in this site’s data yet."
+  },
+  {
+   "id": "orion",
+   "name": "Orion Assault Dropship",
+   "cat": "air",
+   "kw": [
+    "ADEPTUS CUSTODES",
+    "VEHICLE",
+    "IMPERIUM"
+   ],
+   "st": "Datasheet not in this site yet",
+   "opts": [
+    {
+     "l": "1 model",
+     "p": 690
+    }
+   ],
+   "ups": {
+    "2": 50
+   },
+   "nods": true,
+   "flag": "Points from the Munitorum Field Manual v1.6. The datasheet and keywords are not in this site’s data yet."
   }
  ]
 }

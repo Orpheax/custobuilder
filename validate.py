@@ -52,6 +52,7 @@ for k in wg:
     if k not in uid: err('wargear: unknown unit %s'%k)
 sheet_ids=set(dsd)
 for u in units:
+    if u.get('nods'): continue
     need=['aquilon_g','aquilon_t'] if u['id']=='aquilon' else [u['id']]
     for s in need:
         if s not in sheet_ids: err('datasheet missing for unit %s'%u['id'])
