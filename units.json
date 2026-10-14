@@ -1,0 +1,664 @@
+{
+ "schema": "custodes-data/1",
+ "dataset": "U",
+ "edition": "11th",
+ "source": "Munitorum Field Manual v1.6 (extraction of 14 October 2026) + codex datasheets",
+ "last_verified": "2026-10-14",
+ "items": [
+  {
+   "id": "trajann",
+   "name": "Trajann Valoris",
+   "cat": "char",
+   "kw": [
+    "ADEPTUS CUSTODES",
+    "INFANTRY",
+    "CHARACTER",
+    "EPIC HERO",
+    "IMPERIUM"
+   ],
+   "st": "8\" · T7 · 2+ · W10 · OC2 · Inv 4+",
+   "opts": [
+    {
+     "l": "1 model",
+     "p": 265
+    }
+   ]
+  },
+  {
+   "id": "sc",
+   "name": "Shield-Captain",
+   "cat": "char",
+   "kw": [
+    "ADEPTUS CUSTODES",
+    "INFANTRY",
+    "CHARACTER",
+    "IMPERIUM",
+    "SHIELD-CAPTAIN"
+   ],
+   "st": "8\" · T7 · 2+ · W8 · OC2 · Inv 4+",
+   "opts": [
+    {
+     "l": "On foot",
+     "p": 180
+    }
+   ],
+   "ups": {
+    "2": 20
+   }
+  },
+  {
+   "id": "scall",
+   "name": "Shield-Captain in Allarus Terminator Armour",
+   "cat": "char",
+   "kw": [
+    "ADEPTUS CUSTODES",
+    "INFANTRY",
+    "CHARACTER",
+    "IMPERIUM",
+    "SHIELD-CAPTAIN",
+    "TERMINATOR",
+    "SHIELD-CAPTAIN IN ALLARUS TERMINATOR ARMOUR"
+   ],
+   "st": "7\" · T8 · 2+ · W9 · OC2 · Inv 4+",
+   "opts": [
+    {
+     "l": "1 model",
+     "p": 185
+    }
+   ],
+   "ups": {
+    "2": 20
+   }
+  },
+  {
+   "id": "scjet",
+   "name": "Shield-Captain on Dawneagle Jetbike",
+   "cat": "char",
+   "kw": [
+    "ADEPTUS CUSTODES",
+    "MOUNTED",
+    "CHARACTER",
+    "FLY",
+    "IMPERIUM",
+    "SHIELD-CAPTAIN"
+   ],
+   "st": "12\" · T8 · 2+ · W10 · OC2 · Inv 4+",
+   "opts": [
+    {
+     "l": "1 model",
+     "p": 205
+    }
+   ],
+   "ups": {
+    "2": 20
+   }
+  },
+  {
+   "id": "blade",
+   "name": "Blade Champion",
+   "cat": "char",
+   "kw": [
+    "ADEPTUS CUSTODES",
+    "INFANTRY",
+    "CHARACTER",
+    "IMPERIUM"
+   ],
+   "st": "8\" · T7 · 2+ · W7 · OC2 · Inv 4+",
+   "opts": [
+    {
+     "l": "1 model",
+     "p": 175
+    }
+   ],
+   "ups": {
+    "3": 20
+   }
+  },
+  {
+   "id": "kc",
+   "name": "Knight-Centura",
+   "cat": "ana",
+   "kw": [
+    "ANATHEMA PSYKANA",
+    "INFANTRY",
+    "CHARACTER",
+    "IMPERIUM"
+   ],
+   "st": "7\" · T3 · 3+ · W4 · OC1 · Inv 5+",
+   "opts": [
+    {
+     "l": "1 model",
+     "p": 55
+    }
+   ]
+  },
+  {
+   "id": "sentinel",
+   "name": "Sentinel Guard Sodality",
+   "cat": "bl",
+   "kw": [
+    "ADEPTUS CUSTODES",
+    "INFANTRY",
+    "BATTLELINE",
+    "IMPERIUM",
+    "TRUSTED SENTINEL"
+   ],
+   "st": "8\" · T7 · 2+ · W5 · OC3 · Inv 4+",
+   "opts": [
+    {
+     "l": "3 models",
+     "p": 240
+    }
+   ],
+   "ups": {
+    "4": 30
+   }
+  },
+  {
+   "id": "guard",
+   "name": "Custodian Guard",
+   "cat": "bl",
+   "kw": [
+    "ADEPTUS CUSTODES",
+    "INFANTRY",
+    "BATTLELINE",
+    "IMPERIUM",
+    "TRUSTED SENTINEL"
+   ],
+   "st": "8\" · T7 · 2+ · W5 · OC3 · Inv 4+",
+   "opts": [
+    {
+     "l": "3 models",
+     "p": 240
+    }
+   ],
+   "ups": {
+    "4": 30
+   }
+  },
+  {
+   "id": "wardens",
+   "name": "Custodian Wardens",
+   "cat": "inf",
+   "kw": [
+    "ADEPTUS CUSTODES",
+    "INFANTRY",
+    "IMPERIUM",
+    "TRUSTED SENTINEL"
+   ],
+   "st": "8\" · T7 · 2+ · W6 · OC2 · Inv 4+",
+   "opts": [
+    {
+     "l": "2 models",
+     "p": 200
+    },
+    {
+     "l": "3 models",
+     "p": 295
+    }
+   ],
+   "ups": {
+    "2": 30
+   }
+  },
+  {
+   "id": "venk",
+   "name": "Venatari Custodians — Kinetic Destroyers",
+   "cat": "inf",
+   "kw": [
+    "ADEPTUS CUSTODES",
+    "INFANTRY",
+    "EXPLOSIVES",
+    "FLY",
+    "JUMP PACK",
+    "IMPERIUM"
+   ],
+   "st": "12\" · T7 · 2+ · W5 · OC2 · Inv 4+",
+   "opts": [
+    {
+     "l": "3 models",
+     "p": 255
+    }
+   ],
+   "ups": {
+    "3": 25
+   }
+  },
+  {
+   "id": "venl",
+   "name": "Venatari Custodians — Verutum Lances",
+   "cat": "inf",
+   "kw": [
+    "ADEPTUS CUSTODES",
+    "INFANTRY",
+    "EXPLOSIVES",
+    "FLY",
+    "JUMP PACK",
+    "IMPERIUM"
+   ],
+   "st": "12\" · T7 · 2+ · W5 · OC2 · Inv 4+",
+   "opts": [
+    {
+     "l": "3 models",
+     "p": 270
+    }
+   ],
+   "ups": {
+    "3": 30
+   }
+  },
+  {
+   "id": "allarus",
+   "name": "Allarus Custodians",
+   "cat": "term",
+   "kw": [
+    "ADEPTUS CUSTODES",
+    "INFANTRY",
+    "IMPERIUM",
+    "TERMINATOR"
+   ],
+   "st": "7\" · T8 · 2+ · W6 · OC2 · Inv 4+",
+   "opts": [
+    {
+     "l": "2 models",
+     "p": 180
+    },
+    {
+     "l": "3 models",
+     "p": 270
+    }
+   ],
+   "ups": {
+    "3": 30
+   }
+  },
+  {
+   "id": "aquilon",
+   "name": "Aquilon Custodians",
+   "cat": "term",
+   "kw": [
+    "ADEPTUS CUSTODES",
+    "INFANTRY",
+    "IMPERIUM",
+    "TERMINATOR"
+   ],
+   "st": "7\" · T8 · 2+ · W6 · OC2 · Inv 4+",
+   "opts": [
+    {
+     "l": "Solarite Power Gauntlets · 3 models",
+     "p": 285
+    },
+    {
+     "l": "Solarite Power Talons · 3 models",
+     "p": 275
+    }
+   ],
+   "ups": {
+    "3": 30
+   },
+   "po": true
+  },
+  {
+   "id": "vertus",
+   "name": "Vertus Praetors",
+   "cat": "mnt",
+   "kw": [
+    "ADEPTUS CUSTODES",
+    "MOUNTED",
+    "FLY",
+    "IMPERIUM"
+   ],
+   "st": "12\" · T8 · 2+ · W7 · OC2 · Inv 4+",
+   "opts": [
+    {
+     "l": "2 models",
+     "p": 220
+    },
+    {
+     "l": "3 models",
+     "p": 330
+    }
+   ],
+   "ups": {
+    "2": 20
+   }
+  },
+  {
+   "id": "gyrfalcon",
+   "name": "Gyrfalcon Jetbike Sodality",
+   "cat": "mnt",
+   "kw": [
+    "ADEPTUS CUSTODES",
+    "MOUNTED",
+    "FLY",
+    "IMPERIUM"
+   ],
+   "st": "12\" · T8 · 2+ · W9 · OC2 · Inv 4+",
+   "opts": [
+    {
+     "l": "2 models",
+     "p": 260
+    }
+   ],
+   "ups": {
+    "2": 20
+   }
+  },
+  {
+   "id": "galatus",
+   "name": "Contemptor-Galatus Dreadnought",
+   "cat": "dread",
+   "kw": [
+    "ADEPTUS CUSTODES",
+    "VEHICLE",
+    "DREADNOUGHT",
+    "IMPERIUM",
+    "WALKER"
+   ],
+   "st": "9\" · T10 · 2+ · W12 · OC3 · Inv 4+",
+   "opts": [
+    {
+     "l": "1 model",
+     "p": 220
+    }
+   ],
+   "ups": {
+    "3": 30
+   }
+  },
+  {
+   "id": "achillus",
+   "name": "Contemptor-Achillus Dreadnought",
+   "cat": "dread",
+   "kw": [
+    "ADEPTUS CUSTODES",
+    "VEHICLE",
+    "DREADNOUGHT",
+    "IMPERIUM",
+    "WALKER"
+   ],
+   "st": "9\" · T10 · 2+ · W12 · OC3 · Inv 5+",
+   "opts": [
+    {
+     "l": "1 model",
+     "p": 230
+    }
+   ],
+   "ups": {
+    "3": 30
+   }
+  },
+  {
+   "id": "telemon",
+   "name": "Telemon Heavy Dreadnought",
+   "cat": "dread",
+   "kw": [
+    "ADEPTUS CUSTODES",
+    "VEHICLE",
+    "DREADNOUGHT",
+    "IMPERIUM",
+    "WALKER"
+   ],
+   "st": "10\" · T11 · 2+ · W14 · OC4 · Inv 4+",
+   "opts": [
+    {
+     "l": "1 model",
+     "p": 280
+    }
+   ],
+   "ups": {
+    "2": 30
+   }
+  },
+  {
+   "id": "pallas",
+   "name": "Pallas Grav-Attack",
+   "cat": "veh",
+   "kw": [
+    "ADEPTUS CUSTODES",
+    "VEHICLE",
+    "FLY",
+    "FRAME",
+    "GRAV-ASSAULT",
+    "IMPERIUM"
+   ],
+   "st": "12\" · T9 · 2+ · W10 · OC2 · Inv 5+",
+   "opts": [
+    {
+     "l": "1 model",
+     "p": 135
+    }
+   ]
+  },
+  {
+   "id": "caladius",
+   "name": "Caladius Grav-Tank",
+   "cat": "veh",
+   "kw": [
+    "ADEPTUS CUSTODES",
+    "VEHICLE",
+    "CALADIUS",
+    "FLY",
+    "FRAME",
+    "GRAV-ASSAULT",
+    "IMPERIUM"
+   ],
+   "st": "10\" · T11 · 2+ · W14 · OC4 · Inv 5+",
+   "opts": [
+    {
+     "l": "1 model",
+     "p": 230
+    }
+   ],
+   "ups": {
+    "3": 30
+   }
+  },
+  {
+   "id": "annihilator",
+   "name": "Caladius Annihilator Grav-Tank",
+   "cat": "veh",
+   "kw": [
+    "ADEPTUS CUSTODES",
+    "VEHICLE",
+    "CALADIUS",
+    "FLY",
+    "FRAME",
+    "GRAV-ASSAULT",
+    "IMPERIUM"
+   ],
+   "st": "10\" · T11 · 2+ · W14 · OC4 · Inv 5+",
+   "opts": [
+    {
+     "l": "1 model",
+     "p": 250
+    }
+   ],
+   "ups": {
+    "3": 30
+   }
+  },
+  {
+   "id": "coronus",
+   "name": "Coronus Grav-Carrier",
+   "cat": "veh",
+   "kw": [
+    "ADEPTUS CUSTODES",
+    "VEHICLE",
+    "FLY",
+    "FRAME",
+    "GRAV-ASSAULT",
+    "IMPERIUM",
+    "TRANSPORT"
+   ],
+   "st": "12\" · T12 · 2+ · W16 · OC5 · Inv 5+ · Transport 12",
+   "opts": [
+    {
+     "l": "1 model",
+     "p": 225
+    }
+   ],
+   "ups": {
+    "3": 20
+   }
+  },
+  {
+   "id": "prosec",
+   "name": "Prosecutor Squad",
+   "cat": "ana",
+   "kw": [
+    "ANATHEMA PSYKANA",
+    "INFANTRY",
+    "IMPERIUM",
+    "PROSECUTOR SQUAD"
+   ],
+   "st": "7\" · T3 · 3+ · W1 · OC2 · 4 to 10 models",
+   "opts": [
+    {
+     "l": "4 models",
+     "p": 45
+    },
+    {
+     "l": "5 models",
+     "p": 50
+    },
+    {
+     "l": "9 models",
+     "p": 80
+    },
+    {
+     "l": "10 models",
+     "p": 90
+    }
+   ]
+  },
+  {
+   "id": "witch",
+   "name": "Witchseeker Squad",
+   "cat": "ana",
+   "kw": [
+    "ANATHEMA PSYKANA",
+    "INFANTRY",
+    "IMPERIUM",
+    "WITCHSEEKER SQUAD"
+   ],
+   "st": "7\" · T3 · 3+ · W1 · OC1 · 4 to 10 models",
+   "opts": [
+    {
+     "l": "4 models",
+     "p": 55
+    },
+    {
+     "l": "5 models",
+     "p": 60
+    },
+    {
+     "l": "9 models",
+     "p": 100
+    },
+    {
+     "l": "10 models",
+     "p": 110
+    }
+   ]
+  },
+  {
+   "id": "vigil",
+   "name": "Vigilator Squad",
+   "cat": "ana",
+   "kw": [
+    "ANATHEMA PSYKANA",
+    "INFANTRY",
+    "IMPERIUM",
+    "VIGILATOR SQUAD"
+   ],
+   "st": "7\" · T3 · 3+ · W1 · OC1 · 4 to 10 models",
+   "opts": [
+    {
+     "l": "4 models",
+     "p": 50
+    },
+    {
+     "l": "5 models",
+     "p": 55
+    },
+    {
+     "l": "9 models",
+     "p": 90
+    },
+    {
+     "l": "10 models",
+     "p": 100
+    }
+   ]
+  },
+  {
+   "id": "rhino",
+   "name": "Anathema Psykana Rhino",
+   "cat": "ana",
+   "kw": [
+    "ANATHEMA PSYKANA",
+    "VEHICLE",
+    "DEDICATED TRANSPORT",
+    "FRAME",
+    "IMPERIUM",
+    "SMOKE",
+    "TRANSPORT"
+   ],
+   "st": "12\" · T9 · 3+ · W10 · OC2 · Transport 12",
+   "opts": [
+    {
+     "l": "1 model",
+     "p": 70
+    }
+   ],
+   "ups": {
+    "4": 10
+   }
+  },
+  {
+   "id": "ares",
+   "name": "Ares Gunship",
+   "cat": "air",
+   "kw": [
+    "ADEPTUS CUSTODES",
+    "VEHICLE",
+    "IMPERIUM"
+   ],
+   "st": "Datasheet not in this site yet",
+   "opts": [
+    {
+     "l": "1 model",
+     "p": 580
+    }
+   ],
+   "ups": {
+    "2": 30
+   },
+   "nods": true,
+   "flag": "Points from the Munitorum Field Manual v1.6. The datasheet and keywords are not in this site’s data yet."
+  },
+  {
+   "id": "orion",
+   "name": "Orion Assault Dropship",
+   "cat": "air",
+   "kw": [
+    "ADEPTUS CUSTODES",
+    "VEHICLE",
+    "IMPERIUM"
+   ],
+   "st": "Datasheet not in this site yet",
+   "opts": [
+    {
+     "l": "1 model",
+     "p": 690
+    }
+   ],
+   "ups": {
+    "2": 50
+   },
+   "nods": true,
+   "flag": "Points from the Munitorum Field Manual v1.6. The datasheet and keywords are not in this site’s data yet."
+  }
+ ]
+}

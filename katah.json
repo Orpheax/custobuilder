@@ -1,0 +1,65 @@
+{
+ "schema": "custodes-data/1",
+ "dataset": "KT",
+ "edition": "11th",
+ "source": "Warhammer Community preview + codex",
+ "last_verified": "2026-10-09",
+ "items": [
+  {
+   "n": "Dacatarai",
+   "d": "dread",
+   "w": "Start of the Fight phase.",
+   "tg": "One friendly <b>readied</b> unit.",
+   "e": "Your unit’s melee attacks that target an enemy unit (excluding <code>MONSTER/VEHICLE</code> units) can <b>re-roll hit rolls</b> of 1.",
+   "f": "When an enemy unit engaged with your unit makes a pile-in/consolidation move, -2\" from that pile-in/consolidation move."
+  },
+  {
+   "n": "Kaptaris",
+   "d": "shadow",
+   "w": "Start of the Fight phase.",
+   "tg": "One friendly <b>readied</b> unit.",
+   "e": "Melee attacks that target your unit have -1 to <b>hit rolls</b>.",
+   "f": "You can select one enemy unit engaged with your unit. That enemy unit must make a battle-shock roll, with -1 to that battle-shock roll. You cannot select the same enemy unit for this effect more than once per phase."
+  },
+  {
+   "n": "Rendax",
+   "d": "chosen",
+   "w": "Fight phase, when a friendly <b>readied</b> unit is <b>selected to fight</b>.",
+   "tg": "One friendly <b>readied</b> unit.",
+   "e": "Your unit’s melee attacks have <b><code>[LETHAL HITS: MONSTER/VEHICLE]</code></b>.",
+   "f": "You can select one enemy MONSTER/VEHICLE unit engaged with your unit and roll one D6: on a 1-2, that enemy unit suffers 1 mortal wound; on a 3-5, D3 mortal wounds; on a 6, 3 mortal wounds."
+  },
+  {
+   "n": "Conservai",
+   "d": "emissaries",
+   "w": "Your Command phase.",
+   "tg": "One friendly <b>readied</b> unit.",
+   "e": "Until the end of the turn:",
+   "l": [
+    "Being <b>engaged/battle-shocked</b> does not prevent your unit from being <b>eligible to start an action</b>.",
+    "Starting an <b>action</b> does not prevent your unit from being <b>eligible to shoot</b>."
+   ],
+   "f": "Until the end of the turn, being selected to make an advance/fall-back move does not prevent your unit from being eligible to start an action."
+  },
+  {
+   "n": "Calistus",
+   "d": "solar",
+   "w": "Your Movement phase, when a friendly <b>readied</b> unit is <b>selected to move</b>.",
+   "tg": "That <b>readied</b> unit.",
+   "e": "When your unit makes a <b>normal/advance/fall-back move</b>, your unit can move through all types of model.",
+   "f": "Your unit has +2\" M."
+  },
+  {
+   "n": "Salvus",
+   "d": "aquilan",
+   "w": "Your Shooting phase, when a friendly <b>readied</b> unit is <b>selected to shoot</b>.",
+   "tg": "That <b>readied</b> unit.",
+   "e": "Your unit can ignore modifiers to your unit’s:",
+   "l": [
+    "BS.",
+    "<b>Hit rolls</b> and <b>wound rolls</b>."
+   ],
+   "f": "Your unit’s ranged attacks have +6\" R."
+  }
+ ]
+}

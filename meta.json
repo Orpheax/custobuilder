@@ -1,0 +1,283 @@
+{
+ "schema": "custodes-data/1",
+ "dataset": "META",
+ "edition": "11th",
+ "source": "Third-party commentary (paraphrased)",
+ "last_verified": "2026-10-09",
+ "items": [
+  {
+   "id": "big",
+   "title": "The big picture",
+   "items": [
+    {
+     "k": "o",
+     "ts": "2:39:56",
+     "t": "The reviewers’ overall verdict is very positive: dynamic, rules-rich and fun to play, a sharp contrast with the previous codex, which they describe as bland stats with little interaction."
+    },
+    {
+     "k": "o",
+     "ts": "2:40:24",
+     "t": "They expect the points to stop the army from being broken at release, consider that good for the game, and think some units could use cuts to become playable."
+    },
+    {
+     "k": "o",
+     "ts": "2:40:43",
+     "t": "There is a clear archetype and the interesting work will be finding the 1 DP detachment combinations and the builds that become meta. A bundle of ideas is already visible (Solar Watch, Dread Host, Might of the Moritoi, Lions, Honoured Companions)."
+    },
+    {
+     "k": "o",
+     "ts": "1:49:13",
+     "t": "Release price level is described as high but justified by the number of rules; slightly above average is the most optimistic expectation, not broken."
+    }
+   ]
+  },
+  {
+   "id": "rules",
+   "title": "Army-wide rules (stated facts)",
+   "items": [
+    {
+     "k": "f",
+     "ts": "1:19",
+     "t": "Ka’tah: at the start of your command phase, units with the ability become Readied; spend the token to use one of six ka’tah abilities, each with its own timing (some at start of phase, some on activation)."
+    },
+    {
+     "k": "f",
+     "ts": "12:36",
+     "t": "All Custodes models have a 5+ feel-no-pain against mortal wounds, permanently, with no Sister nearby needed."
+    },
+    {
+     "k": "f",
+     "ts": "13:02",
+     "t": "Aquila Commander: if your Warlord has the ability, gain 1 CP at the start of each battle round. Anathema Psykana units cannot be the Warlord, so a Custodes character usually leads."
+    },
+    {
+     "k": "f",
+     "ts": "13:46",
+     "t": "Sisters of Silence give a 3+ feel-no-pain against psychic attacks to their own units and a 5+ to Custodes in a 6″ aura."
+    },
+    {
+     "k": "f",
+     "ts": "15:03",
+     "t": "One transport can advance and still let its passengers disembark; the Rhino was confirmed to do this later in the video."
+    },
+    {
+     "k": "f",
+     "ts": "15:21",
+     "t": "Detachment system: one 3 DP detachment, or a mix of 1 DP detachments; six are unique Shield Hosts (only one per army) and the rest can be paired freely."
+    },
+    {
+     "k": "f",
+     "ts": "1:41:34",
+     "t": "Infantry baseline is up: Move +2, Toughness +1, Leadership 5 across the army."
+    }
+   ]
+  },
+  {
+   "id": "katah",
+   "title": "Ka’tah ranking",
+   "items": [
+    {
+     "k": "o",
+     "ts": "6:37",
+     "t": "Kaptaris (minus 1 to hit against your unit) is the best ka’tah, the best damage buff you can have; keeping a model alive in melee and then hitting back is the core idea."
+    },
+    {
+     "k": "o",
+     "ts": "8:09",
+     "t": "Rendax (Lethal Hits against monsters/vehicles) is second best: Custodes melee is flat and weak into vehicles without it, roughly +15–20% damage there."
+    },
+    {
+     "k": "o",
+     "ts": "5:19",
+     "t": "Dacatarai (reroll hit 1s into non-monster/vehicle) is a decent infantry damage buff, slightly worse than Sustained Hits used to be. Salvus (ignore modifiers in shooting) is good for reliability."
+    },
+    {
+     "k": "o",
+     "ts": "2:06",
+     "t": "Conservai and Calistus are utility: Conservai for acting while engaged, Calistus mostly for moving through models, and Calistus is best in Solar Watch."
+    },
+    {
+     "k": "o",
+     "ts": "9:36",
+     "t": "Budgeting ka’tah each command phase becomes a skill; call timing carefully because the opponent sees your choice before they pick interrupts."
+    }
+   ]
+  },
+  {
+   "id": "pillars",
+   "title": "The pillars a list needs",
+   "items": [
+    {
+     "k": "o",
+     "ts": "37:26",
+     "t": "They expect lists to include as many of these as possible: advance-and-charge access, fall back and act, a reactive move, anti-vehicle damage, and layered defences. Fall back and act is called the most mandatory because it is the only one that can lose you the game when an elite army is tied up by cheap screens."
+    },
+    {
+     "k": "o",
+     "ts": "43:49",
+     "t": "Advance and charge is a pillar; several detachments provide it (Guardians of the Throne, Dread Host, Might of the Moritoi, the Sally Forth enhancement)."
+    },
+    {
+     "k": "o",
+     "ts": "29:02",
+     "t": "Reactive move (Swift is the Eagle, D3+3) is the stratagem opponents must play around; available in Guardians of the Throne and Honoured Companions."
+    },
+    {
+     "k": "o",
+     "ts": "2:32:43",
+     "t": "Killing big vehicles consistently is done by only three datasheets: Trajann, Telemon and the Annihilator tank. You cannot leave home without some of them."
+    },
+    {
+     "k": "o",
+     "ts": "1:22:13",
+     "t": "Minus 1 damage (Praesidium Shield, Telemon vs shooting, Vigil Unending) and AP/To-hit/To-wound modifiers are the defensive core: small stacked modifiers are what make the army hard to kill."
+    }
+   ]
+  },
+  {
+   "id": "hosts",
+   "title": "Shield Host ranking (reviewer view)",
+   "items": [
+    {
+     "k": "o",
+     "ts": "1:08:18",
+     "t": "Preference order from the discussion: Solar Watch first, then Shadowkeepers, Emperor’s Chosen and Dread Host as the other three they would start with. Emissaries Imperatus sits lower; Aquilan Shield is called the worst."
+    },
+    {
+     "k": "o",
+     "ts": "1:08:57",
+     "t": "Of the six 1 DP non-Hosts, Honoured Companions and Might of the Moritoi are the ones most likely to see play; Lions needs 2+ Terminator units; Grav-Assault Force and Auric Champions are specialist; Null Maiden Vigil is unlikely."
+    },
+    {
+     "k": "o",
+     "ts": "1:36:10",
+     "t": "Suggested template: one infantry Shield Host (with reactive move), then Honoured Companions or the detachment of whatever package the list is built around (grav tanks, Telemon, Terminators)."
+    },
+    {
+     "k": "o",
+     "ts": "1:40:32",
+     "t": "A full 13-detachment tier list and several example builds were promised in a separate video, so this ordering is provisional."
+    }
+   ]
+  },
+  {
+   "id": "builds",
+   "title": "Build ideas floated in the video",
+   "items": [
+    {
+     "k": "o",
+     "ts": "1:01:43",
+     "t": "Solar Watch with fast infantry and a Shield-Captain using Sally Forth for deployment-zone charges."
+    },
+    {
+     "k": "o",
+     "ts": "1:25:15",
+     "t": "Dread Host + Lions of the Emperor: rerolled charges on Terminators deep-striking with the up-down."
+    },
+    {
+     "k": "o",
+     "ts": "1:29:07",
+     "t": "Might of the Moritoi with an upgraded Telemon first, then Galatus/Achillus: roughly a 2–2–1 pattern with infantry as grab-and-hold pieces."
+    },
+    {
+     "k": "o",
+     "ts": "2:31:37",
+     "t": "Emperor’s Chosen with Annihilator tanks and Prime Target for double rerolls."
+    },
+    {
+     "k": "o",
+     "ts": "2:38:43",
+     "t": "Skirmish package: one 4-man Prosecutor squad plus three 5-man Witchseeker squads, about 225 points."
+    }
+   ]
+  },
+  {
+   "id": "pts",
+   "title": "Points and unit economics",
+   "items": [
+    {
+     "k": "o",
+     "ts": "2:02:37",
+     "t": "Unit density matters: Custodes are priced so that skirmishing with small elite squads is not cheap; the plan is to build a game plan around a big setup turn rather than trade early."
+    },
+    {
+     "k": "o",
+     "ts": "1:48:56",
+     "t": "Characters are expensive (a Shield-Captain unit exceeds 450 points); you may have 20–40 points left over that does nothing."
+    },
+    {
+     "k": "o",
+     "ts": "2:21:15",
+     "t": "Several mid-priced units are judged poor value (Gyrfalcon, Pallas, Coronus, Aquilon, Blade Champion, Vigilators); the Wardens’ second unit is judged never worth playing."
+    },
+    {
+     "k": "o",
+     "ts": "2:19:09",
+     "t": "Comparing datasheets point-for-point with other armies is not going to make you happy; these are best read against the other Custodes options."
+    },
+    {
+     "k": "o",
+     "ts": "1:55:23",
+     "t": "Infantry at 80 points a model is called very high but unavoidable since the Guard are the cheapest infantry."
+    }
+   ]
+  },
+  {
+   "id": "risk",
+   "title": "Weaknesses and risks",
+   "items": [
+    {
+     "k": "o",
+     "ts": "2:01:05",
+     "t": "Biggest fear: the army is black and white against big damage – pass the saves and units survive, fail them and a unit evaporates (melta example). AP help does not stop D6 damage weapons."
+    },
+    {
+     "k": "o",
+     "ts": "17:52",
+     "t": "Few characters and few damage buffs; most of the book is utility and movement rather than raw damage multipliers, so game plans have to be built around timing."
+    },
+    {
+     "k": "o",
+     "ts": "36:36",
+     "t": "Very elite armies can be tied up by cheap screens; fall back and act and advance and charge are how you stay in control."
+    },
+    {
+     "k": "f",
+     "ts": "1:38:39",
+     "t": "Anathema Psykana units are not keyworded Adeptus Custodes, so some Custodes-targeted buffs do not reach them."
+    },
+    {
+     "k": "o",
+     "ts": "2:23:12",
+     "t": "Model size: the new jetbikes are very large and awkward to base and move."
+    }
+   ]
+  },
+  {
+   "id": "best",
+   "title": "Best and worst datasheets (reviewer view)",
+   "items": [
+    {
+     "k": "o",
+     "ts": "",
+     "t": "Best: Trajann Valoris, Shield-Captain with Praesidium Shield, Telemon, Venatari with Verutum Lances, Allarus Custodians, Witchseekers and Prosecutors."
+    },
+    {
+     "k": "o",
+     "ts": "",
+     "t": "Core: Sentinel Guard, Custodian Guard and (in small numbers) Wardens form the backbone of every list."
+    },
+    {
+     "k": "o",
+     "ts": "",
+     "t": "Weak: Blade Champion, Aquilon Terminators, Venatari with Kinetic Destroyers, Pallas, Coronus, Gyrfalcon, Vigilators, a second Wardens unit."
+    },
+    {
+     "k": "o",
+     "ts": "2:40:36",
+     "t": "Expect points cuts on several of these in later updates."
+    }
+   ]
+  }
+ ]
+}

@@ -1,0 +1,316 @@
+{
+ "schema": "custodes-data/1",
+ "dataset": "RULES",
+ "edition": "11th",
+ "source": "Datasheet ability text in datasheet_stats.json; ka’tah text in katah.json",
+ "last_verified": "2026-10-13",
+ "items": {
+  "units": {
+   "trajann": [
+    {
+     "n": "Moment Shackle: Watcher’s Axe +3 Attacks",
+     "side": "atk",
+     "wt": "*",
+     "tgt": "any",
+     "tog": "shackleA",
+     "fx": {
+      "addA": 3,
+      "only": "Watcher's Axe"
+     },
+     "src": "Moment Shackle (once per battle)"
+    },
+    {
+     "n": "Moment Shackle: 3+ invulnerable save",
+     "side": "def",
+     "wt": "*",
+     "tgt": "any",
+     "tog": "shackleI",
+     "fx": {
+      "inv": 3
+     },
+     "src": "Moment Shackle (once per battle)"
+    }
+   ],
+   "sc": [
+    {
+     "n": "Praesidium Shield: −1 Damage on attacks allocated to this model",
+     "side": "def",
+     "wt": "*",
+     "tgt": "any",
+     "tog": null,
+     "fx": {
+      "dr": 1
+     }
+    }
+   ],
+   "blade": [
+    {
+     "n": "Sword of the Throne: +1 to wound against its mark",
+     "side": "atk",
+     "wt": "*",
+     "tgt": "any",
+     "tog": "mark",
+     "fx": {
+      "wound": 1
+     }
+    }
+   ],
+   "sentinel": [
+    {
+     "n": "Stand Vigil: Lethal Hits against non-Monster/Vehicle on or near an objective",
+     "side": "atk",
+     "wt": "*",
+     "tgt": "non-mv",
+     "tog": "obj",
+     "fx": {
+      "lethal": 1
+     }
+    },
+    {
+     "n": "Praesidium Shield: −1 to wound when Strength is greater than Toughness",
+     "side": "def",
+     "wt": "*",
+     "tgt": "any",
+     "tog": null,
+     "fx": {
+      "wS": -1
+     }
+    }
+   ],
+   "guard": [
+    {
+     "n": "Impenetrable Defence: Sustained Hits 1 against non-Monster/Vehicle on or near an objective",
+     "side": "atk",
+     "wt": "*",
+     "tgt": "non-mv",
+     "tog": "obj",
+     "fx": {
+      "sus": 1
+     }
+    }
+   ],
+   "wardens": [
+    {
+     "n": "Living Fortress: attacks that target this unit have −1 AP",
+     "side": "def",
+     "wt": "*",
+     "tgt": "any",
+     "tog": null,
+     "fx": {
+      "apd": 1
+     }
+    }
+   ],
+   "allarus": [
+    {
+     "n": "Slayer of Tyrants: melee +1 to wound against a higher Toughness",
+     "side": "atk",
+     "wt": "M",
+     "tgt": "t-gt-own",
+     "tog": null,
+     "fx": {
+      "wound": 1
+     }
+    }
+   ],
+   "aquilon_g": [
+    {
+     "n": "Dread Foe: melee +1 AP against non-Monster/Vehicle",
+     "side": "atk",
+     "wt": "M",
+     "tgt": "non-mv",
+     "tog": null,
+     "fx": {
+      "ap": 1
+     }
+    }
+   ],
+   "aquilon_t": [
+    {
+     "n": "Reap a Terrible Tally: re-roll hit and wound rolls of 1 against Infantry",
+     "side": "atk",
+     "wt": "*",
+     "tgt": "infantry",
+     "tog": null,
+     "fx": {
+      "rrh": "ones",
+      "rrw": "ones"
+     }
+    }
+   ],
+   "galatus": [
+    {
+     "n": "Unyielding Ancient: −1 to wound when Strength is greater than Toughness",
+     "side": "def",
+     "wt": "*",
+     "tgt": "any",
+     "tog": null,
+     "fx": {
+      "wS": -1
+     }
+    }
+   ],
+   "achillus": [
+    {
+     "n": "Unyielding Ancient: −1 to wound when Strength is greater than Toughness",
+     "side": "def",
+     "wt": "*",
+     "tgt": "any",
+     "tog": null,
+     "fx": {
+      "wS": -1
+     }
+    }
+   ],
+   "vertus": [
+    {
+     "n": "Quicksilver Execution: melee Sustained Hits 1 after a charge",
+     "side": "atk",
+     "wt": "M",
+     "tgt": "any",
+     "tog": "charged",
+     "fx": {
+      "sus": 1
+     }
+    }
+   ],
+   "gyrfalcon": [
+    {
+     "n": "Death Blow: melee +1 AP after a charge",
+     "side": "atk",
+     "wt": "M",
+     "tgt": "any",
+     "tog": "charged",
+     "fx": {
+      "ap": 1
+     }
+    }
+   ],
+   "venk": [
+    {
+     "n": "Strike from the Skies: re-roll ranged hit rolls after an ingress move",
+     "side": "atk",
+     "wt": "R",
+     "tgt": "any",
+     "tog": "ingress",
+     "fx": {
+      "rrh": "failed"
+     }
+    }
+   ],
+   "venl": [
+    {
+     "n": "Strike from the Skies: re-roll ranged hit rolls after an ingress move",
+     "side": "atk",
+     "wt": "R",
+     "tgt": "any",
+     "tog": "ingress",
+     "fx": {
+      "rrh": "failed"
+     }
+    }
+   ],
+   "telemon": [
+    {
+     "n": "Guardian Eternal: ranged attacks that target this unit have −1 Damage",
+     "side": "def",
+     "wt": "R",
+     "tgt": "any",
+     "tog": null,
+     "fx": {
+      "dr": 1
+     }
+    }
+   ],
+   "caladius": [
+    {
+     "n": "Destructor Optics: ranged +1 AP against non-Monster/Vehicle",
+     "side": "atk",
+     "wt": "R",
+     "tgt": "non-mv",
+     "tog": null,
+     "fx": {
+      "ap": 1
+     }
+    }
+   ],
+   "annihilator": [
+    {
+     "n": "Advanced Firepower: re-roll one hit, one wound and one damage roll against Monster/Vehicle",
+     "side": "atk",
+     "wt": "R",
+     "tgt": "mv",
+     "tog": null,
+     "fx": {
+      "lim": 1
+     }
+    }
+   ],
+   "vigil": [
+    {
+     "n": "Deft Parry: melee attacks that target this unit have −1 to hit",
+     "side": "def",
+     "wt": "M",
+     "tgt": "any",
+     "tog": null,
+     "fx": {
+      "hm": -1
+     }
+    }
+   ]
+  },
+  "katah": [
+   {
+    "n": "Ka’tah Dacatarai: melee re-roll hit rolls of 1 against non-Monster/Vehicle",
+    "side": "atk",
+    "wt": "M",
+    "tgt": "non-mv",
+    "tog": "kat_dac",
+    "fx": {
+     "rrh": "ones"
+    }
+   },
+   {
+    "n": "Ka’tah Rendax: melee Lethal Hits against Monster/Vehicle",
+    "side": "atk",
+    "wt": "M",
+    "tgt": "mv",
+    "tog": "kat_ren",
+    "fx": {
+     "lethal": 1
+    }
+   },
+   {
+    "n": "Ka’tah Salvus: ignore modifiers to BS, hit rolls and wound rolls (shooting)",
+    "side": "atk",
+    "wt": "R",
+    "tgt": "any",
+    "tog": "kat_sal",
+    "fx": {
+     "ignmods": 1
+    }
+   },
+   {
+    "n": "Ka’tah Kaptaris: melee attacks against this unit have −1 to hit",
+    "side": "def",
+    "wt": "M",
+    "tgt": "any",
+    "tog": "kat_kap",
+    "fx": {
+     "hm": -1
+    }
+   }
+  ],
+  "aura": {
+   "n": "Trajann’s Captain-General aura: re-roll hit and wound rolls of 1 (not Monster/Vehicle)",
+   "side": "atk",
+   "wt": "*",
+   "tgt": "any",
+   "tog": "aura",
+   "fx": {
+    "rrh": "ones",
+    "rrw": "ones"
+   }
+  }
+ }
+}

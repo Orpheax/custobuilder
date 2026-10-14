@@ -1,0 +1,364 @@
+{
+ "schema": "custodes-data/1",
+ "dataset": "AOW_DS",
+ "edition": "11th",
+ "source": "Art of War 40k review (third party, paraphrased)",
+ "last_verified": "2026-10-09",
+ "items": {
+  "trajann": {
+   "v": "top",
+   "t": "1:41:07",
+   "pts": "265",
+   "sum": "Back in the lists and competing for the best character; a pile of stats with an army-wide consistency aura.",
+   "pros": [
+    "Move 8, T7, 10 wounds, 5+ FNP, Leadership 5, OC2; 6″ aura of rerolls of 1 to hit/wound in shooting and melee.",
+    "Moment Shackle once per battle: 9 attacks with the Watcher’s Axe (Cleave, S12 AP3 D4), or a 3+ invulnerable.",
+    "Hits vehicles, which the army otherwise struggles to kill; hard to dig out of a unit, so he denies two enemy secondaries (Assassinate and Bring It Down)."
+   ],
+   "cons": [
+    "Lost all sources of Damage 3; the only real reason to skip him is that his cost equals a unit slot."
+   ],
+   "take": "Play him in every list until a reason not to appears."
+  },
+  "sc": {
+   "v": "top",
+   "t": "1:46:02",
+   "pts": "205 (first), ~230 (second)",
+   "sum": "The most improved datasheet; one of only two characters they expect to see regularly.",
+   "pros": [
+    "Praesidium Shield gives minus 1 damage permanently – never play him without it.",
+    "Readies a unit once per battle round, plus a Surge move of D6+2 after being shot.",
+    "Strong enhancement carrier; first copy borderline auto-include."
+   ],
+   "cons": [
+    "A 3-model guard unit with him exceeds 450 points; second copy is a real question once Trajann is in."
+   ],
+   "take": "Take with shield. Paragon Blade (precision, 6 attacks) is the alternative when you drop the shield."
+  },
+  "scall": {
+   "v": "weak",
+   "t": "1:50:29",
+   "pts": "185",
+   "sum": "A very expensive stat stick whose main perk (up-down once per battle) is niche.",
+   "pros": [
+    "Move 7, T8; Guardian Spear has Cleave on characters; readies a unit once per battle round."
+   ],
+   "cons": [
+    "Only worth it if you play one Terminator unit with no Lions detachment and still want the up-down; axes (5 attacks, D4 AP2) lose to spears on attack count."
+   ],
+   "take": "Probably leave at home."
+  },
+  "scjet": {
+   "v": "good",
+   "t": "1:52:28",
+   "pts": "—",
+   "sum": "Finally has the same attacks as the other captains.",
+   "pros": [
+    "8 attacks with Lance, 10 wounds; once per battle (twice with the stratagem) a free move at end of the fight phase; readies a unit.",
+    "Brick option if Trajann is not taken; best home for Shroud of the Hidden Blade."
+   ],
+   "cons": [
+    "No Cleave."
+   ],
+   "take": "Solid solo-skirmisher."
+  },
+  "blade": {
+   "v": "weak",
+   "t": "1:53:07",
+   "pts": "175",
+   "sum": "The opposite of the Shield-Captain: a drop-off for the points.",
+   "pros": [
+    "Three melee profiles, 5 attacks at S10 with Devastating Wounds; rerolls advance and charge for his unit; +1 to wound vs a chosen enemy."
+   ],
+   "cons": [
+    "Five attacks is poor; he takes a whole unit slot of points and is not close to worth it."
+   ],
+   "take": "Skip."
+  },
+  "sentinel": {
+   "v": "good",
+   "t": "1:54:38",
+   "pts": "80 / model",
+   "sum": "The sword-and-board guard: the durable option and potentially the backbone of lists.",
+   "pros": [
+    "5 wounds, OC3 (OC4 with Vexilla), Leadership-modifier immunity with the Vexilla.",
+    "Blade pistol: 4 shots at S5 AP1 D2 (12″) with Close Quarters, which lets them shoot out of combat.",
+    "Praesidium Shield: minus 1 to wound from higher Strength attackers."
+   ],
+   "cons": [
+    "5 attacks at S6 AP2 D2 is the worst melee profile in the army; lethal hits only on non-monster/vehicle objective cases (they wanted it against vehicles). Priced at 80 per model, which they suspect may be too much."
+   ],
+   "take": "Likely part of the core with Guard and Wardens."
+  },
+  "guard": {
+   "v": "good",
+   "t": "1:58:19",
+   "pts": "80 / model",
+   "sum": "The spear guard: stronger offence than Sentinel Guard.",
+   "pros": [
+    "Guardian Spear: 2 shots S5 AP1 D2 at 24″ rapid fire and Assault; 6 attacks at S8 AP2 D2 in melee.",
+    "Sustained Hits vs non-monster/vehicle when the objective rule applies; Vexilla for OC4."
+   ],
+   "cons": [
+    "Cannot take axes (they would not anyway)."
+   ],
+   "take": "Part of the same core three."
+  },
+  "wardens": {
+   "v": "sit",
+   "t": "1:59:48",
+   "pts": "295 first / 325 second (98 per model)",
+   "sum": "A very good datasheet at a very big premium.",
+   "pros": [
+    "6 wounds each; Living Fortress gives minus 1 AP on all attacks against them.",
+    "Same guns as the Guard."
+   ],
+   "cons": [
+    "Compared to the Guard, only +1 wound for +18 points a model; the second unit costs 30 more and they would never play it. AP help does not stop the big shots, so the unit is black and white vs D6 damage.",
+    "Cannot stack with Armour of Contempt (excluded by the stratagem)."
+   ],
+   "take": "Test one unit; perhaps zero. Two-man plus a character is the only configuration they like."
+  },
+  "allarus": {
+   "v": "good",
+   "t": "2:03:02",
+   "pts": "90 / model",
+   "sum": "Mid-cost and solid; they expect to like it.",
+   "pros": [
+    "Move 7, T8 – a major breakpoint vs plasma/melta wounding on 4s – with 6 wounds; plus 1 to wound against higher Toughness.",
+    "Grenade launcher is now a flat 3 shots with Blast (S5 AP1); they describe the spear and axe profiles as good.",
+    "Multiple flavours of Terminator and a minus-1-damage stratagem make them strong with Lions of the Emperor."
+   ],
+   "cons": [
+    "At 90 a model they are mid-cost; the unit competes with Guard for a slot."
+   ],
+   "take": "Very happy with these; a Vexilla is an auto-include on any unit now."
+  },
+  "aquilon": {
+   "v": "weak",
+   "t": "2:05:51",
+   "pts": "285 gauntlets / 270 talons",
+   "sum": "The new Terminators compete poorly with Allarus.",
+   "pros": [
+    "Gauntlets: 5 attacks at S10 AP2 D3 and plus 1 AP vs non-monster/vehicle; Talons: heavy flamers and Sustained Hits 2."
+   ],
+   "cons": [
+    "Damage 1 melee on Talons and no banner (OC2) on Gauntlets; the Allarus are simply a better package; cannot be taken as a 2-man."
+   ],
+   "take": "Skip in favour of Allarus."
+  },
+  "venk": {
+   "v": "weak",
+   "t": "2:08:36",
+   "pts": "255",
+   "sum": "Cool pistol design but all Damage 1.",
+   "pros": [
+    "Move 12, T7, 2+/4++, 5 wounds; free up-down at the end of the opponent’s fight; Neutroneum cascade mine."
+   ],
+   "cons": [
+    "Every attack is Damage 1 – they say it would be a good skirmisher at Damage 2."
+   ],
+   "take": "Skip in favour of the Lance version."
+  },
+  "venl": {
+   "v": "top",
+   "t": "2:11:12",
+   "pts": "270",
+   "sum": "The most improved datasheet in their view and the one unit they would nearly auto-include as a one-of.",
+   "pros": [
+    "Free recursive up-down; free rapid ingress (can double up); Lance in melee with precision; one 18″ S10 AP2 D3 shot.",
+    "Move 12 base, can reach deployment-zone charges with Solar Watch."
+   ],
+   "cons": [
+    "5 attacks a model is a bit light for the price (one reviewer would not call it auto)."
+   ],
+   "take": "Play one."
+  },
+  "telemon": {
+   "v": "top",
+   "t": "2:12:45",
+   "pts": "280 / ~320 with FNP upgrade",
+   "sum": "The reviewer’s favourite unit in the book.",
+   "pros": [
+    "Move 10, T11, 14 wounds, OC4; minus 1 damage against ranged attacks.",
+    "Spiculus Launcher 36″, 6 shots, Blast 2; double Caestus fists give 7 attacks at S14 AP3 D4 with twin-link and full rerolls, plus Neutronium Cascade flamers.",
+    "With the Moratoy upgrades it becomes a fast, near-unkillable monster killer; can even take down a Knight."
+   ],
+   "cons": [
+    "Multiple copies are taxed; the other guns (storm cannon, accelerator culverin) are inferior to the fists build."
+   ],
+   "take": "Always play the first one with fists; pair with Might of the Moritoi."
+  },
+  "galatus": {
+   "v": "good",
+   "t": "2:16:57",
+   "pts": "220",
+   "sum": "A solid skirmish piece.",
+   "pros": [
+    "Move 9, T10, 12 wounds; Warblade gun is 4 shots S6 AP1 D2 twin-linked; melee 8 attacks at S10 AP2 D3; minus 1 wound against stronger attackers."
+   ],
+   "cons": [
+    "At this price they compare badly to similar units from other armies."
+   ],
+   "take": "Take with the Moratoy damage upgrade on the first copy."
+  },
+  "achillus": {
+   "v": "weak",
+   "t": "2:17:37",
+   "pts": "220",
+   "sum": "Same price as the Galatus and worse.",
+   "pros": [
+    "Dread Spear (5 attacks, Lance) and a second gun option."
+   ],
+   "cons": [
+    "Competes poorly with the Galatus and does not take the damage upgrade as well."
+   ],
+   "take": "Prefer the Galatus; see Might of the Moritoi for the 2–2–1 pattern they mention."
+  },
+  "vertus": {
+   "v": "sit",
+   "t": "2:20:30",
+   "pts": "220 (110 / model)",
+   "sum": "Fine rules, too expensive to skirmish.",
+   "pros": [
+    "T8 and 7 wounds; Sustained Hits on charge; Lance built in; Hurricane Bolter 6 shots (S5 AP1 D2) twin-linked."
+   ],
+   "cons": [
+    "Priced into don’t skirmish territory; the Salvo Launcher has no twin-link; huge models."
+   ],
+   "take": "Playable as a one-off with bolters."
+  },
+  "gyrfalcon": {
+   "v": "weak",
+   "t": "2:21:43",
+   "pts": "260 (130 / model)",
+   "sum": "Great profile but priced like a Land Raider.",
+   "pros": [
+    "+1 AP on the charge, 5 attacks at S8 AP2 D3 with Lance, Deep Strike keyword."
+   ],
+   "cons": [
+    "Only two models per unit; at 130 a model they compete with Predators and Land Raiders; the models are huge."
+   ],
+   "take": "Rarely."
+  },
+  "pallas": {
+   "v": "weak",
+   "t": "2:25:02",
+   "pts": "135",
+   "sum": "All the right rules and none of the damage.",
+   "pros": [
+    "Move 12, T9, 10 wounds; Mobile Hunter move; fire and fade."
+   ],
+   "cons": [
+    "Only two shots of S10 – the unit needs an 8-shot S6 gun; they will not field it."
+   ],
+   "take": "Leave at home."
+  },
+  "coronus": {
+   "v": "weak",
+   "t": "2:27:34",
+   "pts": "220 / 225 third",
+   "sum": "Faster, still poor.",
+   "pros": [
+    "T12 with 16 wounds; reactive D6 move; a Bolt Cannon that is the only good weapon."
+   ],
+   "cons": [
+    "Advance then disembark – but they cannot charge; blaze cannon is bad."
+   ],
+   "take": "Pants before and still pants."
+  },
+  "caladius": {
+   "v": "sit",
+   "t": "2:29:24",
+   "pts": "230",
+   "sum": "The anti-infantry tank; reasonable.",
+   "pros": [
+    "T11, 14 wounds, +1 AP on ranged non-monster/vehicle attacks; accelerator cannon with 4 shots; twin Bolt Cannon."
+   ],
+   "cons": [
+    "They wish the accelerator cannon were AP2 and had another rule."
+   ],
+   "take": "Okay for the price; they dislike the Annihilator comparison."
+  },
+  "annihilator": {
+   "v": "sit",
+   "t": "2:30:38",
+   "pts": "250",
+   "sum": "Works only when paired with reroll sources.",
+   "pros": [
+    "Carronade: 4 shots S12 AP3 D6+2 with Lethal Hits; reroll 1 hit/wound/damage vs monsters and vehicles.",
+    "One of three datasheets that kill big vehicles consistently (the others: Trajann and Telemon)."
+   ],
+   "cons": [
+    "Not twin-linked; without Emperor’s Chosen/Prime Target it misses too much to justify 250."
+   ],
+   "take": "Only with Emperor’s Chosen; maybe a Prime Target 3 DP."
+  },
+  "kc": {
+   "v": "sit",
+   "t": "2:33:04",
+   "pts": "—",
+   "sum": "Mostly the same; only quality-of-life changes.",
+   "pros": [
+    "+2 Move for a unit and reroll advance/charge."
+   ],
+   "cons": [
+    "Melee weapon has Devastating Wounds only against Psykers and anti-Psyker 5+, a downgrade."
+   ],
+   "take": "Optional."
+  },
+  "prosec": {
+   "v": "top",
+   "t": "2:33:55",
+   "pts": "45 for 4 (+5 for a 5th)",
+   "sum": "Cheapest sister and an auto-include – two copies in every list.",
+   "pros": [
+    "Move 7, OC2; Detect ability (+3 detection range); anti-Psyker 4+ rapid-fire gun, now S5 AP1 D1."
+   ],
+   "cons": [
+    "None called out; the break points at 4 / 5 models matter."
+   ],
+   "take": "Auto-include; 4-man squads."
+  },
+  "vigil": {
+   "v": "weak",
+   "t": "2:35:05",
+   "pts": "50 for 4",
+   "sum": "No longer dev wounds: never getting played.",
+   "pros": [
+    "Minus 1 to hit in melee, 3 attacks at S5 AP2 D2."
+   ],
+   "cons": [
+    "Devastating Wounds only into Psykers; not Adeptus Custodes keyword."
+   ],
+   "take": "Skip."
+  },
+  "witch": {
+   "v": "top",
+   "t": "2:36:18",
+   "pts": "55 for 4 / 60 for 5",
+   "sum": "Another of the most improved models: your skirmisher into small stuff.",
+   "pros": [
+    "Scout 7, Move 7; flamer 3 shots S4 AP1 torrent blast with anti-Psyker 4+; shooting forces battle-shock.",
+    "5-man for 60 is worth the five points; 35 shots into a 20-man squad."
+   ],
+   "cons": [
+    "None significant; no tax on sisters."
+   ],
+   "take": "Ideal: one 4-man Prosecutor and three 5-man Witchseekers, around 225 points."
+  },
+  "rhino": {
+   "v": "sit",
+   "t": "2:39:14",
+   "pts": "—",
+   "sum": "Same stats; a few small tweaks.",
+   "pros": [
+    "Hunter-killer is D3+3 now; disembark after advance; daughters-of-the-abyss aura."
+   ],
+   "cons": [
+    "Doesn’t heal any more."
+   ],
+   "take": "Optional."
+  }
+ }
+}

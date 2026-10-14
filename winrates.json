@@ -1,0 +1,269 @@
+{
+ "schema": "custodes-data/1",
+ "dataset": "WR",
+ "edition": "11th",
+ "source": "Listhammer, trailing 4 weeks to 13 Oct 2026 (listhammer.info)",
+ "last_verified": "2026-10-13",
+ "items": {
+  "source": {
+   "name": "Listhammer",
+   "url": "https://listhammer.info/factions/adeptus-custodes",
+   "method": "Compiled by Listhammer from 77 majors of 5+ rounds and 16+ players; mirror matches and unidentified factions excluded; 11th edition only",
+   "period": "17 Sep – 13 Oct 2026",
+   "fetched": "2026-10-13"
+  },
+  "overall": {
+   "wr": 53.5,
+   "games": 1517,
+   "players": 318,
+   "lists": 327,
+   "x0": 6,
+   "x1": 57,
+   "wins": 6,
+   "overrep": 1.34
+  },
+  "detachments": [
+   {
+    "n": "Lions of the Emperor",
+    "field": 77.7,
+    "wr": 56.2
+   },
+   {
+    "n": "Might of the Moritoi + Shield Host",
+    "field": 9.7,
+    "wr": 42.9
+   },
+   {
+    "n": "Shield Host + Tharanatoi Hammerblow",
+    "field": 6.0,
+    "wr": 47.7
+   },
+   {
+    "n": "Silent Hunters + Solar Spearhead",
+    "field": 0.9,
+    "wr": 73.3
+   },
+   {
+    "n": "Solar Spearhead + Tharanatoi Hammerblow",
+    "field": 0.9,
+    "wr": 28.6
+   },
+   {
+    "n": "Auric Champions + Might of the Moritoi",
+    "field": 0.6,
+    "wr": null
+   },
+   {
+    "n": "Lions of the Emperor + Might of the Moritoi",
+    "field": 0.6,
+    "wr": 70.0
+   },
+   {
+    "n": "Solar Spearhead",
+    "field": 0.6,
+    "wr": null
+   },
+   {
+    "n": "Talons of the Emperor",
+    "field": 0.6,
+    "wr": 36.4
+   },
+   {
+    "n": "Auric Champions + Silent Hunters",
+    "field": 0.3,
+    "wr": null
+   }
+  ],
+  "matchups": [
+   {
+    "f": "Drukhari",
+    "wr": 74.2,
+    "diff": 16.0,
+    "g": 31
+   },
+   {
+    "f": "Genestealer Cult",
+    "wr": 68.4,
+    "diff": 1.0,
+    "g": 19
+   },
+   {
+    "f": "Chaos Daemons",
+    "wr": 67.3,
+    "diff": 9.0,
+    "g": 55
+   },
+   {
+    "f": "Imperial Knights",
+    "wr": 67.2,
+    "diff": 9.0,
+    "g": 58
+   },
+   {
+    "f": "Aeldari",
+    "wr": 66.7,
+    "diff": 16.0,
+    "g": 51
+   },
+   {
+    "f": "Grey Knights",
+    "wr": 66.7,
+    "diff": 15.0,
+    "g": 30
+   },
+   {
+    "f": "Space Wolves",
+    "wr": 65.3,
+    "diff": 12.0,
+    "g": 49
+   },
+   {
+    "f": "Black Templars",
+    "wr": 64.0,
+    "diff": 13.0,
+    "g": 25
+   },
+   {
+    "f": "Chaos Knights",
+    "wr": 62.9,
+    "diff": 14.0,
+    "g": 35
+   },
+   {
+    "f": "Thousand Sons",
+    "wr": 62.5,
+    "diff": 10.0,
+    "g": 48
+   },
+   {
+    "f": "Astra Militarum",
+    "wr": 62.3,
+    "diff": 14.0,
+    "g": 53
+   },
+   {
+    "f": "Adepta Sororitas",
+    "wr": 58.1,
+    "diff": 10.0,
+    "g": 31
+   },
+   {
+    "f": "Adeptus Mechanicus",
+    "wr": 57.5,
+    "diff": 9.0,
+    "g": 40
+   },
+   {
+    "f": "World Eaters",
+    "wr": 55.4,
+    "diff": 3.0,
+    "g": 65
+   },
+   {
+    "f": "Tyranids",
+    "wr": 54.0,
+    "diff": 3.0,
+    "g": 76
+   },
+   {
+    "f": "Necrons",
+    "wr": 52.2,
+    "diff": 2.0,
+    "g": 113
+   },
+   {
+    "f": "Chaos Space Marines",
+    "wr": 51.9,
+    "diff": 4.0,
+    "g": 81
+   },
+   {
+    "f": "Space Marines",
+    "wr": 51.5,
+    "diff": 1.0,
+    "g": 101
+   },
+   {
+    "f": "Blood Angels",
+    "wr": 51.4,
+    "diff": 1.0,
+    "g": 37
+   },
+   {
+    "f": "Imperial Agents",
+    "wr": 50.0,
+    "diff": 20.0,
+    "g": 10
+   },
+   {
+    "f": "Leagues of Votann",
+    "wr": 49.2,
+    "diff": -2.0,
+    "g": 59
+   },
+   {
+    "f": "Emperor’s Children",
+    "wr": 48.8,
+    "diff": 1.0,
+    "g": 80
+   },
+   {
+    "f": "T’au Empire",
+    "wr": 47.7,
+    "diff": 3.0,
+    "g": 65
+   },
+   {
+    "f": "Death Guard",
+    "wr": 45.3,
+    "diff": 1.0,
+    "g": 64
+   },
+   {
+    "f": "Orks",
+    "wr": 37.4,
+    "diff": -10.0,
+    "g": 155
+   },
+   {
+    "f": "Dark Angels",
+    "wr": 36.4,
+    "diff": -8.0,
+    "g": 77
+   },
+   {
+    "f": "Deathwatch",
+    "wr": null,
+    "diff": null,
+    "g": 9
+   }
+  ],
+  "dispositions": [
+   {
+    "n": "Take and Hold",
+    "lists": 286,
+    "pct": 87.5
+   },
+   {
+    "n": "Purge the Foe",
+    "lists": 30,
+    "pct": 9.2
+   },
+   {
+    "n": "Disruption",
+    "lists": 4,
+    "pct": 1.2
+   },
+   {
+    "n": "Reconnaissance",
+    "lists": 4,
+    "pct": 1.2
+   },
+   {
+    "n": "Priority Assets",
+    "lists": 3,
+    "pct": 0.9
+   }
+  ]
+ }
+}

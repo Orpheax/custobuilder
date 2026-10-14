@@ -117,3 +117,10 @@ $$('table.sortable').forEach(function(tb){$$('#'+tb.id+' thead th').forEach(func
 $$('#dx-armyrules input').forEach(function(e){e.addEventListener('change',run)});
 fillW();defRules();run();
 })();
+/* Matrices: models per unit multiplier + heat colours */
+(function(){var T=[].slice.call(document.querySelectorAll('table.dx-mx'));
+function fmt(v){return v>=10?v.toFixed(1):v.toFixed(2)}
+function paint(t){var rows=[].slice.call(t.tBodies[0].rows),mx=0,vals=rows.map(function(r){var sel=r.querySelector('select.dx-nm'),n=sel?+sel.value:+r.querySelector('[data-n]').getAttribute('data-n');return r.getAttribute('data-b').split(',').map(function(x){return +x*n})});
+ vals.forEach(function(a){a.forEach(function(v){if(v>mx)mx=v})});
+ rows.forEach(function(r,i){var c=[].slice.call(r.cells).slice(2);c.forEach(function(td,j){var v=vals[i][j];td.textContent=fmt(v);td.setAttribute('data-v',v.toFixed(4));td.className='h'+Math.min(7,mx>0?Math.floor(v/mx*7.999):0)})})}
+T.forEach(function(t){t.addEventListener('change',function(e){if(e.target.classList.contains('dx-nm'))paint(t)})})})();
