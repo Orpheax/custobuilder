@@ -364,3 +364,22 @@ table.sortable thead th[data-s]{cursor:pointer}
 .gh-wrap .sg small .tv,.gh-wrap .sg small i{display:inline;border:0;padding:0}
 .gh-wrap .sg small a{color:#c99a2e}
 .gh-wrap .sg code{font-size:.85em}
+
+/* sticky site navigation on every page, including the builder; the builder's own bars sit just below it */
+body.pg-builder .site-nav{position:sticky}
+body.pg-builder .topbar{top:calc(env(safe-area-inset-top,0px) + var(--navh,56px))}
+@media (min-width:1000px){
+  body.pg-builder #op{top:calc(env(safe-area-inset-top,0px) + 62px + var(--navh,56px));max-height:calc(100vh - 82px - var(--navh,56px))}
+  body.pg-builder #lp{top:calc(env(safe-area-inset-top,0px) + 62px + var(--navh,56px));height:calc(100vh - 82px - var(--navh,56px))}
+}
+.ds-d,.cx-d,[id^="ds-"]{scroll-margin-top:calc(var(--navh,56px) + 14px)}
+.gh-jump{top:var(--navh,56px)}
+/* datasheets: link menu on the right once the list has scrolled out of sight */
+#dsside{position:fixed;right:max(12px,1.2vw);top:calc(var(--navh,56px) + 14px);z-index:35;width:208px;max-height:calc(100vh - var(--navh,56px) - 28px);overflow:auto;display:flex;flex-direction:column;gap:1px;padding:10px 8px;background:rgba(10,7,6,.93);border:1px solid #d4a72c55;backdrop-filter:blur(6px);scrollbar-width:thin}
+#dsside[hidden]{display:none}
+#dsside b{font-family:var(--s-disp);letter-spacing:.18em;font-size:.7rem;text-transform:uppercase;color:var(--s-gold);padding:2px 8px 6px}
+#dsside a{font-size:.8rem;line-height:1.25;color:#e8dcb8;text-decoration:none;padding:5px 8px;border-left:2px solid transparent}
+#dsside a:hover{background:#1c140b;color:#fff}
+#dsside a.on{border-left-color:var(--s-gold);background:#241a0c;color:#f3d36b}
+#dsside a.up{margin-top:6px;border-top:1px solid #d4a72c33;color:var(--s-gold)}
+@media (min-width:1200px){body[data-page="datasheets"] #ds .ds-d{margin-right:230px}}
