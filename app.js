@@ -61,7 +61,9 @@ const basePts = it => { const o=UM[it.id].opts[it.opt]; return o.p!=null ? o.p :
 const copyIdx = it => { let n=0; const po=UM[it.id].po; for(const i of S.list){ if(i.id===it.id&&(!po||i.opt===it.opt)){ n++; if(i===it) return n; } } return n; };
 const surcharge = it => { const u=UM[it.id]; if(!u.ups) return 0; const n=copyIdx(it); let s=0; Object.keys(u.ups).map(Number).sort((a,b)=>a-b).forEach(k=>{ if(n>=k) s=u.ups[k]; }); return s; };
 const enhPts = it => (it.enh?EM[it.enh].p:0) + (it.upg?EM[it.upg].p:0);
-const pts = it => basePts(it) + surcharge(it) + enhPts(it);
+// Wargear lines may carry points: group.pc[i] = cost of choice i (kind 'one')
+const wgPts = it => wgGroups(it).reduce((s,g)=>s+(g.k==='one'&&g.pc?(g.pc[(it.wg&&it.wg[g.id])|0]||0):0),0);
+const pts = it => basePts(it) + surcharge(it) + enhPts(it) + wgPts(it);
 const dpUsed = () => S.dets.reduce((a,id)=>a+DM[id].dp,0);
 const optLabel = o => o.l + (o.r?' (to be confirmed)':'');
 const priced = it => UM[it.id].opts[it.opt].p!=null || it.custom>0;
@@ -280,12 +282,12 @@ function optsHtml(it){
     const wlSec=canWarlord(it)?row(isW,lockedW||it.id==='trajann','wl','data-uid="'+it.uid+'"','Warlord','',(isW?1:0)+'/1',null,''):'';
     const wgBody=g=>{
       const v=(it.wg&&it.wg[g.id]), pre='<h4 class="wg-t">'+esc(g.t)+(g.f&&g.k==='each'?' <span>(default: '+esc(g.f)+')</span>':'')+'</h4>';
-      if(g.k==='one') return pre+g.c.map((c,i)=>row((v|0)===i,false,'wg1','data-uid="'+it.uid+'" data-g="'+g.id+'" data-c="'+i+'"',c,'',((v|0)===i?1:0)+'/1',null,'')).join('');
+      if(g.k==='one') return pre+g.c.map((c,i)=>row((v|0)===i,false,'wg1','data-uid="'+it.uid+'" data-g="'+g.id+'" data-c="'+i+'"',c,(g.pc&&g.pc[i]?'+'+g.pc[i]+' pts':''),((v|0)===i?1:0)+'/1',null,'')).join('');
       if(g.k==='tog') return pre+row(!!v,false,'wgt','data-uid="'+it.uid+'" data-g="'+g.id+'"',g.c[0],'',(v?1:0)+'/1',null,'');
       const n=nModels(it), a=Array.isArray(v)?v:g.c.map(()=>0), used=a.reduce((x,y)=>x+y,0);
       return pre+g.c.map((c,i)=>'<div class="cr'+(a[i]?' has':'')+'"><div class="cr-main"><span class="cr-name">'+esc(c)+'</span><span class="cr-cnt">('+a[i]+'/'+n+')</span></div><div class="cr-act"><button class="ib step" data-act="wgs" data-uid="'+it.uid+'" data-g="'+g.id+'" data-c="'+i+'" data-d="-1" aria-label="Fewer '+esc(c)+'"'+(a[i]<=0?' disabled':'')+'>−</button><button class="ib step" data-act="wgs" data-uid="'+it.uid+'" data-g="'+g.id+'" data-c="'+i+'" data-d="1" aria-label="More '+esc(c)+'"'+(used>=n?' disabled':'')+'>+</button></div></div>').join('');
     };
-    const wgs=wgGroups(it), wgSec=wgs.length?sec('o-wg-'+it.uid,'Wargear',wgDesc(it).length?wgDesc(it).length+' changed':'default',wgs.map(wgBody).join('')+(wgs.some(g=>g.flag)?'<div class="cr-x"><p class="warnl">This wargear line is not fully confirmed; check it against the codex.</p></div>':'')+'<div class="cr-x"><p>Wargear options have no points cost in the datasheets.</p></div>'):'';
+    const wgs=wgGroups(it), wgSec=wgs.length?sec('o-wg-'+it.uid,'Wargear',wgDesc(it).length?wgDesc(it).length+' changed':'default',wgs.map(wgBody).join('')+(wgs.some(g=>g.flag)?'<div class="cr-x"><p class="warnl">This wargear line is not fully confirmed; check it against the codex.</p></div>':'')+'<div class="cr-x"><p>'+(wgs.some(g=>g.pc)?'Options with a price are included in the unit’s points; the others are free.':'Wargear options have no points cost in the datasheets.')+'</p></div>'):'';
     return '<div class="edit">'+optSel+custom+'<div class="full"><span>'+esc(u.st)+'</span></div></div>'+wlSec+mkSec('enh','Enhancements')+mkSec('upg','Upgrades')+wgSec;
 }
 const selUid=()=>{ if(S.list.some(i=>i.uid===UI.sel)) return UI.sel; if(UI.sel===null) return null; const l=S.list[S.list.length-1]; return l?l.uid:null; };
@@ -293,6 +295,7 @@ function entryRow(it){
   const u=UM[it.id], o=u.opts[it.opt], isW=S.warlord===it.uid, open=selUid()===it.uid;
   const sub=[optLabel(o)]; if(it.enh) sub.push(EM[it.enh].name+' +'+EM[it.enh].p); if(it.upg) sub.push(EM[it.upg].name+' (upgrade) +'+EM[it.upg].p);
   wgDesc(it).forEach(x=>sub.push(x));
+  if(wgPts(it)) sub.push('wargear : +'+wgPts(it)+' pts');
   if(surcharge(it)) sub.push('copy #'+copyIdx(it)+' : +'+surcharge(it)+' pts');
   let h='<div class="er'+(isW?' wl':'')+(open?' sel':'')+'"><span class="ico">'+unitIcon(u)+'</span><div class="er-main" data-act="selu" data-uid="'+it.uid+'"><div class="er-t"><b>'+esc(u.name)+'</b><i>'+pts(it)+' pts</i>'+(isW?'<em>Warlord</em>':'')+'</div><div class="er-s">'+esc(sub.join(' · '))+'</div></div>'
    +'<div class="er-act">'+ibtn('rexp','data-uid="'+it.uid+'"',IC.eye,open?'Hide options':'Show options')

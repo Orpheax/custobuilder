@@ -25,14 +25,14 @@
     "Each datasheet counts its own copies. Venatari with pistols and with lances are two separate datasheets, as are Caladius and Annihilator, and Aquilon Terminators with gauntlets or with talons.",
     "Ares Gunship and Orion Assault Dropship are in the points table but their datasheets are not in this site’s data yet: they can be added to a roster at their points, with no datasheet page, no damage figures and no keywords beyond Adeptus Custodes and Vehicle.",
     "The Munitorum Field Manual also lists Legends units (Aleya, Valerian, Venerable Contemptor Dreadnought, Venerable Land Raider, Custodian Guard with Adrasite or Pyrithite Spears, Sagittarum Custodians). They are not in the builder.",
-    "Wargear options (Wargear section of each unit) come from the datasheets, have no points cost, and are not otherwise restricted, with the exception noted below. Enhancements are limited to Characters, except Upgrades, which target units. Each can be taken once per army. The rule of 3 copies and any cap on the number of enhancements are not applied."
+    "Wargear options (Wargear section of each unit) come from the datasheets, have no points cost except the Shield-Captain’s Praesidium Shield (25 pts), and are not otherwise restricted. Enhancements are limited to Characters, except Upgrades, which target units. Each can be taken once per army. The rule of 3 copies and any cap on the number of enhancements are not applied."
    ]
   ],
   [
    "gap",
    "Not yet confirmed, so not calculated",
    [
-    "Praesidium Shield: the points table lists a Praesidium Shield option at 25 pts for the Shield-Captain, without saying whether it is paid for the shield the model carries by default. It is not added to the points.",
+    "Praesidium Shield: the points table lists a Praesidium Shield equipment option at 25 pts for the Shield-Captain. The builder charges it whenever the Shield-Captain carries the shield (Pyrithite Spear + Praesidium Shield, which is the default, and Eternity-pattern Paragon Blade); the Castellan Axe and Guardian Spear replace the shield, so they cost nothing extra.",
     "Leader and support links in the points table (which Characters can lead which units) are not enforced by the builder.",
     "Points limits (Combat Patrol 500, Incursion 1000, Strike Force 2000, Onslaught 3000): the tool’s choice, adjustable by hand.",
     "Not applied: rule of 3 copies, maximum number of enhancements, transport restrictions. Not covered by the sources used.",

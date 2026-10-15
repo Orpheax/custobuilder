@@ -24,6 +24,7 @@ function points(l){
     var u=UM[it.id], o=u.opts[Math.min(it.opt|0,u.opts.length-1)]||u.opts[0];
     var p=o.p!=null?o.p:(+it.custom||0); var sk=u.po?it.id+':'+(it.opt|0):it.id; seen[sk]=(seen[sk]||0)+1;
     if(u.ups){ var s=0; Object.keys(u.ups).map(Number).sort(function(a,b){return a-b}).forEach(function(k){ if(seen[sk]>=k) s=u.ups[k]; }); p+=s; }
+    (WG[it.id]||[]).forEach(function(g){ if(g.k==='one'&&g.pc&&(g.opt==null||g.opt===(it.opt|0))) p+=g.pc[(it.wg&&it.wg[g.id])|0]||0; });
     if(it.enh&&EM[it.enh]) p+=EM[it.enh].p; if(it.upg&&EM[it.upg]) p+=EM[it.upg].p;
     tot+=p;
   });
