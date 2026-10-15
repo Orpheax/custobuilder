@@ -382,4 +382,4 @@ body.pg-builder .topbar{top:calc(env(safe-area-inset-top,0px) + var(--navh,56px)
 #dsside a:hover{background:#1c140b;color:#fff}
 #dsside a.on{border-left-color:var(--s-gold);background:#241a0c;color:#f3d36b}
 #dsside a.up{margin-top:6px;border-top:1px solid #d4a72c33;color:var(--s-gold)}
-@media (min-width:1200px){body[data-page="datasheets"] #ds .ds-d{margin-right:230px}}
+@media (min-width:1200px){body[data-page="datasheets"] #ds .ds-d,body[data-page="detachments"] #cx .cx-d{margin-right:230px}}
